@@ -1,0 +1,101 @@
+{
+  "run_id": "run",
+  "stages_executed": 8,
+  "stages_done": 8,
+  "stages_paused": 0,
+  "stages_blocked": 0,
+  "stages_failed": 0,
+  "degraded": false,
+  "from_stage": 1,
+  "final_stage": 8,
+  "final_status": "done",
+  "generated": "2026-06-10T19:44:33+00:00",
+  "content_metrics": {
+    "cqe_composite": 23,
+    "cqe_dimensions": [
+      {
+        "name": "Novelty rigour",
+        "score": 8
+      },
+      {
+        "name": "Reproducibility",
+        "score": 20
+      },
+      {
+        "name": "Methodological rigour",
+        "score": 27
+      },
+      {
+        "name": "Falsifiability",
+        "score": 30
+      },
+      {
+        "name": "Domain depth",
+        "score": 30
+      },
+      {
+        "name": "Communication",
+        "score": 40
+      }
+    ],
+    "fallacy_count": 7
+  },
+  "per_stage": [
+    {
+      "stage_id": "01-research",
+      "stage_dir": "01_research_review",
+      "status": "done",
+      "duration_sec": 0,
+      "artifacts_count": 2
+    },
+    {
+      "stage_id": "02-reviewer",
+      "stage_dir": "02_reviewer_panel",
+      "status": "done",
+      "duration_sec": 0,
+      "artifacts_count": 3
+    },
+    {
+      "stage_id": "02d-argument-structure",
+      "stage_dir": "02d_argument_structure",
+      "status": "done",
+      "duration_sec": 74,
+      "artifacts_count": 4
+    },
+    {
+      "stage_id": "03-fallacies",
+      "stage_dir": "03_fallacies",
+      "status": "done",
+      "duration_sec": 0,
+      "artifacts_count": 3
+    },
+    {
+      "stage_id": "03c-claims-registry",
+      "stage_dir": "03c_claims_registry",
+      "status": "done",
+      "duration_sec": 0,
+      "artifacts_count": 3
+    },
+    {
+      "stage_id": "03e-disclosure-audit",
+      "stage_dir": "03e_disclosure_audit",
+      "status": "done",
+      "duration_sec": 34,
+      "artifacts_count": 4
+    },
+    {
+      "stage_id": "03f-revision-planner",
+      "stage_dir": "03f_revision_plan",
+      "status": "done",
+      "duration_sec": 56,
+      "artifacts_count": 4
+    },
+    {
+      "stage_id": "04-cqe",
+      "stage_dir": "04_summary",
+      "status": "done",
+      "duration_sec": 0,
+      "artifacts_count": 3
+    }
+  ]
+}

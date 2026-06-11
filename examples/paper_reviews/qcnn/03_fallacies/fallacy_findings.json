@@ -1,0 +1,60 @@
+{
+  "findings": [
+    {
+      "name": "cherry-picked-baseline",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section IV.A, paragraph on quantum datasets",
+      "evidence": "Notably, the classical, weight-truncated QCNN is self-consistently trained to solve the classification tasks, not to faithfully emulate the training of an exact QCNN.",
+      "suggested_fix": "Include explicit comparisons where a QCNN is trained with sufficient shots and optimization iterations to reach its best achievable accuracy, then compare the classical surrogate's accuracy against this optimized QCNN performance on the same datasets."
+    },
+    {
+      "name": "conflated-regimes",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section V, Discussion",
+      "evidence": "While we focus here on the two most popular instantiations of QCNNs used in the literature (one-dimensional tracing out and measurement-based architectures), it is clear that these are the easiest to classically simulate. One could, for instance, envision QCNNs in two or more dimensions, as well as more exotic topologies.",
+      "suggested_fix": "Modify the title to 'One-Dimensional Quantum Convolutional Neural Networks are Effectively Classically Simulable' and qualify all general statements about QCNNs to explicitly state they apply only to the 1D architectures studied."
+    },
+    {
+      "name": "active-space-handwave",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section V, Discussion",
+      "evidence": "We strongly believe that the techniques introduced here can serve as blueprints to classically simulate other architectures.",
+      "suggested_fix": "Either remove claims about generalization to other architectures or include explicit experimental results demonstrating classical simulation of at least one additional architecture type beyond QCNNs."
+    },
+    {
+      "name": "hasty-generalization",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section IV.B, Classical datasets conclusion",
+      "evidence": "Concomitantly, this implies that using QCNN-based QML schemes for classical data appears to be an ill-motivated task.",
+      "suggested_fix": "Qualify the conclusion to state: 'For the classical datasets and encoding schemes tested in this work, QCNN-based approaches appear to offer no advantage over classical simulation. Whether this extends to all classical data problems remains an open question.'"
+    },
+    {
+      "name": "cherry-picked-baseline",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section IV.A.3, ANNNI model",
+      "evidence": "Thus we can reach similar results to those obtained in the literature, at a much smaller measurement budget.",
+      "suggested_fix": "Add explicit citations to the specific prior QCNN results being compared against, including their reported accuracies, number of measurements used, and experimental conditions, then present a direct numerical comparison table."
+    },
+    {
+      "name": "asymptotic-only-claim",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section IV.A.1, XXX model and Appendix E",
+      "evidence": "To our knowledge, this constitutes the largest QCNN implementation with classical shadows",
+      "suggested_fix": "Include explicit discussion of the scaling limitations, noting that while n=1024 is achievable, the O(n^24) cost scaling means practical limits exist, and specify the largest system size that remains tractable on available hardware."
+    },
+    {
+      "name": "pareto-cherry-picked-axes",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Table I and Section IV.B",
+      "evidence": "In Table I we show results for all the classification tasks considered. Here we can see that the simulated QCNN result in high test accuracies (showing best out 5 independent runs), comparable to, and even larger than, those found in the literature.",
+      "suggested_fix": "Report mean accuracy \u00b1 standard deviation across all 5 runs for each dataset and encoding combination, not just the best single run."
+    }
+  ]
+}

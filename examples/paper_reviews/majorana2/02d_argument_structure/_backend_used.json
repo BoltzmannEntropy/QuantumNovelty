@@ -1,0 +1,15 @@
+{
+  "backend_requested": "claude",
+  "backend_actually_used": "claude",
+  "model_id": "claude-haiku-4-5-20251001",
+  "elapsed_s": 73.502,
+  "exit_code": 0,
+  "usage": {
+    "input_tokens": 1,
+    "output_tokens": 3083,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 24711,
+    "tokens_estimated": false,
+    "total_cost_usd": 0.26615004999999997
+  }
+}

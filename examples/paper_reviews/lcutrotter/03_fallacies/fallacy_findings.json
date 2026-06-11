@@ -1,0 +1,44 @@
+{
+  "findings": [
+    {
+      "name": "cherry-picked-baseline",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section I (Introduction), paragraph 3; Table I",
+      "evidence": "Consequently, for instance, for n-qubit lattice Hamiltonians, their gate complexities are O(n\u00b2), which is worse than those in Trotter algorithms O(n^{1+o(1)}).",
+      "suggested_fix": "Acknowledge that post-Trotter methods can also be improved with commutator-aware implementations, and clarify that the O(n\u00b2) scaling applies to standard implementations without such optimizations."
+    },
+    {
+      "name": "asymptotic-only-claim",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section II.E (Performance comparison); Theorem 1 and Theorem 2",
+      "evidence": "the gate complexity of random-sampling Kth-order Trotter-LCU algorithm... is O(n^{1+2/(2K+1)} t^{1+1/(2K+1)} \u03b5^{-1/(2K+1)})",
+      "suggested_fix": "Include explicit analysis of crossover points where asymptotic improvements manifest; acknowledge that constant factors may dominate at practical scales."
+    },
+    {
+      "name": "conflated-regimes",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section II.E, Figure 8(a,b) and surrounding discussion",
+      "evidence": "For a generic Hamiltonian, the estimated gate counts of the first algorithm can be 2 orders of magnitude smaller than the best analytical bound of fourth-order Trotter formula.",
+      "suggested_fix": "Qualify that the 2-order improvement is demonstrated for the specific 2-local model with uniform couplings; note that performance on other Hamiltonians may vary."
+    },
+    {
+      "name": "hasty-generalization",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section VI (Conclusion), paragraph 1",
+      "evidence": "we show that the 0th-order paired Taylor-series compensation (PTSC) algorithm, 2kth-order PTSC algorithm and the 2kth-order nested-commutator compensation (NCC) algorithm enjoy different advantages and will be useful in different scenarios",
+      "suggested_fix": "Temper the conclusion by noting the limited scope of numerical validation; state that further benchmarking on other Hamiltonian classes is needed to confirm recommendations."
+    },
+    {
+      "name": "ad-hoc-precision-floor",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section II.E, Figure 8(c)",
+      "evidence": "Particularly, using the same gate number as the fourth-order Trotter, we are able to achieve a 3 to 4 orders of magnitudes higher accuracy \u03b5.",
+      "suggested_fix": "Clarify that accuracy comparison is between analytical error bounds assuming perfect implementation; acknowledge that achieving such precision requires accounting for the \u00b5^4 sampling overhead."
+    }
+  ]
+}

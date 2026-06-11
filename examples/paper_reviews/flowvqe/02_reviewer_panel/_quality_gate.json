@@ -1,0 +1,44 @@
+{
+  "score_1_to_10": 6.0,
+  "verdict": "major-revisions",
+  "votes": {
+    "Reviewer 1": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 2": {
+      "recommendation": "major-revisions",
+      "confidence": 6.0
+    },
+    "Reviewer 3": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    },
+    "Devil's Advocate": {
+      "recommendation": "reject",
+      "confidence": 7.0
+    },
+    "Editor-in-Chief": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    }
+  },
+  "per_voice_scores": [
+    7.0,
+    6.0,
+    5.0
+  ],
+  "threshold": 7.0,
+  "passes_threshold": false,
+  "required_actions": [
+    "**Add multi-seed variance reporting** (n\u22655) for all quantitative comparisons, including Figures 2-4 and Table I. Report 95% confidence intervals or standard deviations.",
+    "**Include Code and Data Availability statements** per npj QI requirements, with repository URLs and DOIs where applicable.",
+    "**Revise headline claims** to foreground Adam comparisons (2-5\u00d7 improvement) rather than GD comparisons (100\u00d7). Move GD results to supplementary material or present as secondary.",
+    "**Add direct comparison with GQE** (Nakaji et al.) or explicitly justify why parameter-space generation is preferable to circuit-space generation for the tested molecules.",
+    "**Provide ablation study** for buffer size M, flow depth, and regularization noise, minimally as supplementary material.",
+    "**Consolidate Methods section** at the end of the manuscript per Nature/npj conventions, and add required Author Contributions and Competing Interests statements.",
+    "**Specify numerical precision** (complex64/128) and verify that precision artifacts do not affect comparisons at the 1.6 mHa threshold.",
+    "**Add failure mode analysis** discussing conditions under which Flow-VQE underperforms baselines, expanding on the H\u2084 0.6 \u00c5 observation."
+  ],
+  "source": "deterministic parse of review_panel.md (ARC quality_gate shape; no extra LLM call)"
+}

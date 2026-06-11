@@ -1,0 +1,42 @@
+{
+  "score_1_to_10": 6.67,
+  "verdict": "minor-revisions",
+  "votes": {
+    "Reviewer 1": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 2": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 3": {
+      "recommendation": "major-revisions",
+      "confidence": 6.0
+    },
+    "Devil's Advocate": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    },
+    "Editor-in-Chief": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    }
+  },
+  "per_voice_scores": [
+    7.0,
+    7.0,
+    6.0
+  ],
+  "threshold": 7.0,
+  "passes_threshold": false,
+  "required_actions": [
+    "**Symmetric comparison methodology:** Regenerate Fig. 8(a,b) using commutator-aware Trotter bounds (Ref. [20] methodology) rather than loose analytical bounds from Ref. [12], or provide explicit justification for why the looser bounds are appropriate.",
+    "**Quantify classical overhead:** Add a subsection or paragraph explicitly stating the classical preprocessing cost (space and time) for the sampling procedures, particularly noting how $\\kappa$ scales with Trotter order $K$ and the implications for practical implementations.",
+    "**Remove or substantiate quantum chemistry claims:** Either provide explicit nested-commutator bounds for a molecular Hamiltonian or remove the claim that PTSC is \"particularly useful for quantum chemistry\" (Section II.B).",
+    "**Add failure modes discussion:** Include a paragraph discussing parameter regimes where Trotter-LCU underperforms (e.g., short simulation times, highly non-local Hamiltonians, small accuracy requirements where the sampling overhead dominates).",
+    "**Provide reproducibility resources:** Include code or detailed pseudocode sufficient to reproduce the gate counts in Fig. 8, or commit to providing a code repository upon acceptance.",
+    "**Clarify comparison with qDRIFT:** Add explicit analysis distinguishing the pairing technique from simply applying qDRIFT to the Trotter remainder, including quantitative comparison if possible."
+  ],
+  "source": "deterministic parse of review_panel.md (ARC quality_gate shape; no extra LLM call)"
+}

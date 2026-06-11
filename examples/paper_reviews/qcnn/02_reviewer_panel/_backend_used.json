@@ -1,0 +1,15 @@
+{
+  "backend_requested": "claude",
+  "backend_actually_used": "claude",
+  "model_id": "claude-opus-4-5-20251101",
+  "elapsed_s": 121.677,
+  "exit_code": 0,
+  "usage": {
+    "input_tokens": 1,
+    "output_tokens": 4932,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 47682,
+    "tokens_estimated": false,
+    "total_cost_usd": 0.4546538
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "title": "Five real quantum-computing papers \u2014 PRX Quantum, npj Quantum Information, Quantum, and one arXiv preprint",
+  "backend": "claude (Claude Code CLI)",
+  "papers": [
+    {
+      "tag": "lcutrotter",
+      "title": "Simple and high-precision Hamiltonian simulation by compensating Trotter error with linear combination of unitary operations",
+      "authors": "Pei Zeng, Jinzhao Sun, Liang Jiang, Qi Zhao",
+      "arxiv": "2212.04566",
+      "venue": "prx-quantum",
+      "venue_display": "PRX Quantum 6, 010359 (2025)",
+      "topic_area": "Hamiltonian simulation (Trotter + LCU)"
+    },
+    {
+      "tag": "flowvqe",
+      "title": "Generative flow-based warm start of the variational quantum eigensolver",
+      "authors": "Hang Zou, Martin Rahm, Anton Frisk Kockum, Simon Olsson",
+      "arxiv": "2507.01726",
+      "venue": "npj-quantum-information",
+      "venue_display": "npj Quantum Information (2025)",
+      "topic_area": "Generative ML for VQE parameter initialization"
+    },
+    {
+      "tag": "hwqml",
+      "title": "Trainability and Expressivity of Hamming-Weight Preserving Quantum Circuits for Machine Learning",
+      "authors": "L\u00e9o Monbroussou, Eliott Z. Mamon, Jonas Landman, Alex B. Grilo, Romain Kukla, Elham Kashefi",
+      "arxiv": "2309.15547",
+      "venue": "quantum",
+      "venue_display": "Quantum 9, 1745 (2025)",
+      "topic_area": "Quantum machine learning (trainability, barren plateaus, subspace circuits)"
+    },
+    {
+      "tag": "qcnn",
+      "title": "Quantum Convolutional Neural Networks are Effectively Classically Simulable",
+      "authors": "Pablo Bermejo, Paolo Braccia, Manuel S. Rudolph, Zo\u00eb Holmes, Lukasz Cincio, M. Cerezo",
+      "arxiv": "2408.12739",
+      "venue": "prx-quantum",
+      "venue_display": "PRX Quantum 7, 020304 (2026)",
+      "topic_area": "QML dequantization (QCNN classical simulability, LOWESA / Pauli-path propagation)"
+    },
+    {
+      "tag": "majorana2",
+      "title": "20 Second Parity Lifetime in an InAs-Pb Tetron Device",
+      "authors": "Microsoft Quantum",
+      "arxiv": "2606.03884",
+      "venue": "prx-quantum",
+      "venue_display": "arXiv:2606.03884 (preprint, June 2026)",
+      "topic_area": "Topological quantum computing (Majorana tetron hardware, parity lifetime)"
+    }
+  ]
+}

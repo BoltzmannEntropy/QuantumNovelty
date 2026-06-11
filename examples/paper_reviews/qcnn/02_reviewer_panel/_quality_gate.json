@@ -1,0 +1,43 @@
+{
+  "score_1_to_10": 6.0,
+  "verdict": "major-revisions",
+  "votes": {
+    "Reviewer 1": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 2": {
+      "recommendation": "minor-revisions",
+      "confidence": 6.0
+    },
+    "Reviewer 3": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    },
+    "Devil's Advocate": {
+      "recommendation": "major-revisions",
+      "confidence": 7.0
+    },
+    "Editor-in-Chief": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    }
+  },
+  "per_voice_scores": [
+    7.0,
+    6.0,
+    5.0
+  ],
+  "threshold": 7.0,
+  "passes_threshold": false,
+  "required_actions": [
+    "Replace all \"best out of 5\" results with mean and standard deviation across runs; compute and report Wilson confidence intervals for all classification accuracies given test set sizes.",
+    "Address the feature selection methodology: either restrict operator variance calculation to training data only, or acknowledge and quantify the information leakage from test data.",
+    "Moderate rhetorical claims throughout: replace \"we boldly claim\" framing with neutral scientific language; explicitly state that results apply to 1D QCNNs on area-law entangled data.",
+    "Add an ablation of bodyness truncation threshold showing how classification accuracy degrades as the threshold is reduced.",
+    "Report explicit computational costs (wall-clock time, memory, scaling) for classical simulations to enable fair comparison with actual QCNN implementations.",
+    "Provide code and data availability statement; ideally release shadow data and trained parameters for reproducibility.",
+    "Address finite-size effects on phase boundaries quantitatively, or remove claims about classification accuracy being meaningful near phase transitions."
+  ],
+  "source": "deterministic parse of review_panel.md (ARC quality_gate shape; no extra LLM call)"
+}

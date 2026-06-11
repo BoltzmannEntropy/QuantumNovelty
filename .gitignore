@@ -1,0 +1,41 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Per-run output trees (each chain run writes here)
+runs/
+*.log
+_run/
+_run_*/
+_archive*/
+
+# Provenance markers are run artifacts by default...
+_backend_used.json
+_backend_used.txt
+# ...EXCEPT in the committed review showcase, where they ARE the receipt.
+!examples/paper_reviews/**/_backend_used.json
+
+# LaTeX intermediates
+*.aux
+*.out
+*.toc
+*.bbl
+*.blg
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Local-only credentials (Anna's Archive key, optional API keys)
+.env
+.env.local
+
+# Generated audit scripts move into paper repos; ignore drafts here
+audit_claims_*.py.draft

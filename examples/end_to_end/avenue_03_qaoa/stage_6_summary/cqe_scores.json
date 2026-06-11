@@ -1,0 +1,117 @@
+{
+  "composite": 28,
+  "composite_method": "geometric_mean",
+  "dimensions": [
+    {
+      "name": "Novelty rigour",
+      "score": 8,
+      "probes": [
+        {
+          "name": "augmented baseline catalog present",
+          "score": 10,
+          "evidence": "baseline_catalog has 0 rows"
+        },
+        {
+          "name": "strict-domination comparator run",
+          "score": 5,
+          "evidence": "novelty_verdict.json not found"
+        }
+      ]
+    },
+    {
+      "name": "Reproducibility",
+      "score": 33,
+      "probes": [
+        {
+          "name": "audit_claims.py emitted",
+          "score": 10,
+          "evidence": "file exists: False"
+        },
+        {
+          "name": "paper draft on disk",
+          "score": 70,
+          "evidence": "paper.tex exists: True"
+        },
+        {
+          "name": "pareto archive structured",
+          "score": 20,
+          "evidence": "archive rows: 0"
+        }
+      ]
+    },
+    {
+      "name": "Methodological rigour",
+      "score": 27,
+      "probes": [
+        {
+          "name": "Wilson CIs computed",
+          "score": 20,
+          "evidence": "wilson_annotations.md: False"
+        },
+        {
+          "name": "ablation results present",
+          "score": 30,
+          "evidence": "ablation_results.json: False"
+        },
+        {
+          "name": "ratio recompute pass run",
+          "score": 30,
+          "evidence": "ratio_recompute.md: False"
+        }
+      ]
+    },
+    {
+      "name": "Falsifiability",
+      "score": 30,
+      "probes": [
+        {
+          "name": "cross-LLM with multiple vendors",
+          "score": 40,
+          "evidence": "vendors used: []"
+        },
+        {
+          "name": "honest negatives surfaced",
+          "score": 20,
+          "evidence": "failure-modes section in draft: False; audit required them: False"
+        }
+      ]
+    },
+    {
+      "name": "Domain depth",
+      "score": 30,
+      "probes": [
+        {
+          "name": "active space stated explicitly",
+          "score": 30,
+          "evidence": "explicit active-space text found: False"
+        },
+        {
+          "name": "fermion-to-qubit mapping stated",
+          "score": 30,
+          "evidence": "mapping reference found: False"
+        },
+        {
+          "name": "simulator precision floor disclosed",
+          "score": 30,
+          "evidence": "precision-floor reference found: False"
+        }
+      ]
+    },
+    {
+      "name": "Communication",
+      "score": 75,
+      "probes": [
+        {
+          "name": "logical fallacies absent",
+          "score": 95,
+          "evidence": "0 critical, 1 high-severity fallacies"
+        },
+        {
+          "name": "reviewer panel verdict",
+          "score": 55,
+          "evidence": "verdict heuristic from review_panel.md"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "score_1_to_10": 6.33,
+  "verdict": "major-revisions",
+  "votes": {
+    "Reviewer 1": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 2": {
+      "recommendation": "major-revisions",
+      "confidence": 6.0
+    },
+    "Reviewer 3": {
+      "recommendation": "major-revisions",
+      "confidence": 6.0
+    },
+    "Devil's Advocate": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    },
+    "Editor-in-Chief": {
+      "recommendation": "major-revisions",
+      "confidence": 7.0
+    }
+  },
+  "per_voice_scores": [
+    7.0,
+    6.0,
+    6.0
+  ],
+  "threshold": 7.0,
+  "passes_threshold": false,
+  "required_actions": [
+    "Provide characterization data from at least one additional wire in the multi-tetron array (preferably from a different tetron than BA) demonstrating comparable EM and parity lifetime, or revise all claims about scalability and array-level performance to explicitly acknowledge single-wire scope.",
+    "Include either preliminary \u03c4X measurements for the Pb-based devices or remove all claims about implications for X-parity operations and general qubit performance, explicitly scoping the results to Z-parity measurements only.",
+    "Present quantitative model comparison (AIC or similar) between exponential and alternative dwell time distributions, including explicit treatment of the \"minute-scale instances\" tail behavior and characterization of measurement-to-measurement variability in extracted \u03c4Z.",
+    "Perform and report sensitivity analysis on the rf tuning protocol thresholds, quantifying how the identified topological region changes with S/\u03c3 threshold and cutter configuration requirements.",
+    "Either present TGP measurements on the actual tetron device in which parity measurements were performed, or clearly separate test structure characterization from device-level performance with explicit discussion of the expected transfer of properties.",
+    "Add a data availability statement specifying the accessibility of raw measurement data and analysis code, consistent with PRX Quantum policies on reproducibility."
+  ],
+  "source": "deterministic parse of review_panel.md (ARC quality_gate shape; no extra LLM call)"
+}

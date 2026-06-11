@@ -1,0 +1,35 @@
+{
+  "pipeline": "paper-audit",
+  "llm": "claude",
+  "paper": "<run>/inputs/hwqml.txt",
+  "venue": "quantum",
+  "topic": "Trainability and Expressivity of Hamming-Weight Preserving Quantum Circuits for Machine Learning",
+  "stages_default_on": [
+    "research",
+    "reviewer",
+    "fallacies",
+    "cqe"
+  ],
+  "stages_optional": [
+    "novelty-audit",
+    "cross-llm",
+    "synthesizer"
+  ],
+  "stages_ran": [
+    "deep_research",
+    "quantum_reviewer",
+    "logical_fallacies",
+    "process_summary"
+  ],
+  "stages_skipped_by_flag": [],
+  "stages_opted_in_by_flag": [],
+  "pause_after": null,
+  "resume_from": null,
+  "decision_log": [
+    "# Stage decisions",
+    "  [+] research            default-on; deep_research --mode review",
+    "  [+] reviewer            default-on; quantum_reviewer --mode full",
+    "  [+] fallacies           default-on; 11 quantum-CS + standard",
+    "  [+] cqe                 default-on; 6-dim composite, --no-llm-narrative"
+  ]
+}

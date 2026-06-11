@@ -1,0 +1,60 @@
+{
+  "findings": [
+    {
+      "name": "cherry-picked-baseline",
+      "category": "quantum-cs",
+      "severity": "high",
+      "location": "Section I (Introduction) and Section V.A (Single-molecule optimization)",
+      "evidence": "We compare Flow-VQE to a number of standard benchmarks through numerical simulations... We find that Flow-VQE outperforms baseline optimization algorithms",
+      "suggested_fix": "Include direct numerical comparisons with at least one published warm-start or ML-based VQE initialization method (e.g., FLIP, meta-VQE, or supervised learning approaches cited in references 32-44) on the same molecular systems, or explicitly acknowledge this gap as a limitation."
+    },
+    {
+      "name": "conflated-regimes",
+      "category": "quantum-cs",
+      "severity": "high",
+      "location": "Section I (Introduction) and Section VI (Limitations and Future Work)",
+      "evidence": "While the numerical experiments reported here extend only to 12-qubit active spaces and 117 variational parameters, several features of Flow-VQE promise broad quantum-resource savings, even when scaling to larger molecules.",
+      "suggested_fix": "Replace 'promise broad quantum-resource savings' with 'may potentially offer resource savings pending empirical validation at larger scales' and explicitly acknowledge that scaling behavior remains uncharacterized."
+    },
+    {
+      "name": "hasty-generalization",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section V.C (Estimate of cost advantage)",
+      "evidence": "For NH3, standard VQE requires an average of C\u0304VQE = 5,265 circuit evaluations per test point... These estimates are instance-dependent and not intended as universal benchmarks, but they illustrate the practical advantages of Flow-VQE-M",
+      "suggested_fix": "Explicitly state that cost advantage calculations are illustrative examples from a narrow test set (2 molecules, 4 configurations each) and should not be extrapolated to other molecular systems without further validation."
+    },
+    {
+      "name": "active-space-handwave",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section IV.A.1 (Electronic structure modeling) and Section VII (Conclusion)",
+      "evidence": "For active-space selections, we perform them to manage computational complexity while preserving essential electronic structure features: (4e, 4o) for H4, (6e, 5o) for H2O, (6e, 6o) for NH3, and (6e, 6o) for C6H6",
+      "suggested_fix": "Add justification for specific active space choices and acknowledge that performance on larger, chemically realistic active spaces remains untested. State that these are minimal proof-of-concept calculations."
+    },
+    {
+      "name": "hardware-irrelevant-comparison",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section IV (Numerical Simulations)",
+      "evidence": "We empirically validate Flow-VQE through state-vector simulation experiments on various quantum chemical systems",
+      "suggested_fix": "Either include noisy simulations with realistic noise models, or add explicit caveat: 'All experiments were conducted under ideal noiseless conditions; performance under realistic hardware noise remains to be characterized.'"
+    },
+    {
+      "name": "asymptotic-only-claim",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section VI (Limitations and Future Work)",
+      "evidence": "On the classical side, the classical overhead in modern normalizing-flow architectures scales linearly in d, keeping training and inference practical even as d reaches the tens of thousands",
+      "suggested_fix": "Explicitly note this is a theoretical expectation validated only up to d=117: 'While normalizing flow architectures theoretically scale linearly in d, we have only validated this up to d=117 in the present work.'"
+    },
+    {
+      "name": "unit-inflation",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section I (Abstract) and Section V (Results)",
+      "evidence": "improvements range from modest to more than two orders of magnitude... up to 50-fold compared with Hartree\u2013Fock initialization",
+      "suggested_fix": "Report median or geometric mean improvements alongside maximum values. Replace 'up to 50-fold' with specific ranges and conditions under which maximum improvements are achieved."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "findings": [
+    {
+      "name": "cherry-picked-baseline",
+      "category": "quantum-cs",
+      "severity": "high",
+      "location": "Section 1 (Introduction), paragraph 2",
+      "evidence": "In earlier Al-based devices, we observed typical top quintile gaps of \u2206T \u223c 30 \u00b5eV [59\u201361]. In contrast, in the InAs\u2013Pb devices studied here we observe a top quintile gap of \u2206T \u223c 70 \u00b5eV.",
+      "suggested_fix": "Add quantitative comparison table against refs 53-56 and other published Pb-based nanowire results, or explicitly state why such comparison is not possible."
+    },
+    {
+      "name": "hasty-generalization",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section 4 (Interferometric Parity Readout) and Abstract",
+      "evidence": "By aggregating multiple measurements, we observe a total of N = 324 dwell intervals. The data are consistent with a single exponential distribution... We extract a characteristic parity lifetime and corresponding fit uncertainty of \u03c4Z = 22 \u00b1 1 s",
+      "suggested_fix": "Present statistics from multiple devices/tetrons/wires, or qualify claims to specify this is from a single wire in one tetron requiring broader validation."
+    },
+    {
+      "name": "conflated-regimes",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section 5 (Discussion and Outlook), final paragraphs",
+      "evidence": "The multi-tetron array presented here functions as a modular 'unit cell' for a larger architecture; it can be tiled into much larger qubit arrays (e.g., a 12-qubit array) without altering the underlying control or readout approach.",
+      "suggested_fix": "Reframe scaling claims as hypotheses requiring experimental validation, and list specific scaling concerns that may affect performance in larger arrays."
+    },
+    {
+      "name": "active-space-handwave",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section 5 (Discussion and Outlook)",
+      "evidence": "Looking ahead, the values of EM achieved here are expected to have beneficial implications for Pauli-X measurements... which suggests that \u03c4X could be more than an order of magnitude longer than in previous devices.",
+      "suggested_fix": "Remove quantitative speculation about \u03c4X improvements or explicitly state this is a theoretical prediction requiring experimental validation."
+    },
+    {
+      "name": "ad-hoc-precision-floor",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section 3 (RF-Based Wire Spectroscopy)",
+      "evidence": "we expect the resolution of this analysis to be limited to \u223c 1 \u00b5eV... Notably, the resolution of \u223c 1 \u00b5eV significantly exceeds that of conductance measurements which can resolve EM of about the half-width-half-max of a temperature broadened conductance peak EM \u223c 1.76kB T \u2248 7.6 \u00b5eV",
+      "suggested_fix": "Provide explicit calibration of the 1 \u00b5eV resolution claim with known energy scales, or reframe sub-resolution EM claims more cautiously."
+    },
+    {
+      "name": "appeal-to-authority",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section 1 (Introduction), opening paragraph",
+      "evidence": "Our roadmap draws on concepts explored in Refs. 10\u201339.",
+      "suggested_fix": "Cite specific concepts from specific papers where they are technically used, rather than bundling 30 references as general background authority."
+    },
+    {
+      "name": "equivocation",
+      "category": "general",
+      "severity": "medium",
+      "location": "Abstract and Section 4",
+      "evidence": "parity lifetime of \u223c 20 s with some instances reaching minute-scale",
+      "suggested_fix": "Define Z-parity lifetime precisely at first use, maintain consistent terminology, and clarify what 'minute-scale instances' operationally means."
+    }
+  ]
+}

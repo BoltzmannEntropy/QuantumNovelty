@@ -1,0 +1,13 @@
+{
+  "mode": "registry",
+  "status": "no-ground-truth",
+  "paper": "majorana2.pdf",
+  "sections_indexed": [
+    "discussion_and_outlook",
+    "preamble"
+  ],
+  "strict_sections": [],
+  "registry_size": 0,
+  "warnings": 0,
+  "findings": []
+}

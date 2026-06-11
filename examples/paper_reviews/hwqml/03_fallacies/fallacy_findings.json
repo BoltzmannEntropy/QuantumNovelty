@@ -1,0 +1,52 @@
+{
+  "findings": [
+    {
+      "name": "hasty-generalization",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section 1 (Introduction), paragraph 2",
+      "evidence": "Quantum machine learning (QML) has become a promising area for real world applications of quantum computers",
+      "suggested_fix": "Replace with: 'Quantum machine learning (QML) has attracted significant research interest as a potential application area for quantum computers, though practical demonstrations remain limited to small-scale problems.'"
+    },
+    {
+      "name": "conflated-regimes",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section 3.2, Theorem 2",
+      "evidence": "Thus, after some polynomial amount of repetitions, and for angles located at any constant fraction of the depth, there is an absence of Barren Plateaus for CPSA ans\u00e4tze.",
+      "suggested_fix": "Add explicit caveats: 'For the system sizes tested numerically (n \u2264 50, k \u2264 3), we observe behavior consistent with absence of Barren Plateaus. Extension to larger systems relies on Conjecture F1, which remains unproven.'"
+    },
+    {
+      "name": "asymptotic-only-claim",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section 3.2, Theorem 3",
+      "evidence": "Var_\u03b8[\u2202_{\u03b8_\u03bb} C(\u03b8)] = k(n-k)/(n(n-1)) \u00b7 8/d_k",
+      "suggested_fix": "Add a discussion of finite-size effects and the range of n for which the asymptotic formula provides accurate predictions, including error bounds."
+    },
+    {
+      "name": "active-space-handwave",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section 4.4",
+      "evidence": "Large simulation for more complex HW-preserving quantum neural networks for large value of k must be tackled in future work.",
+      "suggested_fix": "Remove or weaken claims about generalizability to larger k until such experiments are conducted, or make the limitation more prominent."
+    },
+    {
+      "name": "circular-reasoning",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section 2.3, Algorithm 1 justification",
+      "evidence": "When the maximal rank (over parameter space) of the QFIM of a quantum data loader circuit is equal to dim(S^{d_k\u22121}) = d_k \u2212 1, we take it as evidence that it may achieve any state in S^{d_k\u22121}",
+      "suggested_fix": "Clarify that QFIM rank is a necessary but not sufficient condition. Add: 'While maximal QFIM rank is necessary for full controllability, it is not sufficient; we therefore verify data loader capability empirically.'"
+    },
+    {
+      "name": "appeal-to-authority",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section 5 (Discussion), paragraph 2",
+      "evidence": "In recent work [11], authors have shown that if a subspace-preserving VQC satisfies the assumption of full controllability of the subspace... Our results are independent and consistent with these papers",
+      "suggested_fix": "More clearly delineate which results are proven independently. Specify: 'Our Theorem 2 and 3 are proven using direct analytical methods that do not invoke the DLA-based framework of [11, 17, 18].'"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantumnovelty"
+version = "1.0.0"
+description = "Agent-skill framework for exploring genuine novelty in quantum-computing research, with an audit-and-falsify layer."
+authors = [{name = "Shlomo Kashani"}]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+# Two base dependencies: pdfminer.six because the quickstart reviews a
+# PDF and the pure-Python extractor must work without poppler; numpy
+# because pareto_explorer's built-in evaluator (statevector sim + SPSA)
+# produces real discovery numbers out of the box.
+dependencies = ["pdfminer.six>=20240706", "numpy>=1.24"]
+
+[project.optional-dependencies]
+# python-docx for the .docx ingest path
+ingest = ["python-docx>=1.1"]
+# pytest for the smoke-test suite
+test = ["pytest>=8.0"]
+# pennylane / openfermion if you want pareto_explorer to do real evaluation
+quantum = ["openfermion>=1.6", "pennylane>=0.36"]
+# CrossRef / arXiv / Semantic Scholar are HTTP-only; no client lib needed
+literature = []
+
+[project.scripts]
+qn-chain = "chain.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["skills*", "chain*"]
+exclude = ["tests*", "examples*", "runs*"]

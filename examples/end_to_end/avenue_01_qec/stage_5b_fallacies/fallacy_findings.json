@@ -1,0 +1,60 @@
+{
+  "findings": [
+    {
+      "name": "cherry-picked-baseline",
+      "category": "quantum-cs",
+      "severity": "high",
+      "location": "Section V (Results), Table 1; Section VI.B (Comparison with Prior Work)",
+      "evidence": "The standard block ordering with $X$-type stabilizers measured first achieves a threshold of $p_{\\text{th}} = \\langle\\text{INSERT MEASURED VALUE}\\rangle$\\%, consistent with previously reported values for the rotated planar code under this noise model",
+      "suggested_fix": "Add comprehensive literature search for prior measurement scheduling optimizations and include them as baselines; if none exist, explicitly state this with justification for using standard block ordering as baseline"
+    },
+    {
+      "name": "conflated-regimes",
+      "category": "quantum-cs",
+      "severity": "high",
+      "location": "Section V.C (Scaling with Code Distance)",
+      "evidence": "The ratio of effective distances for the optimized versus standard ordering is approximately constant at $\\langle\\text{INSERT MEASURED VALUE}\\rangle$ across all code distances studied, indicating that the threshold improvement does not diminish at larger scales.",
+      "suggested_fix": "Replace 'larger scales' claim with explicit statement that results are verified only for d \u2264 11 and extrapolation to d > 20 requires further validation"
+    },
+    {
+      "name": "asymptotic-only-claim",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Abstract and Conclusion",
+      "evidence": "Our results establish measurement-cycle optimization as a practical, hardware-agnostic technique for enhancing the performance of near-term quantum error correction experiments.",
+      "suggested_fix": "Qualify 'hardware-agnostic' claim with acknowledgment that validation under device-specific noise models is required; add caveat about idealized noise model assumptions"
+    },
+    {
+      "name": "hardware-irrelevant-comparison",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section VI.C (Hardware Considerations)",
+      "evidence": "The measurement orderings studied here can be implemented on existing superconducting qubit hardware with no physical modifications... We estimate the circuit depth increases by approximately $\\langle\\text{INSERT MEASURED VALUE}\\rangle$\\% relative to the maximally parallel block ordering.",
+      "suggested_fix": "Add explicit statement that simulations use idealized depolarizing noise without crosstalk, leakage, or measurement-induced dephasing; note that experimental validation is necessary"
+    },
+    {
+      "name": "ad-hoc-precision-floor",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section V.B (Sub-Threshold Logical Error Rates)",
+      "evidence": "At $p = \\langle\\text{INSERT MEASURED VALUE}\\rangle$\\%, the optimized ordering reduces the logical error rate by a factor of $\\langle\\text{INSERT MEASURED VALUE}\\rangle$ relative to standard ordering at distance $d = 11$.",
+      "suggested_fix": "Include explicit error bars on improvement factors; specify N_samples; demonstrate that improvement exceeds 2\u03c3 statistical uncertainty"
+    },
+    {
+      "name": "active-space-handwave",
+      "category": "quantum-cs",
+      "severity": "medium",
+      "location": "Section VI.E (Extensions and Generalizations)",
+      "evidence": "The optimization framework developed here extends naturally to several related settings: (i) Other surface code layouts: The unrotated surface code and the XZZX code have different stabilizer geometries but similar temporal degrees of freedom. Preliminary analysis suggests comparable threshold improvements are achievable.",
+      "suggested_fix": "Either provide numerical results for at least one additional code layout or remove/qualify the generalization claim with explicit acknowledgment that it remains undemonstrated"
+    },
+    {
+      "name": "hasty-generalization",
+      "category": "general",
+      "severity": "medium",
+      "location": "Section IV.B (Detector Graph Weighting), Equation 4",
+      "evidence": "The hyperparameters \u03b1, \u03b2, \u03b3 are tuned empirically; we find \u03b1 = 1, \u03b2 = -0.5, \u03b3 = 0.3 provides a good proxy for threshold performance.",
+      "suggested_fix": "Add validation analysis showing correlation between score S(\u03c0) and measured threshold p_th(\u03c0) across all evaluated orderings with statistical significance test"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "score_1_to_10": 5.5,
+  "verdict": "major-revisions",
+  "votes": {
+    "Reviewer 1": {
+      "recommendation": "minor-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 2": {
+      "recommendation": "major-revisions",
+      "confidence": 7.0
+    },
+    "Reviewer 3": {
+      "recommendation": "major-revisions",
+      "confidence": 6.0
+    },
+    "Devil's Advocate": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    },
+    "Editor-in-Chief": {
+      "recommendation": "major-revisions",
+      "confidence": 8.0
+    }
+  },
+  "per_voice_scores": [
+    7.0,
+    6.0,
+    5.0,
+    4.0
+  ],
+  "threshold": 7.0,
+  "passes_threshold": false,
+  "required_actions": [
+    "Explicitly quantify the practical regime where trainability guarantees are useful: for what (n, k) combinations does the polynomial gradient scaling permit optimization within feasible shot counts (e.g., 10\u2076 shots)?",
+    "Either prove Conjecture F1 or substantially expand numerical evidence to include diverse pattern architectures, larger qubit counts (n \u2265 100), and characterization of the polynomial exponent as a function of circuit structure.",
+    "Add proper statistical analysis to gradient variance simulations: report chi-squared goodness-of-fit values, confidence intervals, and discuss any systematic deviations from theory.",
+    "Clarify the fermion-to-qubit mapping dependence of FBS results, specifically whether compound matrix relationships hold beyond Jordan-Wigner.",
+    "Add explicit Data Availability and Code Availability statements with repository links for reproducing all numerical results.",
+    "Reframe comparison with DLA framework from \"refutation\" to \"complementary analysis,\" accurately characterizing scope limitations rather than contradictions.",
+    "Either remove Fashion MNIST experiments or expand them to include proper baselines, statistical tests, and explicit connection to theoretical predictions."
+  ],
+  "source": "deterministic parse of review_panel.md (ARC quality_gate shape; no extra LLM call)"
+}

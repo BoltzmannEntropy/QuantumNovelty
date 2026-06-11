@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use QuantumNovelty in your research, please cite it as below."
+type: software
+title: "QuantumNovelty: an audit-and-falsify framework for quantum-computing research papers"
+authors:
+  - family-names: "Kashani"
+    given-names: "Shlomo"
+version: 1.0.0
+date-released: 2026-06-10
+license: MIT
+repository-code: "https://github.com/BoltzmannEntropy/QuantumNovelty"
+url: "https://boltzmannentropy.github.io/QuantumNovelty.github.io/"
+abstract: >-
+  Agent-skill framework for writing and reviewing quantum-computing
+  papers: a 5-voice referee panel with a deterministic quality gate, an
+  11-fallacy quantum-CS taxonomy, strict-domination novelty audits, and
+  an exact token + USD cost ledger on every LLM call. Runs on the Claude
+  Code CLI by default.
+keywords:
+  - quantum computing
+  - peer review
+  - LLM agents
+  - research automation
+  - novelty audit

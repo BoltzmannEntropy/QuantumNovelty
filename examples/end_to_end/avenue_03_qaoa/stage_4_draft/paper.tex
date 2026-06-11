@@ -1,0 +1,386 @@
+\documentclass[reprint,aps,longbibliography]{revtex4-2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\newcommand{\qaoa}{\mathrm{QAOA}}
+\newcommand{\maxcut}{\mathrm{MaxCut}}
+\newcommand{\cut}{\mathrm{Cut}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\opt}{\mathrm{OPT}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{black!3}
+}
+
+\begin{document}
+
+\title{Depth--Approximation-Ratio Trade-offs for QAOA MaxCut on Random 3-Regular Graphs near the Quantum--Classical Phase Boundary}
+
+\author{First Author}
+\affiliation{Department of Physics, Institution, City, Country}
+
+\author{Second Author}
+\affiliation{Department of Computer Science, Institution, City, Country}
+
+\author{Third Author}
+\affiliation{Institute for Quantum Information, Institution, City, Country}
+
+\maketitle
+
+\begin{abstract}
+The quantum approximate optimization algorithm (QAOA) provides a controlled way to interpolate between shallow, local quantum circuits and deeper variational circuits whose classical simulation becomes increasingly expensive. For MaxCut on random 3-regular graphs, this interpolation is especially informative: the graph ensemble has bounded degree and locally tree-like structure, yet typical instances exhibit enough global frustration to expose a practical tension between circuit depth, optimizer cost, classical baselines, and achievable approximation ratio. We study this tension at an operational quantum--classical phase boundary, defined as the region in system size and QAOA depth where exact classical simulation remains possible for calibration but no longer has the scaling profile of a cheap inner-loop subroutine. We report depth-dependent approximation ratios, instance-to-instance concentration, parameter-transfer behavior, and comparisons with named classical baselines. All empirical quantities in this draft are placeholders to be populated from the accompanying audited data pipeline: the best measured approximation ratio at the largest calibrated depth is \texttt{<INSERT MEASURED VALUE>}, the depth needed to exceed the selected classical baseline by the chosen margin is \texttt{<INSERT MEASURED VALUE>}, and the fitted finite-size drift of the boundary marker is \texttt{<INSERT MEASURED VALUE>}. Subject to verification by \texttt{novelty\_audit} against the augmented baseline catalog, the central contribution is an experimentally reproducible map of how QAOA depth purchases approximation quality in the crossover regime where quantum hardware constraints and classical simulation costs become comparable.
+\end{abstract}
+
+\section{Introduction}
+
+Combinatorial optimization is a natural setting in which to examine the practical boundary between quantum and classical computation. Variational quantum algorithms turn an optimization problem into a parameterized family of quantum states, with a classical outer loop used to choose circuit parameters. The quantum approximate optimization algorithm (QAOA) is the canonical example for binary constraint satisfaction problems because it has a simple alternating structure, admits rigorous analysis at low depth, and connects continuously to adiabatic evolution as the number of layers grows \cite{Farhi2014QAOA,Farhi2019QAOAReview,Hadfield2019QAOA}. Its performance, however, is not specified by circuit depth alone. Approximation quality depends jointly on depth, graph structure, parameter initialization, optimizer budget, noise, finite-size effects, and the strength of the classical comparator.
+
+This paper focuses on MaxCut for random 3-regular graphs. Given a graph $G=(V,E)$ with $n=|V|$ vertices and $m=|E|=3n/2$ edges, the MaxCut objective is
+\begin{equation}
+  C(z)=\sum_{(i,j)\in E}\frac{1-z_i z_j}{2},
+  \qquad z_i\in\{-1,+1\}.
+\end{equation}
+The approximation ratio of a candidate distribution is the expected cut value divided by the exact optimum,
+\begin{equation}
+  \rho=\frac{\E[C]}{C_{\max}},
+  \qquad
+  C_{\max}=\max_z C(z).
+\end{equation}
+Random 3-regular graphs are sparse, bounded-degree, and locally tree-like at small radii, which makes them amenable to local-algorithm analysis. At the same time, their typical MaxCut landscapes are nontrivial enough that shallow local structure is not the whole story \cite{Dembo2017MaxCutRandomRegular,Montanari2019OptimizationRandomGraphs,Brandao2022LocalAlgorithms}. This combination makes the ensemble a useful test bed for separating depth-limited QAOA behavior from finite-size and optimizer artifacts.
+
+The phrase quantum--classical phase boundary is used here operationally rather than as a claim of a thermodynamic phase transition. We define the boundary as the region in $(n,p)$ where three conditions are simultaneously met:
+\begin{enumerate}[label=(\roman*)]
+\item exact or high-fidelity classical simulation is still feasible for a statistically meaningful calibration set;
+\item simulation cost is high enough that the simulator cannot be treated as an inexpensive optimizer oracle at the target scale;
+\item the QAOA circuit depth is large enough that performance is no longer captured solely by radius-$p$ tree neighborhoods.
+\end{enumerate}
+This definition is deliberately empirical. It is intended to identify where controlled benchmarking remains possible while also reflecting the onset of the resource tensions that motivate quantum experiments.
+
+The central question is how approximation ratio changes as one spends QAOA depth in this boundary regime. A useful answer should not report only the best ratio at the largest simulated depth. It should also quantify the marginal gain per layer, the optimizer effort required to realize that gain, the degree to which parameters transfer across graph instances, and the point at which named classical baselines remain competitive. We therefore organize the study around four measurable trade-offs:
+\begin{enumerate}[label=(\roman*)]
+\item the ensemble-averaged function $\rho(p,n)$ and its finite-size drift;
+\item the marginal improvement $\Delta_p=\rho(p,n)-\rho(p-1,n)$;
+\item the optimizer and sampling cost required to certify each improvement;
+\item the gap to exact, heuristic, and local classical baselines.
+\end{enumerate}
+
+Several prior results constrain what should be expected. At fixed depth, QAOA is a local algorithm on bounded-degree graphs: the value of an edge depends only on the subgraph in a radius-$p$ neighborhood around that edge \cite{Farhi2014QAOA,Brandao2022LocalAlgorithms}. For random regular graphs, these neighborhoods are tree-like with high probability when $p$ is small compared with $\log n$, so low-depth performance can concentrate strongly across instances \cite{Wormald1999RandomRegular,Dembo2017MaxCutRandomRegular}. Conversely, increasing $p$ increases both expressive power and classical simulation difficulty. Exact statevector simulation scales as $O(2^n)$ in memory, while general tensor-network contraction is sensitive to depth and graph expansion \cite{Markov2008Simulation,Gray2021HyperOptimizedContraction}. These facts motivate a careful depth-resolved analysis rather than a single-depth benchmark.
+
+% novelty_audit: verify the contribution framing in the next paragraph against the augmented baseline catalog before submission.
+Subject to \texttt{novelty\_audit} verification, this draft frames the contribution as a reproducible empirical characterization of QAOA depth--ratio trade-offs at a calibrated quantum--classical boundary for random 3-regular MaxCut. The draft does not assert an unconditional quantum advantage. Instead, it asks where the measured QAOA curve sits relative to exact optimization, named classical heuristics, and local-algorithm expectations under an explicitly stated compute budget.
+
+\section{Results}
+
+\subsection{Boundary calibration}
+
+We first identify the calibrated boundary region in system size $n$ and QAOA depth $p$. For each graph size in the study set, we generate \texttt{<INSERT MEASURED VALUE>} independent random 3-regular instances and compute exact MaxCut optima using the method described in Methods. We then run noiseless QAOA simulations over depths
+\begin{equation}
+  p\in\{1,\ldots,\texttt{<INSERT MEASURED VALUE>}\}
+\end{equation}
+with a fixed optimizer budget and an extended budget used for selected validation runs.
+
+The resulting boundary map is summarized in Fig.~\ref{fig:boundary}. The smallest boundary point, defined by the first $(n,p)$ pair satisfying the three operational criteria above, occurs at
+\begin{equation}
+  (n_\star,p_\star)=
+  (\texttt{<INSERT MEASURED VALUE>},\texttt{<INSERT MEASURED VALUE>}).
+\end{equation}
+The wall-clock simulation cost at this point is \texttt{<INSERT MEASURED VALUE>}, and the memory footprint is \texttt{<INSERT MEASURED VALUE>}. The largest calibrated point included in the main analysis is
+\begin{equation}
+  (n_{\max},p_{\max})=
+  (\texttt{<INSERT MEASURED VALUE>},\texttt{<INSERT MEASURED VALUE>}).
+\end{equation}
+
+\begin{figure}[t]
+\centering
+% [INSERT FIG REF]: Replace this placeholder with the boundary heat map over system size n and QAOA depth p.
+\fbox{\begin{minipage}[c][0.22\textheight][c]{0.9\linewidth}
+\centering
+[INSERT FIG REF]
+\end{minipage}}
+\caption{Operational quantum--classical boundary for the calibrated QAOA simulations. The intended figure should show the feasible, boundary, and beyond-boundary regions in the $(n,p)$ plane, using the exact resource criteria stated in Methods. Empirical labels should include simulator wall-clock time, peak memory, and the number of optimized graph instances.}
+\label{fig:boundary}
+\end{figure}
+
+The boundary is not a sharp physical threshold. It is a reproducibility device that prevents two common benchmarking failures: comparing shallow quantum circuits only where classical simulation is trivial, and reporting deep-circuit behavior only for too few instances to estimate ensemble fluctuations. The fitted finite-size drift of the selected boundary marker is \texttt{<INSERT MEASURED VALUE>}. The uncertainty interval from bootstrap resampling is \texttt{<INSERT MEASURED VALUE>}.
+
+\subsection{Depth--approximation-ratio curve}
+
+Figure~\ref{fig:depth_ratio} shows the main depth--ratio trade-off. For every $p$, we report the ensemble mean of the best certified QAOA expectation value divided by the exact MaxCut optimum. The mean approximation ratio at $p=1$ is \texttt{<INSERT MEASURED VALUE>}. At the largest calibrated depth, the mean ratio is \texttt{<INSERT MEASURED VALUE>}. The corresponding median ratio is \texttt{<INSERT MEASURED VALUE>}, and the interquartile range is \texttt{<INSERT MEASURED VALUE>}.
+
+\begin{figure}[t]
+\centering
+% [INSERT FIG REF]: Replace this placeholder with the ensemble-averaged approximation ratio versus QAOA depth.
+\fbox{\begin{minipage}[c][0.22\textheight][c]{0.9\linewidth}
+\centering
+[INSERT FIG REF]
+\end{minipage}}
+\caption{QAOA approximation ratio as a function of depth for random 3-regular MaxCut. The plot should include ensemble means, bootstrap confidence intervals, and separate markers for fixed-budget and extended-budget optimization. The baseline curves should be named explicitly, for example greedy local search, Goemans--Williamson rounding, and the selected message-passing or semidefinite-programming comparator.}
+\label{fig:depth_ratio}
+\end{figure}
+
+The marginal gain per layer is
+\begin{equation}
+  \Delta_p(n)=\rho(p,n)-\rho(p-1,n).
+\end{equation}
+The measured marginal gain between the two largest calibrated depths is \texttt{<INSERT MEASURED VALUE>}. This value should be interpreted with the optimizer diagnostics in Sec.~\ref{subsec:optimizer_effects}: a small $\Delta_p$ may reflect saturation of the ansatz, finite optimizer budget, or parameter concentration around a transferable schedule. The extended-budget validation runs change the reported ratio by \texttt{<INSERT MEASURED VALUE>}, indicating the extent to which optimizer limitation remains visible in the main curve.
+
+The curve is also compared with a depth-normalized cost model. If each QAOA layer is implemented as one cost unitary and one mixer unitary, then a $p$-layer circuit contains $p$ applications of each Hamiltonian generator. On a hardware graph matching the problem graph, the cost unitary can be scheduled in edge-coloring rounds; for a 3-regular graph, the chromatic index is either $3$ or $4$, depending on the instance. The measured two-qubit depth proxy at $p_{\max}$ is \texttt{<INSERT MEASURED VALUE>}. This proxy should be replaced by hardware-specific compilation data before experimental claims are made.
+
+\subsection{Comparison with named classical baselines}
+
+The approximation ratio alone is not enough to assess whether depth is buying algorithmically meaningful progress. We therefore compare against named classical baselines under the same instance set. The baseline suite includes exact optimization for normalization, random cuts, single-start and multi-start greedy local search, Goemans--Williamson semidefinite rounding, and the selected random-regular-graph heuristic used in the accompanying benchmark catalog \cite{Goemans1995MaxCut,Barahona1988MaxCut,Montanari2019OptimizationRandomGraphs,Author2024ClassicalBaseline}.
+
+Table~\ref{tab:baselines} summarizes the comparison. The best QAOA depth that exceeds the selected classical baseline by the pre-registered margin is \texttt{<INSERT MEASURED VALUE>}. The margin at that depth is \texttt{<INSERT MEASURED VALUE>}. If no calibrated depth exceeds the baseline after uncertainty propagation, the table should instead report ``not exceeded'' and the discussion should be revised accordingly.
+
+\begin{table}[t]
+\centering
+% [INSERT TABLE REF]: Replace with the audited baseline summary table generated from the on-disk JSON.
+\begin{tabular}{lccc}
+\toprule
+Method & Mean ratio & Uncertainty & Compute budget \\
+\midrule
+Random cut & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} \\
+Greedy local search & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} \\
+Goemans--Williamson rounding & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} \\
+Selected graph heuristic & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} \\
+QAOA, best calibrated depth & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} & \texttt{<INSERT MEASURED VALUE>} \\
+\bottomrule
+\end{tabular}
+\caption{Named classical baselines and QAOA performance on the shared random 3-regular instance set. All empirical entries should be populated by the audited data pipeline. The final manuscript should specify whether budgets are matched by wall-clock time, oracle calls, objective evaluations, or another pre-registered resource.}
+\label{tab:baselines}
+\end{table}
+
+The purpose of this comparison is not to claim that QAOA dominates all classical methods. Instead, it locates the measured depth--ratio curve relative to concrete alternatives. The most informative regime is where QAOA is below exact optimization but close enough to strong heuristics that marginal layer gains and transferability matter. In this regime, a depth increase from $p$ to $p+1$ is valuable only if the resulting ratio gain is larger than the uncertainty induced by finite sampling, optimizer restarts, and instance selection.
+
+\subsection{Instance concentration and finite-size drift}
+
+Random regular graph ensembles often display strong concentration of local observables. For fixed $p$, the QAOA energy density depends on bounded-radius neighborhoods, so the ensemble variance is expected to shrink with increasing $n$ as long as $p$ remains below the scale at which short cycles and global expansion dominate \cite{Wormald1999RandomRegular,Brandao2022LocalAlgorithms}. We quantify this behavior by estimating
+\begin{equation}
+  \sigma_p^2(n)=\Var_G[\rho_G(p)]
+\end{equation}
+over independently sampled graphs.
+
+The measured instance-to-instance standard deviation at $p=1$ is \texttt{<INSERT MEASURED VALUE>}. At the boundary depth it is \texttt{<INSERT MEASURED VALUE>}. A fit to the finite-size form
+\begin{equation}
+  \sigma_p(n)=a_p n^{-b_p}+c_p
+\end{equation}
+gives $b_p=\texttt{<INSERT MEASURED VALUE>}$ and $c_p=\texttt{<INSERT MEASURED VALUE>}$ at the selected depth. These placeholders should be replaced only after the audit script verifies that the fit is stable under removal of the smallest graph size.
+
+Finite-size drift is also visible in the ratio itself. For each fixed $p$, we fit
+\begin{equation}
+  \rho(p,n)=\rho_\infty(p)+\alpha_p n^{-\eta_p}.
+\end{equation}
+The extrapolated value at the largest depth is $\rho_\infty(p_{\max})=\texttt{<INSERT MEASURED VALUE>}$, with exponent $\eta_{p_{\max}}=\texttt{<INSERT MEASURED VALUE>}$. This extrapolation is used descriptively, not as evidence for asymptotic advantage. The main claims are based on directly measured finite instances.
+
+\subsection{Parameter transfer and optimizer effects}
+\label{subsec:optimizer_effects}
+
+QAOA optimization can obscure the depth--ratio relation. A low measured value may reflect a poor optimizer trajectory rather than insufficient circuit expressivity. To separate these effects, we evaluate three parameter protocols:
+\begin{enumerate}[label=(\roman*)]
+\item instance-wise optimization from multiple random and structured initializations;
+\item ensemble-transfer parameters obtained by optimizing on a training set and evaluating on held-out graphs;
+\item depth-extension parameters obtained by interpolating or padding the best schedule at depth $p-1$.
+\end{enumerate}
+
+The held-out transfer ratio at depth $p_{\max}$ is \texttt{<INSERT MEASURED VALUE>}. The gap between instance-wise and transferred parameters is \texttt{<INSERT MEASURED VALUE>}. A small gap would support the interpretation that the ensemble has a concentrated optimal schedule in the calibrated range; a large gap would indicate that instance-specific optimization remains important. The number of objective evaluations required to reach within \texttt{<INSERT MEASURED VALUE>} of the best certified value is \texttt{<INSERT MEASURED VALUE>} for instance-wise optimization and \texttt{<INSERT MEASURED VALUE>} for transfer initialization.
+
+Figure~\ref{fig:parameters} summarizes the optimized angle schedules. The schedules are plotted in the convention
+\begin{equation}
+  \ket{\boldsymbol{\gamma},\boldsymbol{\beta}}
+  =
+  \prod_{\ell=1}^{p}
+  e^{-i\beta_\ell H_B}
+  e^{-i\gamma_\ell H_C}
+  \ket{+}^{\otimes n},
+\end{equation}
+with earlier layers on the left. The smoothness of the measured schedule is \texttt{<INSERT MEASURED VALUE>} under the chosen roughness metric. This quantity is useful for diagnosing whether the optimizer finds a coherent depth-continuation path or unrelated local optima at adjacent depths.
+
+\begin{figure}[t]
+\centering
+% [INSERT FIG REF]: Replace this placeholder with optimized QAOA angle schedules and transfer diagnostics.
+\fbox{\begin{minipage}[c][0.22\textheight][c]{0.9\linewidth}
+\centering
+[INSERT FIG REF]
+\end{minipage}}
+\caption{Optimized QAOA parameters and transfer performance. The intended figure should show $\gamma_\ell$ and $\beta_\ell$ versus normalized layer index, with separate panels for instance-wise, ensemble-transfer, and depth-extension initializations.}
+\label{fig:parameters}
+\end{figure}
+
+\section{Discussion}
+
+The measured depth--ratio curve should be read as a resource trade-off, not as a single performance number. In the calibrated boundary regime, increasing $p$ improves or preserves the globally optimized QAOA value in principle, because an added layer can be made trivial. In practice, the realized value depends on whether the classical outer loop can find useful parameters and whether the cost of doing so is included in the benchmark. This distinction matters most near the quantum--classical boundary: deeper circuits are precisely where simulation and optimization become expensive enough that exhaustive parameter search is no longer a neutral diagnostic.
+
+The random 3-regular ensemble clarifies this issue. At very low depth, QAOA behaves like a local algorithm. Its expected contribution per edge is controlled by a bounded-radius neighborhood, and random regular graphs locally resemble trees. In this regime, instance concentration is expected and transfer parameters may work well. At larger depth, the circuit can probe cycles, long-range correlations, and global constraints, but classical simulation and optimizer costs rise. The boundary region is therefore where the local-algorithm picture begins to lose explanatory completeness while exact benchmarking has not yet disappeared.
+
+The comparison with named classical baselines is central. A QAOA curve that improves monotonically with depth may still lie below simple classical heuristics. Conversely, a curve that approaches or exceeds a particular baseline at calibrated depth does not imply broad quantum advantage unless the baseline suite and resource accounting are sufficiently strong. The final manuscript should therefore state the comparator precisely. For example, a claim relative to Goemans--Williamson rounding is different from a claim relative to multi-start local improvement, message-passing heuristics, or problem-specific branch-and-cut. This draft avoids the phrase ``state-of-the-art'' unless a specific named method and implementation are supplied.
+
+Several limitations should remain visible after the placeholders are filled. First, the simulations are noiseless unless hardware data are inserted. Noise can change the apparent optimal depth by making deeper circuits worse despite greater variational expressivity. Second, the exact normalization by $C_{\max}$ restricts the largest graph sizes unless exact optima are available from a reliable solver. Third, optimizer budget is an algorithmic resource. Reporting only the best value over many restarts can overstate practical performance if the number of evaluations is not included. Fourth, the operational boundary depends on the simulator, contraction strategy, hardware, and implementation details used for calibration.
+
+The most useful interpretation of this study is therefore conditional and reproducible. Given a graph ensemble, a simulator, an optimizer budget, and a named baseline suite, the data specify how much approximation ratio is purchased by each additional QAOA layer. If the audited results show that layer gains persist near the boundary, the result motivates larger simulations or hardware experiments with the same instance distribution. If the gains saturate before QAOA reaches the selected baseline, the result is still informative: it identifies the depth scale at which this ansatz and optimizer cease to be competitive under the chosen resource model.
+
+Future work should extend the same protocol in three directions. First, the boundary definition can be repeated for noisy circuit models and hardware-native compilation. Second, the random 3-regular ensemble can be compared with planted, weighted, or higher-degree graph families to test whether transfer schedules survive changes in local statistics. Third, the optimizer protocol can be replaced by differentiable, layerwise, or learning-based methods to determine whether the observed trade-off is an ansatz limitation or an outer-loop limitation \cite{Zhou2020QAOAParameters,Wurtz2021QAOATraining,Author2024Optimizer}.
+
+\section{Methods}
+
+\subsection{Graph ensemble and MaxCut normalization}
+
+We sample uniformly random simple 3-regular graphs on even numbers of vertices. The graph sizes are
+\begin{equation}
+  n\in\{\texttt{<INSERT MEASURED VALUE>}\},
+\end{equation}
+with \texttt{<INSERT MEASURED VALUE>} independent instances per size after rejection of non-simple multigraph outputs. Each graph has $m=3n/2$ edges. All reported approximation ratios are normalized by the exact MaxCut optimum for the same instance.
+
+The cost Hamiltonian is
+\begin{equation}
+  H_C=\sum_{(i,j)\in E}\frac{I-Z_iZ_j}{2},
+\end{equation}
+where $Z_i$ denotes the Pauli $Z$ operator on vertex $i$. The mixer Hamiltonian is
+\begin{equation}
+  H_B=\sum_{i=1}^{n}X_i.
+\end{equation}
+The QAOA state at depth $p$ is
+\begin{equation}
+  \ket{\psi_p(\boldsymbol{\gamma},\boldsymbol{\beta})}
+  =
+  \left[
+  \prod_{\ell=1}^{p}
+  e^{-i\beta_\ell H_B}
+  e^{-i\gamma_\ell H_C}
+  \right]\ket{+}^{\otimes n}.
+\end{equation}
+The objective optimized by the classical outer loop is
+\begin{equation}
+  F_G(\boldsymbol{\gamma},\boldsymbol{\beta})
+  =
+  \bra{\psi_p(\boldsymbol{\gamma},\boldsymbol{\beta})}
+  H_C
+  \ket{\psi_p(\boldsymbol{\gamma},\boldsymbol{\beta})}.
+\end{equation}
+For each instance $G$, the reported QAOA ratio is
+\begin{equation}
+  \rho_G(p)=
+  \frac{\max_{\boldsymbol{\gamma},\boldsymbol{\beta}}F_G(\boldsymbol{\gamma},\boldsymbol{\beta})}
+  {C_{\max}(G)},
+\end{equation}
+where the maximum is replaced in practice by the best value certified under the stated optimizer budget.
+
+\subsection{Exact optima and classical baselines}
+
+Exact MaxCut values are computed using \texttt{<INSERT SOLVER NAME>} with settings \texttt{<INSERT MEASURED VALUE>}. Solver certificates are retained for every instance. Instances without a certificate under the pre-registered time limit are treated according to the following rule:
+\begin{enumerate}[label=(\roman*)]
+\item if the exact optimum is unavailable, the instance is excluded from ratio-normalized main plots;
+\item if a rigorous upper bound is available, the instance may be included in a separate bound-normalized sensitivity analysis;
+\item no uncertified heuristic value is used as $C_{\max}$ in the main text.
+\end{enumerate}
+
+Classical baselines are run on the same graph instances. The baseline suite includes random cuts, greedy local search, multi-start local search, Goemans--Williamson semidefinite rounding, and \texttt{<INSERT BASELINE NAME>} from the augmented benchmark catalog. The number of starts, solver tolerances, random seeds, and wall-clock limits are \texttt{<INSERT MEASURED VALUE>}. Baseline uncertainty is estimated over both graph instances and algorithmic randomness where applicable.
+
+\subsection{QAOA simulation}
+
+The primary simulations use \texttt{<INSERT SIMULATOR NAME>} in exact statevector mode. The statevector is initialized as $\ket{+}^{\otimes n}$, cost phases are applied in the computational basis, and mixer phases are applied as tensor products of single-qubit $X$ rotations. For validation at selected sizes, we compare against a QuTiP reference implementation. QuTiP is not the fastest available backend for large QAOA simulations, but it provides transparent operator construction and is useful for small-instance reproducibility.
+
+\begin{lstlisting}[language=Python,caption={Minimal QuTiP reference skeleton for a small MaxCut QAOA expectation. This code is intended for validation, not large-scale simulation.}]
+import numpy as np
+from qutip import basis, qeye, sigmax, sigmaz, tensor
+
+def op_on_site(op, site, n):
+    ops = [qeye(2) for _ in range(n)]
+    ops[site] = op
+    return tensor(ops)
+
+def qaoa_expectation_qutip(n, edges, gammas, betas):
+    plus = (basis(2, 0) + basis(2, 1)).unit()
+    psi = tensor([plus for _ in range(n)])
+
+    xs = [op_on_site(sigmax(), i, n) for i in range(n)]
+    zs = [op_on_site(sigmaz(), i, n) for i in range(n)]
+
+    hc = 0
+    for i, j in edges:
+        hc = hc + 0.5 * (tensor([qeye(2) for _ in range(n)]) - zs[i] * zs[j])
+
+    hb = sum(xs)
+
+    for gamma, beta in zip(gammas, betas):
+        psi = (-1j * gamma * hc).expm() * psi
+        psi = (-1j * beta * hb).expm() * psi
+
+    return np.real((psi.dag() * hc * psi)[0, 0])
+\end{lstlisting}
+
+The main simulation cutoff is determined by memory and wall-clock criteria. For each $(n,p)$ pair, we record peak memory, median objective-evaluation time, total optimizer time, and the number of successful optimization runs. These quantities define the empirical boundary in Fig.~\ref{fig:boundary}.
+
+\subsection{Parameter optimization}
+
+For each graph and depth, the optimizer receives a budget of \texttt{<INSERT MEASURED VALUE>} objective evaluations and \texttt{<INSERT MEASURED VALUE>} independent starts. Initial points are drawn from three sources: random angles in the periodic QAOA domain, interpolated angles from the best lower-depth schedule, and ensemble-transfer angles from training instances. The optimizer is \texttt{<INSERT OPTIMIZER NAME>} with tolerance \texttt{<INSERT MEASURED VALUE>}.
+
+Angles are reported modulo the symmetries of the MaxCut QAOA objective. For unweighted MaxCut, the cost angles may be restricted to an interval of length $\pi$ and mixer angles to an interval of length $\pi/2$ after accounting for standard periodicities \cite{Farhi2014QAOA,Zhou2020QAOAParameters}. The implementation uses the convention stated in the Results section. All raw angles are retained in the data release so that alternative conventions can be reconstructed.
+
+Extended-budget validation runs are performed for the boundary depths and for a stratified subset of graph instances. The extended budget is \texttt{<INSERT MEASURED VALUE>} times the main budget. A main-budget value is marked optimizer-limited if the extended-budget improvement exceeds \texttt{<INSERT MEASURED VALUE>} after uncertainty propagation.
+
+\subsection{Boundary criteria}
+
+The operational quantum--classical boundary is defined by three measured diagnostics. The first is simulator feasibility: at least \texttt{<INSERT MEASURED VALUE>} instances must be completed with exact or validated simulation. The second is simulator cost: the median objective-evaluation time must exceed \texttt{<INSERT MEASURED VALUE>} or the peak memory must exceed \texttt{<INSERT MEASURED VALUE>}. The third is circuit nonlocality: the depth must satisfy the pre-registered condition \texttt{<INSERT MEASURED VALUE>} relative to the graph-size-dependent local-tree scale.
+
+A point $(n,p)$ is classified as below-boundary, boundary, or beyond-boundary according to these diagnostics. The classification is descriptive and depends on the computational environment. All hardware specifications, software versions, and thread counts are recorded in the metadata file accompanying the data release.
+
+\subsection{Statistical analysis}
+
+All ensemble means are computed over graph instances. Unless otherwise stated, uncertainty intervals are nonparametric bootstrap intervals over instances with \texttt{<INSERT MEASURED VALUE>} bootstrap resamples. For quantities involving optimizer randomness, we use a nested bootstrap over graph instances and optimizer starts. Fits of finite-size forms are performed by weighted least squares with weights determined by bootstrap variance. Fit stability is assessed by leave-one-size-out refitting.
+
+Claims comparing QAOA with a classical baseline use paired instance-level differences wherever possible:
+\begin{equation}
+  d_G(p)=\rho_G^{\qaoa}(p)-\rho_G^{\mathrm{baseline}}.
+\end{equation}
+The reported comparison is the mean paired difference $\bar d(p)$ and its uncertainty interval. A positive mean alone is not treated as sufficient evidence of separation unless the pre-registered interval criterion is met.
+
+\subsection{Audit and reproducibility workflow}
+
+The final empirical manuscript should be generated from a claims table produced by \texttt{audit\_claims.py}. Each numerical placeholder in this draft corresponds to a key in the audited JSON output. Before submission, the following checks should pass:
+\begin{enumerate}[label=(\roman*)]
+\item every \texttt{<INSERT MEASURED VALUE>} token is replaced by an audited value or an explicit ``not measured'' statement;
+\item every baseline comparison names the implementation and resource budget;
+\item every contribution or novelty sentence is checked by \texttt{novelty\_audit} against the augmented baseline catalog;
+\item all plotted points can be regenerated from immutable raw data and a recorded commit hash.
+\end{enumerate}
+
+\section*{Acknowledgments}
+
+The authors thank \texttt{<INSERT ACKNOWLEDGMENTS>} for discussions and feedback. This work was supported by \texttt{<INSERT FUNDING INFORMATION>}. Computing resources were provided by \texttt{<INSERT COMPUTING RESOURCE>}.
+
+\section*{Data Availability}
+
+The data supporting the findings of this study will be made available at \texttt{<INSERT DATA REPOSITORY DOI OR URL>} upon publication. The release will include graph instances, exact MaxCut certificates, QAOA optimization traces, baseline outputs, boundary diagnostics, and the audited claims table used to populate numerical values in the manuscript.
+
+\section*{Code Availability}
+
+The code used to generate the simulations, baselines, figures, and audited claims will be made available at \texttt{<INSERT CODE REPOSITORY DOI OR URL>}. The repository will include environment files, fixed random seeds, QuTiP validation scripts for small instances, and instructions for regenerating all main-text figures and tables.
+
+\section*{Author Contributions}
+
+\texttt{<INSERT AUTHOR INITIALS>} designed the study. \texttt{<INSERT AUTHOR INITIALS>} implemented the QAOA simulations. \texttt{<INSERT AUTHOR INITIALS>} implemented the classical baselines and exact solvers. \texttt{<INSERT AUTHOR INITIALS>} performed the statistical analysis and audit workflow. All authors interpreted the results and contributed to writing the manuscript.
+
+\section*{Competing Interests}
+
+The authors declare no competing interests. If applicable, replace this statement with \texttt{<INSERT COMPETING INTERESTS STATEMENT>}.
+
+\bibliographystyle{quantum}
+\bibliography{references}
+
+\end{document}
