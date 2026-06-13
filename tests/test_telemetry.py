@@ -194,7 +194,7 @@ def test_pipeline_summary_aggregates_all_stage_healths(tmp_path):
     assert ps["stages_failed"] == 1
     assert ps["final_status"] == "failed"
     assert len(ps["per_stage"]) == 3
-    # per_stage rows have the SS-schema keys
+    # per_stage rows have the stage-health-schema keys
     for row in ps["per_stage"]:
         assert set(row) == {
             "stage_id", "stage_dir", "status",

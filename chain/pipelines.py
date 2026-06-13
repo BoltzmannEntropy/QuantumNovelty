@@ -821,7 +821,7 @@ def _emit_pipeline_summary(base: Path,
                            results: list[StageResult]) -> int:
     """Write QN-native subprocess-RC summary to _run_summary.json.
 
-    Distinct from the SS-schema pipeline_summary.json (which is written by
+    Distinct from the stage-health-schema pipeline_summary.json (written by
     telemetry.pipeline_summary and aggregates _stage_health.json files —
     that's the canonical stage-health report). This one captures
     skill-runner exit codes, which the stage-health schema doesn't track.
