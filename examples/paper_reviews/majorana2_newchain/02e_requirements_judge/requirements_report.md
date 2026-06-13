@@ -2,7 +2,7 @@
 
 Paper: `majorana2_arxiv.pdf`
 
-**Verdict: ⚠️ PARTIAL**
+**Verdict: [PARTIAL] PARTIAL**
 
 ## Claim ledger
 

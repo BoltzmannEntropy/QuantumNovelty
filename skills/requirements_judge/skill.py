@@ -152,8 +152,9 @@ def _render_md(report: dict[str, Any], paper_name: str) -> str:
     md.append(f"Paper: `{paper_name}`")
     md.append("")
     verdict = report["verdict"]
-    glyph = {"proceed": "✅", "partial": "⚠️", "reject": "❌"}.get(verdict, "")
-    md.append(f"**Verdict: {glyph} {verdict.upper()}**")
+    tag = {"proceed": "[PASS]", "partial": "[PARTIAL]",
+           "reject": "[REJECT]"}.get(verdict, "")
+    md.append(f"**Verdict: {tag} {verdict.upper()}**")
     if not report["judge_parse_ok"]:
         md.append("")
         md.append("> Judge output was unparseable; this is the conservative "

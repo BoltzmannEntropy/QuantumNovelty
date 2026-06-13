@@ -44,6 +44,11 @@ STAGES = [
         "Premises -> intermediate claims -> conclusion map with unsupported "
         "leaps; claim-proof gap; Claim/Mechanism/Evidence proportionality; "
         "narrative-debt register; sequencing diagnosis."),
+    ("02e_requirements_judge", "requirements_report.md",
+        "Requirements judge — claim vs evidence",
+        "LLM audit of whether the paper's central claims are licensed by its "
+        "own evidence; per-claim met/partial/unmet/unevaluable verdict plus "
+        "an allowed/forbidden-claims manifest."),
     ("03c_claims_registry", "verification_report.md",
         "Numeric-claim registry (deterministic)",
         "Registry of every numeric in the Results/Experiments/Tables "
@@ -58,6 +63,16 @@ STAGES = [
         "Every revision item anchored to a paragraph ID with verbatim "
         "quoted problem prose, per-judge evidence, and a concrete "
         "proposed edit with effort estimate."),
+    ("00_evidence_ledger", "ledger.md",
+        "Evidence ledger (deterministic)",
+        "Pre-registers the paper's permitted facts — cite keys, distinct "
+        "numerics, headings, normalized text — as ground truth for the "
+        "reviewer-hallucination audit. Zero LLM cost."),
+    ("98_evidence_ledger_audit", "ledger_audit.md",
+        "Reviewer-hallucination audit (deterministic)",
+        "Scans every review report for claims, quotes, or numbers attributed "
+        "to the paper that the ledger cannot anchor. Informational; zero LLM "
+        "cost."),
     ("04_summary",          "process_summary.md",          "Stage-6 CQE narrative",
         "6-dim Collaboration Quality Evaluation with geometric-mean composite."),
 ]
@@ -269,8 +284,10 @@ def collect_paper(paper_dir: Path) -> dict:
         "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0,
         "cost_usd": 0.0, "elapsed_s": 0.0,
     }}
-    optional = {"02d_argument_structure", "03c_claims_registry",
-                "03e_disclosure_audit", "03f_revision_plan"}
+    optional = {"02d_argument_structure", "02e_requirements_judge",
+                "03c_claims_registry",
+                "03e_disclosure_audit", "03f_revision_plan",
+                "00_evidence_ledger", "98_evidence_ledger_audit"}
     for stage_dir, primary, label, desc in STAGES:
         sd = paper_dir / stage_dir
         if stage_dir in optional and not (sd / primary).is_file():
