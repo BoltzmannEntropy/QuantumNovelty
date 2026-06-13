@@ -1,0 +1,11 @@
+{
+  "mode": "audit",
+  "ledger": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/00_evidence_ledger/ledger.json",
+  "run_dir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain",
+  "files_scanned": 8,
+  "total_findings": 0,
+  "by_kind": {},
+  "by_file": {},
+  "findings": [],
+  "note": "Informational reviewer-hallucination audit; does not gate the chain. A finding means a review attributed a claim/quote/number to the paper that the deterministic ledger could not anchor."
+}

@@ -102,6 +102,15 @@ Paper-audit stage toggles:
                            --geometry-sweep + --llms
   --with-argument-structure  Add argument-architecture audit (premises ->
                            claims -> conclusion map, CME balance, debts)
+  --with-requirements-judge  Add claim-vs-evidence audit: does the paper's
+                           own evidence support its central claims? Emits an
+                           allowed/forbidden-claims manifest + verdict
+                           (the hypothesis-level companion to claims-registry)
+  --with-evidence-ledger   Add the reviewer-hallucination guard: a
+                           deterministic two-pass gate that pre-registers
+                           the paper's facts (cite keys / numerics / quotes)
+                           then audits the reviews for claims, quotes, or
+                           numbers attributed to the paper that it never made
   --skip-claims-registry   Drop the DEFAULT-ON numeric-claim registry gate
                            (abstract-vs-results fabrication catcher; no LLM)
   --bib PATH               Arms the citation-integrity gate automatically
@@ -210,6 +219,8 @@ while [[ $# -gt 0 ]]; do
     --with-argument-structure|--with-claims-registry|--with-citation-integrity) \
       STAGE_TOGGLES+=("$1"); shift ;;
     --with-disclosure-audit|--with-revision-planner) \
+      STAGE_TOGGLES+=("$1"); shift ;;
+    --with-requirements-judge|--with-evidence-ledger) \
       STAGE_TOGGLES+=("$1"); shift ;;
     --skip-claims-registry|--skip-citation-integrity) \
       STAGE_TOGGLES+=("$1"); shift ;;

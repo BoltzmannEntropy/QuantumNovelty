@@ -1,0 +1,131 @@
+{
+  "stages": [
+    {
+      "stage": "deep_research",
+      "skill": "deep_research",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/01_research_review",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "evidence_ledger",
+      "skill": "evidence_ledger",
+      "rc": 0,
+      "elapsed_s": 0.31,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/00_evidence_ledger",
+      "skipped": false,
+      "notes": [
+        "command: bash /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/skills/evidence_ledger/run.sh --outdir /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/00_evidence_ledger --mode ledger --paper /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2/majorana2_arxiv.pdf",
+        "stage_id: 00-evidence-ledger"
+      ]
+    },
+    {
+      "stage": "quantum_reviewer",
+      "skill": "quantum_reviewer",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/02_reviewer_panel",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "requirements_judge",
+      "skill": "requirements_judge",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/02e_requirements_judge",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "logical_fallacies",
+      "skill": "logical_fallacies",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/03_fallacies",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "argument_structure",
+      "skill": "argument_structure",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/02d_argument_structure",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "claims_registry",
+      "skill": "claims_registry",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/03c_claims_registry",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "disclosure_audit",
+      "skill": "disclosure_audit",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/03e_disclosure_audit",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "revision_planner",
+      "skill": "revision_planner",
+      "rc": 0,
+      "elapsed_s": 0.0,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/03f_revision_plan",
+      "skipped": true,
+      "notes": [
+        "resumed: stage outputs present"
+      ]
+    },
+    {
+      "stage": "evidence_ledger",
+      "skill": "evidence_ledger",
+      "rc": 0,
+      "elapsed_s": 0.06,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/98_evidence_ledger_audit",
+      "skipped": false,
+      "notes": [
+        "command: bash /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/skills/evidence_ledger/run.sh --outdir /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/98_evidence_ledger_audit --mode audit --ledger /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/00_evidence_ledger/ledger.json --run-dir /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain",
+        "stage_id: 98-evidence-ledger-audit"
+      ]
+    },
+    {
+      "stage": "process_summary",
+      "skill": "process_summary",
+      "rc": 0,
+      "elapsed_s": 29.89,
+      "outdir": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/04_summary",
+      "skipped": false,
+      "notes": [
+        "command: bash /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/skills/process_summary/run.sh --outdir /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain/04_summary --run-dir /Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2_newchain --llm claude",
+        "stage_id: 04-cqe"
+      ]
+    }
+  ],
+  "n_stages_run": 3,
+  "n_stages_skipped": 8,
+  "n_failures": 0
+}

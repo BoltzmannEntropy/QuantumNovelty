@@ -68,13 +68,23 @@ def _find_artifact(run: Path, skill: str, filename: str) -> Path | None:
             candidate = child / filename
             if candidate.is_file():
                 return candidate
+        # Paper-audit pipeline layout: `<NN><letter?>_<skill>` (e.g.
+        # `02e_requirements_judge`, `03c_claims_registry`). The generative
+        # pipeline uses the `stage_` prefix above, so this only matches
+        # audit-pipeline dirs and is inert for `full`.
+        if re.match(rf"^\d+[a-z]?_{re.escape(skill)}$", name):
+            candidate = child / filename
+            if candidate.is_file():
+                return candidate
         # Common-suffix aliases for stages whose dir name differs from the
         # skill name (e.g., `stage_5_review` for `quantum_reviewer`,
         # `stage_4_draft` for `quantum_paper`).
         SKILL_DIR_ALIASES = {
-            "quantum_reviewer":   ["stage_5_review", "stage_5_re_review"],
+            "quantum_reviewer":   ["stage_5_review", "stage_5_re_review",
+                                   "02_reviewer_panel"],
             "quantum_paper":      ["stage_4_draft", "stage_4_revision"],
-            "deep_research":      ["stage_1_literature", "stage_1.5_literature"],
+            "deep_research":      ["stage_1_literature", "stage_1.5_literature",
+                                   "01_research_review"],
             # The literature-surfacing role can be filled either by the
             # dedicated `literature_surfacer` skill (single-skill runs)
             # OR by `deep_research --mode full` (pipeline runs). Probe both.
@@ -84,7 +94,7 @@ def _find_artifact(run: Path, skill: str, filename: str) -> Path | None:
             "pareto_explorer":    ["stage_2_discovery"],
             "novelty_audit":      ["stage_3_audit"],
             "cross_llm_prediction": ["stage_4a_xllm"],
-            "logical_fallacies":  ["stage_5b_fallacies"],
+            "logical_fallacies":  ["stage_5b_fallacies", "03_fallacies"],
             "ablation_designer":  ["stage_4b_ablation"],
         }
         for alias_name in SKILL_DIR_ALIASES.get(skill, []):
@@ -184,6 +194,27 @@ def score_methodological_rigour(run: Path) -> list[Probe]:
         80 if ratio else 30,
         f"ratio_recompute.md: {ratio is not None}"
     ))
+    # Claim-vs-evidence integrity (requirements_judge). Whether the paper's
+    # central claims are actually licensed by its own evidence is a
+    # methodological question; an unsupported claim is a rigour failure.
+    req = _read_artifact_json(run, "requirements_judge",
+                              "requirements_report.json")
+    if req:
+        verdict = req.get("verdict")
+        reqs = req.get("requirements", []) or []
+        n = len(reqs)
+        met = sum(1 for r in reqs if r.get("status") in ("met", "partial"))
+        frac = (met / n) if n else 0.0
+        forbidden = len(req.get("forbidden_claims", []) or [])
+        base = {"proceed": 90, "partial": 55, "reject": 20}.get(verdict, 40)
+        score = max(15, min(100, round(base * (0.6 + 0.4 * frac)
+                                       - 3 * forbidden)))
+        evidence = (f"verdict={verdict}; {met}/{n} claims met-or-partial; "
+                    f"{forbidden} overclaim(s) flagged")
+    else:
+        score = 30
+        evidence = "requirements_report.json: False (stage not run)"
+    probes.append(Probe("claims supported by own evidence", score, evidence))
     return probes
 
 

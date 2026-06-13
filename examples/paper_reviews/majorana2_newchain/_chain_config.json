@@ -1,0 +1,54 @@
+{
+  "pipeline": "paper-audit",
+  "llm": "claude",
+  "paper": "/Volumes/SSD4tb/DP27/Dropbox/DSS/artifacts/code/QuantumNovelty/QuantumNoveltyCODE/examples/paper_reviews/majorana2/majorana2_arxiv.pdf",
+  "venue": "prx-quantum",
+  "topic": "20 Second Parity Lifetime in an InAs-Pb Tetron Device",
+  "stages_default_on": [
+    "research",
+    "reviewer",
+    "fallacies",
+    "claims-registry",
+    "cqe"
+  ],
+  "stages_optional": [
+    "novelty-audit",
+    "cross-llm",
+    "synthesizer",
+    "argument-structure",
+    "requirements-judge",
+    "citation-integrity",
+    "disclosure-audit",
+    "revision-planner",
+    "evidence-ledger"
+  ],
+  "stages_ran": [
+    "evidence_ledger",
+    "evidence_ledger",
+    "process_summary"
+  ],
+  "stages_skipped_by_flag": [],
+  "stages_opted_in_by_flag": [
+    "argument-structure",
+    "requirements-judge",
+    "disclosure-audit",
+    "revision-planner",
+    "evidence-ledger"
+  ],
+  "pause_after": null,
+  "resume_from": null,
+  "decision_log": [
+    "# Stage decisions",
+    "  [+] research            default-on; deep_research --mode review",
+    "  [+] evidence-ledger     --with-evidence-ledger; building ledger",
+    "  [+] reviewer            default-on; quantum_reviewer --mode full",
+    "  [+] requirements-judge  --with-requirements-judge; claim-vs-evidence audit",
+    "  [+] fallacies           default-on; 11 quantum-CS + standard",
+    "  [+] argument-structure  --with-argument-structure",
+    "  [+] claims-registry     default-on integrity gate; deterministic",
+    "  [+] disclosure-audit    --with-disclosure-audit",
+    "  [+] revision-planner    --with-revision-planner; roadmap source present",
+    "  [+] evidence-ledger     audit pass; ledger present",
+    "  [+] cqe                 default-on; 6-dim composite"
+  ]
+}

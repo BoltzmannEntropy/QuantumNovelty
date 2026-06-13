@@ -82,12 +82,13 @@ def _stage_complete(out: Path) -> bool:
 
 
 # Stage execution order for --resume-from comparisons (paper-audit ids).
-_STAGE_ORDER = ["01-research", "02-reviewer", "02b-novelty-audit",
+_STAGE_ORDER = ["01-research", "00-evidence-ledger", "02-reviewer",
+                "02e-requirements-judge", "02b-novelty-audit",
                 "02c-cross-llm", "02d-argument-structure",
                 "03-fallacies", "03b-synthesizer",
                 "03c-claims-registry", "03d-citation-integrity",
                 "03e-disclosure-audit", "03f-revision-planner",
-                "04-cqe"]
+                "98-evidence-ledger-audit", "04-cqe"]
 
 
 def _resumed_past(stage_id: str, resume_from: str | None) -> bool:
@@ -402,9 +403,9 @@ def pipeline_midentry_4(args: argparse.Namespace) -> int:
 PAPER_AUDIT_DEFAULT_ON = ("research", "reviewer", "fallacies",
                           "claims-registry", "cqe")
 PAPER_AUDIT_OPTIONAL = ("novelty-audit", "cross-llm", "synthesizer",
-                        "argument-structure",
+                        "argument-structure", "requirements-judge",
                         "citation-integrity", "disclosure-audit",
-                        "revision-planner")
+                        "revision-planner", "evidence-ledger")
 
 
 def _stage_enabled(name: str, args: argparse.Namespace,
@@ -470,6 +471,24 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
     else:
         _log_stage_decision("research", False, "--skip-research passed", decisions)
 
+    # Stage: evidence-ledger (build pass; opt-in). Deterministic
+    # pre-registration of the paper's permitted facts so the post-review
+    # audit pass (stage 98) can flag reviewer hallucinations. Runs before
+    # the LLM review stages.
+    if _stage_enabled("evidence-ledger", args, default_on=False):
+        _log_stage_decision("evidence-ledger", True,
+                            "--with-evidence-ledger; building ledger",
+                            decisions)
+        ledger_args = ["--mode", "ledger", "--paper", paper_path]
+        if args.bib and Path(args.bib).is_file():
+            ledger_args += ["--bib", str(args.bib)]
+        results.append(_run_skill(
+            "evidence_ledger", base / "00_evidence_ledger",
+            ledger_args, force=args.force,
+            stage_id="00-evidence-ledger", run_dir=base,
+            resume_from=args.resume_from,
+        ))
+
     # Stage: reviewer
     if _stage_enabled("reviewer", args, default_on=True):
         _log_stage_decision("reviewer", True, "default-on; quantum_reviewer --mode full",
@@ -484,6 +503,22 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
         ))
     else:
         _log_stage_decision("reviewer", False, "--skip-reviewer passed", decisions)
+
+    # Stage: requirements-judge (opt-in). Claim-vs-evidence audit: does the
+    # paper's own evidence support its central claims? Emits an
+    # allowed/forbidden-claims manifest — the hypothesis-level companion to
+    # the deterministic claims-registry numeric gate.
+    if _stage_enabled("requirements-judge", args, default_on=False):
+        _log_stage_decision("requirements-judge", True,
+                            "--with-requirements-judge; claim-vs-evidence "
+                            "audit", decisions)
+        results.append(_run_skill(
+            "requirements_judge", base / "02e_requirements_judge",
+            ["--mode", "review", "--paper", paper_path]
+            + journal_flags + common_flags, force=args.force,
+            stage_id="02e-requirements-judge", run_dir=base,
+            resume_from=args.resume_from,
+        ))
 
     # Stage: fallacies
     if _stage_enabled("fallacies", args, default_on=True):
@@ -671,6 +706,28 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
                                 "synthesis report and no quality gate "
                                 "with required_actions to anchor",
                                 decisions)
+
+    # Stage: evidence-ledger (audit pass; armed by the same
+    # --with-evidence-ledger). Scans every review report produced above
+    # against the pre-registered ledger and flags reviewer hallucinations.
+    # Runs after all review stages, before the CQE summary. Informational —
+    # never fails the chain.
+    if _stage_enabled("evidence-ledger", args, default_on=False):
+        ledger_json = base / "00_evidence_ledger" / "ledger.json"
+        if ledger_json.is_file():
+            _log_stage_decision("evidence-ledger", True,
+                                "audit pass; ledger present", decisions)
+            results.append(_run_skill(
+                "evidence_ledger", base / "98_evidence_ledger_audit",
+                ["--mode", "audit", "--ledger", str(ledger_json),
+                 "--run-dir", str(base)], force=args.force,
+                stage_id="98-evidence-ledger-audit", run_dir=base,
+                resume_from=args.resume_from,
+            ))
+        else:
+            _log_stage_decision("evidence-ledger", False,
+                                "audit pass skipped: ledger.json absent "
+                                "(build pass did not run)", decisions)
 
     # Stage: cqe (process_summary, always last)
     if _stage_enabled("cqe", args, default_on=True):

@@ -1,0 +1,95 @@
+{
+  "requirements": [
+    {
+      "requirement": "Replacing Al with Pb (higher-gap superconductor) improves topological phase robustness, specifically yielding larger topological gaps",
+      "status": "met",
+      "evidence": "Top quintile topological gap \u2206T \u2248 70 \u00b5eV in InAs\u2013Pb devices vs. \u2206T \u223c 30 \u00b5eV in Al-based devices (Fig. 3c-d, Section 2); induced gap \u2206ind \u2248 570 \u00b5eV measured; parent Pb gap \u2206Pb \u2248 1.3 meV",
+      "note": "Quantitative comparison with prior Al-based devices demonstrates ~2x improvement in topological gap."
+    },
+    {
+      "requirement": "rf measurement technique resolves low-energy wire-end states with \u00b5eV precision",
+      "status": "met",
+      "evidence": "Section 3 describes parity-switching spectroscopy extracting EM with resolution ~1 \u00b5eV (limited by DAC resolution and lever arm \u03b1QD = 0.45 meV/mV); Fig. 4g shows extracted EM values",
+      "note": "Resolution explicitly stated as ~1 \u00b5eV, compared favorably to DC transport resolution of ~7.6 \u00b5eV."
+    },
+    {
+      "requirement": "h/2e-periodic bimodal shifts in quantum capacitance observed via interferometric parity measurements",
+      "status": "met",
+      "evidence": "Fig. 6b shows flux-periodic standard deviation with periodicity 1.3 \u00b1 0.3 mT, consistent with h/2e periodicity (1.0 \u00b1 0.3 mT expected from loop area); Fig. 6c shows bimodal CQ response",
+      "note": "Periodicity measurement matches h/2e expectation within uncertainty."
+    },
+    {
+      "requirement": "Characteristic parity switching time of ~20 s achieved",
+      "status": "met",
+      "evidence": "Fig. 6d-e: N=324 dwell intervals analyzed; exponential fit yields \u03c4Z = 22 \u00b1 1 s; some instances reaching minute-scale mentioned",
+      "note": "Statistical analysis with explicit uncertainty provided; methodology (Gaussian mixture model thresholding) described."
+    },
+    {
+      "requirement": "Parity lifetime improvement of >3 orders of magnitude over Al-based devices",
+      "status": "met",
+      "evidence": "\u03c4Z = 22 \u00b1 1 s in Pb devices vs. ~1\u201312 ms in Al-based tetrons (Refs. 59, 61); ratio is ~2000-20000x improvement",
+      "note": "Comparison references prior published work on Al-based devices; improvement factor is >1000x as claimed."
+    },
+    {
+      "requirement": "Extended topological phase region in (Vp, B) parameter space exceeds 1.1 mV\u00b7T",
+      "status": "met",
+      "evidence": "Fig. 3c shows TGP-identified topological region; text states 'region passing TGP exceeds 1.1 mV T, more than twice that observed Al\u2013InAs platform'",
+      "note": "Quantitative comparison with prior platform provided."
+    },
+    {
+      "requirement": "Majorana splitting energy EM < 1 \u00b5eV observed in extended parameter regimes",
+      "status": "partial",
+      "evidence": "Fig. 4g shows EM at measurement resolution (~1 \u00b5eV) in shaded region; Fig. 5d shows EM 'on the order of the measurement resolution \u2248 1 \u00b5eV' in region of interest",
+      "note": "EM is at or below resolution limit, so the claim EM < 1 \u00b5eV is consistent with but not definitively proven by the data."
+    },
+    {
+      "requirement": "Device demonstrates multi-tetron array architecture compatible with scaling",
+      "status": "partial",
+      "evidence": "Fig. 1 shows SEM of fabricated prototype unit cell; device described as 'prototype unit cell for multi-tetron devices'; measurements performed on one tetron (BA) from the array",
+      "note": "Array fabricated and one tetron measured, but multi-qubit operations not demonstrated."
+    },
+    {
+      "requirement": "Non-equilibrium quasiparticles no longer limit qubit operations",
+      "status": "partial",
+      "evidence": "\u03c4Z = 22 s vs. typical operation times ~1 \u00b5s gives >7 orders of magnitude margin; exponential dwell time distribution consistent with Poisson process",
+      "note": "Evidence strongly supports this for Z-parity; no direct measurement of other error sources or full qubit operation fidelity."
+    },
+    {
+      "requirement": "Localization lengths exceed 1 \u00b5m in lowest occupied subband",
+      "status": "met",
+      "evidence": "Fig. 3b shows localization length measurements from 14 wires with lengths 1.25 \u00b5m and 3 \u00b5m; text states 'localization lengths exceeding 1 \u00b5m in the lowest occupied subband'",
+      "note": "Multiple devices measured; methodology from Ref. 60 cited."
+    },
+    {
+      "requirement": "Implications for Pauli-X measurement fidelity improvement",
+      "status": "unmet",
+      "evidence": "none",
+      "note": "Discussion section mentions \u03c4X scales as EM\u00b2 and 'could be more than an order of magnitude longer' but no \u03c4X measurements presented."
+    }
+  ],
+  "verdict": "partial",
+  "allowed_claims": [
+    "InAs\u2013Pb hybrid devices achieve topological gaps of ~70 \u00b5eV (top quintile), approximately twice those in prior Al-based devices",
+    "An rf-based spectroscopy technique can extract Majorana splitting energies with ~1 \u00b5eV resolution",
+    "In a single tetron from a multi-tetron array, Z-parity lifetime of 22 \u00b1 1 s was measured, representing >1000x improvement over Al-based devices",
+    "h/2e-periodic bimodal quantum capacitance response was observed with periodicity consistent with the interferometric loop area",
+    "The topological phase region in (Vp, B) space exceeds 1.1 mV\u00b7T, more than twice that of comparable Al-based devices",
+    "Localization lengths exceeding 1 \u00b5m were measured in the lowest subband, indicating low disorder",
+    "The measured EM is at or below the ~1 \u00b5eV experimental resolution in identified parameter regions",
+    "A scalable multi-tetron unit cell geometry was fabricated and one tetron was characterized"
+  ],
+  "forbidden_claims": [
+    "'non-equilibrium quasiparticles no longer limit qubit operations' \u2014 only Z-parity lifetime measured; no full qubit operation or fidelity data presented",
+    "'potential implications for the fidelity of Pauli measurements' and '\u03c4X could be more than an order of magnitude longer' \u2014 no X-parity or Pauli measurement fidelity data presented",
+    "'EM < 1 \u00b5eV' stated as a definite result \u2014 EM is at the resolution limit, so only 'EM \u2264 1 \u00b5eV (resolution-limited)' is supportable",
+    "'scalable' and 'can be tiled into much larger qubit arrays' \u2014 only single-tetron measurements presented; scalability not demonstrated",
+    "'functions as a modular unit cell for a larger architecture' \u2014 no multi-qubit coupling or operation demonstrated",
+    "'floating (charging-energy protected) tetrons could be even longer' \u2014 speculative; no floating tetron parity lifetime measured",
+    "'high-fidelity, fault-tolerant multi-qubit Majorana arrays' (Discussion) \u2014 no fidelity or fault-tolerance metrics reported"
+  ],
+  "delta_feedback": "1) Rescope 'non-equilibrium quasiparticles no longer limit qubit operations' to 'Z-parity lifetime of 22 s is >7 orders of magnitude longer than typical \u00b5s operation times, suggesting quasiparticle poisoning is not limiting for single-wire parity measurements.' 2) Remove or clearly mark as speculation all claims about Pauli-X measurement improvements and fidelity implications, since no \u03c4X data is presented. 3) Change 'EM < 1 \u00b5eV' to 'EM \u2264 1 \u00b5eV (at or below measurement resolution)' throughout. 4) Rescope scalability claims to 'fabricated a multi-tetron array and characterized one tetron' rather than claiming demonstrated scalability. 5) Remove speculative claims about floating tetron performance. 6) In Discussion, replace 'fault-tolerant multi-qubit Majorana arrays' with acknowledgment that fault-tolerance requires future measurements of multi-qubit operations and fidelity.",
+  "judge_parse_ok": true,
+  "generated_by": "requirements_judge",
+  "mode": "review",
+  "paper": "majorana2_arxiv.pdf"
+}

@@ -1,0 +1,21 @@
+{
+  "overall_verdict": "PUBLISH-READY",
+  "claim_proof_gap": "NONE",
+  "cme_balance": "BALANCED",
+  "cme_split": {
+    "claim_pct": 25,
+    "mechanism_pct": 30,
+    "evidence_pct": 45
+  },
+  "narrative_debts": {
+    "total": 5,
+    "load_bearing": 0
+  },
+  "sequencing": "EVIDENTIAL",
+  "unsupported_leaps": [],
+  "unstated_premises": [
+    "Parity lifetime measurement faithfully reflects quasiparticle poisoning rate rather than alternative relaxation mechanisms",
+    "Single measured tetron is representative of the array (no cross-device statistics for parity lifetime)",
+    "Floating tetrons will have comparable or better parity lifetimes (expectation, not demonstrated)"
+  ]
+}

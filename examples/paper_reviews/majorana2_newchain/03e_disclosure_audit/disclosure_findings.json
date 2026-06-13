@@ -1,0 +1,87 @@
+{
+  "items": [
+    {
+      "code": "A1",
+      "status": "ABSENT",
+      "severity": "submission-blocking"
+    },
+    {
+      "code": "A2",
+      "status": "ABSENT",
+      "severity": "submission-blocking"
+    },
+    {
+      "code": "A3",
+      "status": "ABSENT",
+      "severity": "submission-blocking"
+    },
+    {
+      "code": "A4",
+      "status": "ABSENT",
+      "severity": "submission-blocking"
+    },
+    {
+      "code": "A5",
+      "status": "ABSENT",
+      "severity": "submission-blocking"
+    },
+    {
+      "code": "A6",
+      "status": "NOT-APPLICABLE",
+      "severity": "none"
+    },
+    {
+      "code": "A7",
+      "status": "PRESENT-COMPLETE",
+      "severity": "none"
+    },
+    {
+      "code": "A8",
+      "status": "ABSENT",
+      "severity": "revise-before-acceptance"
+    },
+    {
+      "code": "B1",
+      "status": "ABSENT",
+      "severity": "revise-before-acceptance"
+    },
+    {
+      "code": "B2",
+      "status": "ABSENT",
+      "severity": "revise-before-acceptance"
+    },
+    {
+      "code": "B3",
+      "status": "ABSENT",
+      "severity": "revise-before-acceptance"
+    },
+    {
+      "code": "B4",
+      "status": "ABSENT",
+      "severity": "revise-before-acceptance"
+    },
+    {
+      "code": "C1",
+      "status": "ABSENT",
+      "severity": "submission-blocking"
+    },
+    {
+      "code": "C2",
+      "status": "ABSENT",
+      "severity": "revise-before-acceptance"
+    },
+    {
+      "code": "C3",
+      "status": "ABSENT",
+      "severity": "editorial-discretion"
+    },
+    {
+      "code": "C4",
+      "status": "PRESENT-INCOMPLETE",
+      "severity": "editorial-discretion"
+    }
+  ],
+  "blocking": 6,
+  "incomplete": 1,
+  "not_applicable": 1
+}

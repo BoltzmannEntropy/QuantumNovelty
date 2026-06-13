@@ -1,0 +1,834 @@
+You are a hard-nosed scientific requirements judge. You audit whether a
+paper's central claims are actually supported by the evidence the paper
+itself presents — not whether they are plausible, and not whether the topic
+is interesting. Your obligation is to separate what the evidence licenses
+from what the paper merely asserts.
+
+## Target venue rubric
+
+# Journal policy — PRX Quantum
+
+- **Publisher:** American Physical Society
+- **Open access:** True
+- **Citation style:** revtex
+- **Template:** revtex4-2
+- **Abstract limit:** none words
+- **Body limit:** none words
+- **Page limit:** none pages
+- **Section order:** Abstract → Introduction → Methods/Background → Results → Discussion → Conclusion → Acknowledgments → References
+- **Required statements:**
+  - Acknowledgments
+  - Competing Interests (if any)
+
+_Notes:_ Long-form quantum-info venue; expects deep technical exposition. PRX-style numbered references. Methods can be inline (not appended).
+
+## How to judge
+
+1. Reconstruct the paper's central claims and contributions in your own
+   words. Prefer the claims the abstract and conclusion advertise — those
+   are what the paper is staking. Aim for 4–8 concrete claims, each a
+   single falsifiable proposition (split bundled claims apart).
+
+2. For each claim, find the specific evidence in the paper that bears on it
+   (a measured value, a figure, a derivation, a statistical test) and rule:
+   - **met** — the reported evidence directly and sufficiently supports the
+     claim, at the claim's stated scope.
+   - **partial** — some evidence exists but it is weaker than the claim
+     (e.g. a single device used to claim array-scale behavior; a value
+     reported without uncertainty; mechanism asserted but not measured).
+   - **unmet** — the claim is asserted but the paper presents no evidence
+     that tests it, or the evidence points the other way.
+   - **unevaluable** — the paper does not give enough information to judge
+     (missing method, missing numbers).
+   Quote or name the exact evidence in the `evidence` field. If there is no
+   evidence, say `none`.
+
+3. From those rulings, produce two lists:
+   - **allowed_claims** — the claims (possibly rescoped) that the evidence
+     genuinely supports. These are what the paper is entitled to assert.
+   - **forbidden_claims** — claims the paper asserts that its evidence does
+     NOT support: overclaims, unwarranted generalizations, mechanism
+     claims without measurement, scope inflation. Be specific and quote the
+     overclaiming phrase where you can.
+
+4. Assign a **verdict**:
+   - **proceed** — every central claim is met (or partial with clearly
+     adequate evidence); no forbidden claims of consequence.
+   - **partial** — at least one central claim is met, but one or more are
+     unmet/unevaluable or there are real overclaims to rein in.
+   - **reject** — the paper's central claim is not actually tested by its
+     own evidence.
+
+5. If the verdict is not `proceed`, write **delta_feedback**: the concrete
+   changes (rescope claim X to single-device; add the missing measurement
+   for Y; report uncertainty on Z) that would make the claims sound.
+
+## Output
+
+Return ONLY a single JSON object, no prose around it, in exactly this shape:
+
+```json
+{
+  "requirements": [
+    {"requirement": "...", "status": "met|partial|unmet|unevaluable",
+     "evidence": "specific value/figure/test, or none", "note": "one sentence"}
+  ],
+  "allowed_claims": ["..."],
+  "forbidden_claims": ["..."],
+  "verdict": "proceed|partial|reject",
+  "delta_feedback": "what a sound revision must change (empty if proceed)"
+}
+```
+
+## The paper
+
+                                                                         20 Second Parity Lifetime in an InAs–Pb Tetron Device
+
+                                                                                                        Microsoft Quantum†
+                                                                                                        (Dated: June 3, 2026)
+                                                                   A central promise of topological quantum computing is that increasing the excitation gap improves
+                                                                 device performance significantly. Here, we experimentally validate this principle in an InAs–Pb
+                                                                 tetron device via interferometric single-shot parity measurements. By replacing aluminum with
+                                                                 the higher-gap superconductor lead in our superconductor-semiconductor hybrid devices, we have
+                                                                 improved the robustness of our topological phase. In addition, to enable fast and precise bring-up
+                                                                 at scale, we have developed an rf measurement technique that resolves low-energy wire-end states
+                                                                 and directly measures their energy splitting with µeV precision. We employ this technique to bring
+arXiv:2606.03884v1 [cond-mat.mes-hall] 2 Jun 2026
+
+
+
+
+                                                                 up a device in a multi-tetron array and perform parity measurements of one of the tetron’s hybrid
+                                                                 nanowires (NWs). By controllably switching the wire parity, we observe h/2e-periodic bimodal shifts
+                                                                 in the quantum capacitance of a quantum dot coupled to the hybrid nanowire in an interference
+                                                                 loop. Further time-resolved measurements reveal a characteristic parity switching time of ∼ 20 s with
+                                                                 some instances reaching minute-scale. Such extremely long parity lifetimes are orders of magnitude
+                                                                 longer than typical qubit operation times, which are on the order of µs. Finally, we discuss potential
+                                                                 implications for the fidelity of Pauli measurements.
+
+
+                                                                    1.   INTRODUCTION                                 the topological gap protocol (TGP) [60], which identi-
+                                                                                                                      fies the topological phase with high fidelity and reports
+                                                       Recently, we presented a roadmap [1] to fault-tolerant         the topological gap ∆T . The TGP was used to tune
+                                                    quantum computation using topological qubits [2–4] built          our devices into the qubit configuration. In earlier Al-
+                                                    around Majorana zero modes (MZMs) in superconductor-              based devices, we observed typical top quintile gaps of
+                                                    semiconductor hybrid devices [5–9]. Our roadmap draws             ∆T ∼ 30 µeV [59–61]. In contrast, in the InAs–Pb devices
+                                                    on concepts explored in Refs. 10–39. It entails building          studied here we observe a top quintile gap of ∆T ∼ 70 µeV.
+                                                    successively larger arrays of qubits which are progres-           In parallel, we introduce a direct probe of Majorana hy-
+                                                    sively deeper inside the topological phase, characterized         bridization, in which a quantum dot (QD) measures one
+                                                    by larger energy gap and shorter coherence length. In             wire end while a QD at the opposite end is used to con-
+                                                    superconductor-semiconductor hybrid platforms, these              trollably change fermion parity in the nanowire. This
+                                                    key parameters are governed primarily by the parent su-           technique reveals extended parameter regimes consistent
+                                                    perconducting gap, the semiconductor spin-orbit coupling,         with EM < 1 µeV, i.e. smaller than our experimental
+                                                    and material disorder [40–52]. In this work, we demon-            resolution.
+                                                    strate that engineering these ingredients—by replacing               Topological protection gives error rates that are expo-
+                                                    Al with the higher-gap superconductor Pb and enhancing            nentially suppressed as the topological gap increases [34].
+                                                    spin-orbit coupling via band-structure design in a semicon-       This expectation, however, relies critically on the assump-
+                                                    ductor heterostructure grown on a GaSb substrate—leads            tion that the system remains near equilibrium. In the
+                                                    to substantial improvements in device performance. By             presence of non-equilibrium processes, this protection can
+                                                    demonstrating these performance improvements, we have             be significantly degraded. A large topological gap ∆T sup-
+                                                    gone beyond previous work which has incorporated larger           presses thermally-activated excitations, but it does not
+                                                    gap superconductors into nanowire devices [53–56].                protect against far-from-equilibrium quasiparticles [62–
+                                                       The building block of our architecture is a tetron             76]. Such quasiparticles can be generated, for example,
+                                                    [57, 58], which is composed of two parallel proximitized          when residual radiation penetrates shielding and breaks
+                                                    semiconductor NWs connected by a conventional super-              Cooper pairs, and persist if recombination processes are
+                                                    conducting backbone, forming an H-shaped superconduct-            slow. As a result, the quasiparticle poisoning rate and as-
+                                                    ing island. Each nanowire hosts a pair of Majorana zero           sociated density of non-equilibrium quasiparticles emerges
+                                                    modes (MZMs) at its ends when tuned into the topological          as a key metric, distinct from both ∆T and the Majorana
+                                                    phase, yielding four MZMs per tetron, see also [59]. The          splitting EM . In this work, we show that the quasiparticle
+                                                    computational subspace has fixed total electron parity,           poisoning rate is also strongly suppressed in InAs–Pb
+                                                    and projective Pauli measurements of the computational            devices, complementing the increase of ∆T and further
+                                                    qubit are implemented by measuring the parity of differ-          improving device robustness.
+                                                    ent pairs of MZMs in the tetron. The dominant error                  Qubit operations in our architecture are realized via
+                                                    mechanisms arise from (i) quasiparticle poisoning, where          quantum-capacitance readout of QDs tunnel-coupled to
+                                                    an MZM exchanges a fermion with the continuum above               MZMs. For example, a Pauli-Z measurement is imple-
+                                                    the topological gap ∆T , and (ii) Majorana hybridization,         mented by probing a QD coupled to both ends of a
+                                                    in which tunneling processes between MZMs generate a              single topological wire. In such measurements of Al-
+                                                    finite energy splitting EM .                                      based tetrons, we previously measured parity lifetimes
+                                                       To reliably access the topological regime, we developed        of ∼ 1–12 ms [59, 61]. In contrast, Pb-based devices ex-
+                                                                                                                                2
+
+hibit Z-parity lifetimes exceeding 20 s, representing an        (a)
+improvement of more than three orders of magnitude. In
+a tetron, the qubit is encoded in parity, so parity lifetimes
+directly translate into qubit lifetimes and parity flips are
+key qubit error processes. Consequently, the observed
+dramatic enhancement in parity stability indicates that
+
+
+
+
+                                                                y [μm]
+non-equilibrium quasiparticles no longer limit qubit op-
+erations in our devices, providing strong evidence that
+increasing superconducting gap directly translates into
+improved robustness of Majorana-based qubits.
+
+
+      2.   DEVICE DESIGN AND PB-BASED
+             MATERIAL PLATFORM
+                                                                                                x [μm]
+
+
+   The device shown in Fig. 1 is a prototype unit cell          (b)
+for multi-tetron devices. The qubits are interconnected
+through shared QDs and tunable junctions. Figure 1(a) is
+a schematic of the device; a scanning electron micrograph
+(SEM) image is shown in Fig. 1(b). This architecture
+extends earlier single-tetron designs by embedding qubits
+within a network geometry that enables scalable integra-
+tion, while supporting both single- and multi-qubit parity
+measurements via local interactions.
+   Each tetron consists of two horizontal superconducting
+NWs of length 3.5 µm and width 35 nm, connected by
+a narrower vertical backbone of length 1 µm and width
+20 nm. This geometry is chosen to simultaneously satisfy        FIG. 1. Scalable unit cell for multi-qubit tetron array.
+several constraints: (a) The wire length exceeds the ex-        (a) Schematic of the tetron-based unit cell used for multi-qubit
+pected coherence length, suppressing Majorana hybridiza-        devices. Each tetron consists of two parallel proximitized
+tion and minimizing the splitting energy EM . (b) The           NWs connected by a superconducting backbone, forming an
+                                                                H-shaped island that hosts four Majorana zero modes (MZMs)
+narrower backbone enables full depletion when the hori-
+                                                                at the wire ends when tuned into the topological regime. Color-
+zontal wires are tuned to the lowest electronic subband,        coded gates illustrate the three-layer architecture: electrostatic
+ensuring that it remains in a trivial state even when           tuning gates set the nanowire density, junction and cutter gates
+the NWs are tuned into the topological phase. At the            control tunnel couplings to define and reconfigure interfero-
+same time, it is wide enough to maintain superconducting        metric loops, and gate-defined quantum dots (QDs) provide
+connectivity.                                                   dispersive parity readout. Neighboring tetrons are coupled
+   The device is realized using an epitaxial superconductor-    via shared QDs, enabling both single- and two-qubit parity
+semiconductor heterostructure optimized to enhance the          measurements. (b) Scanning electron micrograph (SEM) of a
+robustness of the topological phase. A schematic cross-         fabricated prototype unit cell for a multi-tetron array, demon-
+                                                                strating a geometry and gate layout compatible with scaling
+section of our superconductor-semiconductor heterostruc-
+                                                                to larger qubit arrays.
+ture is shown in Fig. 2(a). The H-shaped superconducting
+structure is formed by depositing 10 nm of Pb on the sur-
+face of the semiconductor heterostructure grown on a
+GaSb substrate. For this thickness, the parent super-              The transition to a GaSb substrate provides two prin-
+conducting gap is ∆Pb ≈ 1.3 meV, resulting in a large           cipal advantages: (i) lattice-matched epitaxial growth
+proximity-induced gap in the semiconductor. As shown in         through the entire semiconductor stack which drastically
+Fig. 2(b), a proximity-induced gap of 400 µeV is measured       reduces the extended defect count and improves surface
+in a two-dimensional superconductor-quantum point con-          morphology and (ii) the larger range of accessible band
+tact geometry. In the nanowire geometry, the induced gap        offsets enables larger spin-orbit coupling than is achiev-
+is increased due to transverse confinement. We measure          able on InP substrates. The composite semiconductor
+an induced gap ∆ind ≈ 570 µeV in the lowest subband             quantum well consists of a 6 nm InAs layer with an addi-
+regime at zero magnetic field, consistent with simulations.     tional 2 nm InAs0.8 Sb0.2 layer, which enhances the Rashba
+For comparison, prior work has shown that Pb-based              spin-orbit coupling α ∼ 12–16 meV nm in Pb-proximitized
+Coulomb islands exhibit a robust 2e-periodic charging           NWs [see Fig. 2(c)] [77]. The top barrier thickness and
+pattern at zero magnetic field [53], consistent with the        composition are optimized to maintain a large induced
+absence of subgap states (i.e., consistent with a “hard”        gap while avoiding excessive renormalization of the semi-
+induced gap).                                                   conductor g-factor and spin-orbit coupling.
+                                                                                                                                3
+
+(a)                        (b)                                    (a)                          (b)
+
+
+
+
+                                                                  (c)
+(c)                        (d)
+
+
+
+
+FIG. 2. Enhanced material stack. (a) Schematic of a
+                                                                  (d)
+hybrid material stack combining Pb with a composite quantum
+well. (b) Conductance as a function of bias voltage and split-
+gate voltage in a superconducting quantum point contact
+to a 2D Pb-covered half-plane in the tunneling regime. A
+large induced gap is clearly visible. (c) Shubnikov–de Haas
+oscillations, showing long quantum lifetime and large spin-
+orbit coupling in a shallow quantum well under Pb, as obtained
+via the analysis procedure of Ref. 78. We extract a density of
+0.49±0.02×1012 cm−2 , a spin-orbit coupling of 12±2 meV nm,
+and a quantum lifetime of 0.37 ± 0.14 ps. (d) Mobility as a
+function of density in a buried quantum well that is the analog
+of the upper part of our semiconductor stack (with the same
+composite quantum well, top and bottom barrier) used in
+tetron devices.
+
+
+   Disorder is minimized through careful materials en-
+gineering of both the epitaxial hybrid superconductor-            FIG. 3.     (a) Cross-sectional TEM of a narrow Pb strip
+semiconductor layers and dielectrics. Measurements of             on the surface of semiconductor barrier and quantum well,
+shallow quantum well Hall bar devices indicate a surface          dashed lines indicate interfaces at the top and bottom of the
+charge density n2D ≈ 2 × 1012 cm−2 . Buried quantum               quantum well. (b) Measured localization length as a function
+                                                                  of gate voltage extracted from 14 wires with different lengths
+well Hall bars with the same active region exhibit mobil-
+                                                                  of 1.25 µm and 3 µm. The estimated 1D subband onsets are
+ities > 350 000 cm2 /Vs [see Fig. 2(d)]. We also observe          extracted from quantized local conductance steps. (c) Phase
+Shubnikov–de Haas oscillations of electrons residing in the       diagram obtained from a TGP analysis of transport data from
+quantum well coupled to the epitaxial metal in van der            a 3 µm-long nanowire test structure. (d) B-field line cut along
+Pauw devices [78]. These results attest to the high mate-         Vp = 3.2165 V showing local and anti-symmetrized non-local
+rial quality of our hybrid stack, with minimal impurity           conductance along the dashed line in panel (c). Zero-bias
+or defect scattering.                                             peaks at the opposite ends of the NW persist over the B-field
+   The combination of a large induced gap, strong spin-           range of over 0.5 T, consistent with gap closing and re-opening.
+orbit coupling, and low disorder establishes a robust su-         The dashed (black) line corresponds to extracted gap.
+perconducting platform for topological qubits. Direct evi-
+dence for the improved materials quality and its impact
+on the topological phase is shown in Fig. 3. Figure 3(a)          interface is likewise abrupt, confirming excellent epitaxial
+presents a cross-sectional transmission electron micro-           and interfacial quality.
+graph (TEM) of a 35 nm-wide Pb wire on the surface of                To quantify disorder in Pb-proximitized NWs, we mea-
+the semiconductor barrier and quantum well grown on a             sured the scaling of nonlocal conductance with segment
+GaSb substrate. The interfaces at the top and bottom              length using the methodology developed in Ref. 60. This
+of the InAs-based quantum well (indicated by dashed               analysis yields localization lengths exceeding 1 µm in the
+lines) are sharp, and the superconductor-semiconductor            lowest occupied subband, as shown in Fig. 3(b). Such lo-
+                                                                                                                              4
+
+calization lengths are comparable to the full device dimen-       two-qubit measurement. Each H-shaped superconducting
+sions and are consistent with the low disorder inferred in-       island is coupled to five QDs, three of which are shared
+dependently from mobility measurements and Shubnikov–             between vertical neighbors, which can thereby couple.
+de Haas oscillations. Importantly, the localization length        Concretely, consider the BA qubit. A Pauli-Z measure-
+comfortably exceeds the minimum topological coherence             ment is performed by coupling the top wire in the qubit
+length expected for a clean system (ξcl ∼ 100 nm), indicat-       to quantum dot QDL via QD1 and QD2 and by decou-
+ing that the topological phase is robust against disorder         pling these QDs from the AA qubit by using the cutter
+in these NWs.                                                     gates Vwc3,AA , Vwc4,AA , Vdc13,AA , and Vdc24,AA to close the
+   Consistent with this conclusion, we observe a substan-         junctions through which they would couple to it. In this
+tial improvement over the Al–InAs platform [60] in both           configuration, QDL’s quantum capacitance is sensitive
+the magnitude of the topological gap and the extent of            to the fermion parity of the top wire in the BA qubit.
+the topological phase in the (Vp , B) parameter space. A          Pauli-X measurements and two-qubit measurements can
+representative phase diagram obtained from a NW test              be performed similarly.
+device is shown in Fig. 3(c), which was obtained by ap-              All of the QDs have been designed to have plunger
+plying the Topological Gap Protocol (TGP) [60]. The               lever arms in the range 0.4–0.45 meV/mV, charging en-
+outlined orange region denotes the region in wireplunger-         ergies > 60 µeV, and level spacings > 30 µeV. The long
+field (Vp , B) parameter space identified as topological.         QDs (QDL) are approximately 3.2 µm long; the com-
+The region passing TGP exceeds 1.1 mV T, more than                bined linear gate extent of the QDs that couple vertically-
+twice that observed Al–InAs platform with comparable              neighboring tetrons is 2.1 µm (exterior, QD1) or 2.4 µm
+lever arms and g factors [60]. Within this region, the            (interior, QD2); while that of the smallest QDs is 0.9 µm
+top-quintile topological gap reaches ∆T ≈ 70 µeV. Local           (exterior, QD3) or 1.2 µm (interior, QD4). These QD
+conductance measurements reveal robust zero-bias peaks            parameters have been chosen to facilitate control and
+at opposite ends of the NW persisting over magnetic-field         readout of the device.
+ranges exceeding 0.5 T, as seen in Fig. 3(d). These stable           The tetron array is operated in a cryogenic setup with
+zero-bias features, coincident with gap closing and reopen-       readout and control systems similar to those described in
+ing in the nonlocal conductance [Fig. 3(d)], constitute           Refs. 59 and 61.
+hallmark signatures of the topological superconducting
+phase. These observations are consistent with our sim-
+ulations and demonstrate that the improved materials                3.   RF-BASED WIRE SPECTROSCOPY AND
+properties directly translate into enhanced topological                             TUNING
+properties of measured NW test devices, and result in
+improved qubit performance, as discussed below.                      While local and non-local DC transport measurements
+   Finally, we outline the key elements of the multi-qubit        have underpinned the tuning of topological NWs in our
+device design. The scalable tetron unit cell that underlies       earlier work [59–61], they do not offer a scalable char-
+our multi-qubit architecture is shown in Fig. 1. This unit        acterization strategy for large Majorana-based qubit ar-
+cell is designed to tile naturally into larger arrays, enabling   rays because they require end-to-end transport paths and
+straightforward extensions to devices with many qubits            a grounded third terminal, thereby limiting paralleliza-
+(e.g., a 12-qubit array) without qualitative changes to the       tion, slowing device bring-up. More broadly, transport-
+control or readout strategy. The device employs three             based protocols are not naturally matched to scalable
+distinct gate layers, illustrated in Fig. 1(a), each serving      architectures based on floating hybrid superconductor-
+a well-defined and largely independent function. The first        semiconductor islands. A fully rf-based tune-up overcomes
+layer comprises electrostatic tuning gates that control the       these bottlenecks because it is inherently local, compati-
+carrier density in the NWs and provide access to the topo-        ble with dispersive gate-sensing hardware, and amenable
+logical regime. The second layer consists of junction and         to automation and parallel execution across many qubits.
+cutter gates that tune tunnel couplings, allowing NWs and         Moreover, we expect to typically have ∆T /kB T > 10 with
+QDs to be selectively isolated or connected to form con-          our new material platform. At this point, the limiting
+figurable interferometric loops for parity measurements.          factor for qubit performance is the residual Majorana
+The third layer enables high-fidelity readout using gate-         energy splitting EM due to finite wire length rather than
+defined QDs that are dispersively coupled to resonators;          thermal excitations above the gap. As we will show below,
+the resulting quantum capacitance response provides a             rf-based measurements enable higher precision measure-
+sensitive, non-invasive probe of fermion parity [79]. This        ment of EM than DC transport techniques. In addition, in
+layered gate architecture cleanly separates tuning, cou-          regimes where quasiparticle-poisoning rates are slow and
+pling, and measurement functionalities, while remaining           intrinsic parity-switching becomes inefficient to resolve
+fully compatible with scalable multi-qubit operation.             EM [59, 61], the parity injection method introduced below
+   Two of the four tetron qubits shown in the figure are          allows for a more controllable extraction of EM .
+grounded (AB and BA) and two are floating (AA and                    We focus on the top NW of the BA tetron coupled at
+BB). We have incorporated the latter because at least one         both ends to QDs that are in turn connected to resonators
+superconducting island must have charging energy in a             for dispersive gate sensing, allowing the quantum capaci-
+                                                                                                                                5
+
+tance signal CQ to be measured locally. As schematically         (a)                             (b)
+illustrated in Fig. 4(a,b), we introduce a spectroscopy mea-
+surement where one QD acts as a local probe (readout)
+and the other acts as a (non-local) parity injector.
+   To understand the physics behind the measurement, we
+consider a simple model consisting of a single low-energy
+wire state with energy EM coupled via tunneling matrix
+elements tR , t̃R to a single level of the readout QD which
+is detuned by δR . This model was proposed and explored
+in Refs. 80 and 81 and used to analyze DC transport
+                                                                          (c)                          (d)
+data in Ref. 82. The Hamiltonian for these two degrees
+of freedom takes the form
+
+
+
+
+                                                                 [mV]
+   H = EM iγ1 γ2 + δR d† d + tR d† γ1 + t̃R d† γ2 + h.c. , (1)
+                                                        
+
+where γ1,2 are Majorana operators for the wire state and
+d(†) is a fermionic annihilation (creation) operator for
+the QD level [83]. This model is sufficiently general to
+describe a single low energy state which may be present
+as part of a trivial or topological phase. In the topological
+regime, γ1 and γ2 are MZMs localized at the ends of the
+                                                                          (e)                          (f)
+wire and the energy EM relates to their overlap, while (t̃R )
+tR describes the (non-)local coupling of the QD to the (far-
+side) near-side MZM. In the trivial case, γ1,2 combine to        [mV]
+form a low-energy spin-resolved Andreev state [59]. Using
+linear response theory, we obtain the parity-dependent
+quantum capacitance response of the readout QD in the
+limit of small drive frequency and amplitude [61]
+
+                        e2 α2 |tP |2
+                                                 
+                                             EP
+            CQ (P ) =                tanh           ,     (2)
+                            EP3             2kB T
+
+where tP = tR + iP t̃R is the effective coupling between the
+QD level and the wire state. The corresponding eigenener-                 (g)
+gies are ±EP for total parity sector P = ±1 of the readout
+QD and wire system with EP = [(δR +2P EM )2 +4|tP |2 ]1/2 .
+                                                                  M
+
+
+
+
+As a function of the QD detuning, Eq. (2) is maximal
+at δR = δ(P ) where δ(P ) ≡ −2P EM . By sweeping δR
+and controlling P using the injector QD, one can extract
+the energy of the wire state EM = |δ(−1) − δ(+1)|/4. In
+addition, one can, in principle, infer additional informa-
+tion about the nature of the wire state from the shape of        FIG. 4. Wire spectroscopy. (a,b) Schematic of the quasi-
+the quantum capacitance peak in the two parity sectors.          particle injection procedure. The injector QD leads to a parity
+In particular, deep inside the topological phase t̃R → 0,        switch of the wire state, which, for finite EM , shifts the wire-
+the width and amplitude of the response becomes parity-          readout QD resonance condition. (c,e) Mean of the normalized
+independent. In contrast, for a generic state, the peak          rf signal measured on QD1 (QD2) averaged over QD2 (QD1)
+width and amplitude can exhibit a pronounced parity              configurations where S is the measured rf signal along the
+dependence. Here we focus on a single state in the wire,         quadrature with maximal signal and σ the noise along the
+                                                                 orthogonal quadrature. (d,f) Difference of the normalized
+but the case of multiple states (quasi-MZMs) can be con-
+                                                                 signal measured in configurations (a) and (b). For better
+sidered in the same manner as in Ref. 61 while the gapless       visibility, the insets in panels (c–f) each show a zoom-in on
+phase can be considered numerically as in Ref. 84. In both       parts of a single QD-wire transition. (g) Extracted wire state
+of these non-topological cases, we expect, based on these        energy EM based on analyzing the parity-dependent shift of
+previous results, that the parity dependence of the signal       the rf response for all charge transitions. The gray shaded area
+will be strongly suppressed away from very fine-tuned            indicates the region of interest identified in Fig. 5. To convert
+points as the local parity sensor becomes independent of         from a shift in voltages to detuning energy, we consider a lever
+the parity injection on the other side of the wire.              arm αQD = 0.45 meV/mV based on electrostatic simulations.
+   Using the single-state model introduced above, we de-         The axis ∆VQD1(2) indicate a change in the voltage of the
+fine a spectroscopy measurement to probe the wire state          corresponding QD plunger gate where a linear shift is applied
+                                                                 to the bare voltage to account for the finite lever arm of the
+energy. The core measurement consists of finely sweeping
+                                                                 wire plunger on the corresponding QD.
+                                                                                                                             6
+
+the plunger gate of the readout QD to probe a charge tran-            (a)                           (b)
+sition where the QD becomes resonant with the wire state.
+At each point of the sweep, the rf response is measured
+while the plunger voltage of the injector QD is stepped so
+that it either injects or removes a single electron from the
+wire. Here we define the signals SA and SB , measured in
+the two parity configurations A and B of the injector, as
+the complex rf voltage that is reflected from the readout
+resonator projected onto the dominant quadrature that
+captures the change in response controlled by the readout
+QD detuning. Similarly, the noise σ is defined as the
+standard deviation in the orthogonal quadrature. This
+core measurement can then be repeated over a range of
+wire electrochemical potentials (which we control via the             (c)                           (d)            M
+wire-plunger gate Vwp ). The outcome of this measure-
+ment is shown in Fig. 4(c,d) for the case where QD2 is the
+readout QD and QD1 the injector QD. In this experiment,
+the wire-plunger voltage is swept over a range of 7 mV
+in the vicinity of the proximitized NW depletion point.
+Panel (c) shows the rf signal averaged over the injector
+states, while in panel (d) the difference in signal is shown.
+   Repeating the measurement with the role of QD1 and
+QD2 reversed leads to Fig. 4(e,f). In each panel, multiple
+charge transitions of the readout QD are visible over a
+range of wire-plunger voltages where they couple to a
+low-energy wire state. In regions where the wire state
+energy EM is sizable, the rf response splits into a dou-        FIG. 5. Regions with a stable low-energy state at
+ble peak structure, with each branch corresponding to           both ends of the wire detected by rf-based wire tuning.
+a different parity. This can be confirmed in Fig. 4(d,f),       (a,b) Fraction of measured left (right) wire cutter configura-
+where the branches have opposite signs meaning that they        tions where the signal measured on the left (right) QD is above
+are measured for different occupation of the injector QD.       the selected threshold S/σ > 2.5 where S is the measured rf
+Additional sign switches are interpreted to be the result       signal along the quadrature with maximal signal and σ the
+of external quasiparticle poisoning events (cf. Sec. 4).        noise along the orthogonal quadrature. (c) Regions where the
+Within the single-state model presented here, the injector-     measured signal at both ends of the wire is above threshold for
+                                                                at least 7/10 cutter configurations. (d) Estimated energy EM
+averaged response [Fig. 4(c,e)] is a measure of how well
+                                                                of the wire low-energy mode averaged over the value extracted
+the wire state couples to the readout QD. We interpret          from the measurements at each end of the wire. Overlaid in
+regions of low visibility that persist for different readout    blue is the contour of the region of interest of panel (c). In
+QD states as an indication that the wire state has very         all panels, the dashed grey vertical line indicate the magnetic
+little weight close to the end that is probed by the readout    field (parallel to the wire) B = 3.8 T where the data of Fig. 4
+QD. When the response in Fig. 4(c,e) is sizable, the parity     was taken.
+difference [Fig. 4(d,f)] indicate states that span the full
+wire and have measurable EM . In the topological regime
+with large ∆T , one expects a strong injector-averaged          ductance peak EM ∼ 1.76kB T ≈ 7.6 µeV for T = 50 mK.
+signal, while the parity contrast remains weak.                 The high resolution, combined with the ability to resolve
+   Figure 4(g) presents the wire state energy EM extracted      left-right correlations of wire-end states even at finite ener-
+from the parity-dependent shift of the rf response. To          gies, enables the observation of small-amplitude Majorana
+increase statistics, EM is extracted by estimating the          oscillations [86, 87].
+parity-dependent shift of up to 15 QD charge transitions.          We now use this type of spectroscopy measurement
+From the lever arm of the QD plunger gate and the fi-           to identify regions of parameter space where low-energy
+nite resolution of the DAC controlling the gate voltage,        wire states are stable to local variations. To this end, we
+we expect the resolution of this analysis to be limited to      expand the measurement by scanning both the magnetic
+∼ 1 µeV. The shaded gray area indicates the region of low-      field and the voltage applied to the wire cutter adjacent
+energy wire states identified below. As the measurements        to the readout QD over a range of 80 mV. This provides
+in Fig. 4 and Fig. 5 were taken several days apart some         a 6-dimensional dataset that can be analyzed to iden-
+small shifts in gate voltages are expected [85]. Notably,       tify regions of stable low-energy states in the (Vwp , Bz )
+the resolution of ∼ 1 µeV significantly exceeds that of con-    parameter space.
+ductance measurements which can resolve EM of about                For each configuration, the QD detuning axes are pro-
+the half-width-half-max of a temperature broadened con-         cessed to reduce the dataset dimensionality. We first take
+                                                                                                                          7
+
+the minimum over the injector QD detuning and, second,          the NWs through smaller intermediary QDs. As demon-
+we extract the maximum of the signal along the readout          strated in previous works [59, 61], the signature of this
+QD axis. By taking the minimum along the injector QD            measurement is an oscillatory bimodality of the quantum
+detuning axis first, the procedure selects for low-energy       capacitance (CQ ) response as a function of magnetic flux,
+modes which are expected to show sizable signal (at a           with a periodicity determined by the enclosed area of the
+fixed parameter point) independent of parity changes.           interference loop.
+Overall, this procedure yields an effective representation         At flux values corresponding to maximal interference
+of the local response of low energy states that is insen-       visibility, the CQ signal exhibits a telegraph-like time de-
+sitive to the precise choice of QD detuning and robust          pendence, characterized by stochastic switching events
+against fluctuations in tunnel coupling between QD and          governed by quasiparticle poisoning dynamics. When
+NW for different QD charge transitions.                         quasiparticle poisoning times are sufficiently long, an al-
+   To identify regions associated with stable low-energy        ternative approach can be employed: controlled parity
+states, we evaluate, for each point in Vwp and Bz , the         switching through electron injection. Specifically, an elec-
+fraction of wire-cutter configurations for which the rf re-     tron can be injected into the NW from a QD that is
+sponse exceeds a signal-to-noise ratio S/σ > 2.5. This          not part of the interferometric loop, thereby toggling the
+is shown in Fig. 5, where Fig. 5(a) presents the aggre-         parity of the system. This process is equivalent to a
+gation of measurements on QD1 and Fig. 5(b) on QD2.             quasiparticle relaxing into the lowest-energy mode of the
+Figure 5(c) shows the resulting aggregated maps where           NW.
+both datasets show above threshold signal in at least              Figure 6(a) illustrates a schematic of the device, high-
+7/10 of the measured wire cutter configurations. The            lighting the injection mechanism. In this configuration,
+overlap between the left and right junction maps reveals        quantum dot 4 (QD4) is decoupled from the bottom NW
+well-defined clusters in magnetic-field and wire-plunger        by closing the corresponding wire cutter, while remain-
+space, corresponding to regions where both ends of the          ing weakly coupled to the interferometric loop via gate
+NW exhibit a consistent low-energy response. These cor-         DC24. Measurements are performed following similar
+related regions are evidence of stable zero-energy states       procedures as in previous works [59, 61], recording time
+that are simultaneously accessible from both ends of the        traces of CQ as a function of flux and QD detuning within
+wire. While the exact boundary of the identified region is      the interferometric loop. In addition, a square voltage
+in general sensitive to the details of the thresholds used      pulse is applied to QD4 during the measurement, with an
+in the above analysis, the qualitative features are robust      amplitude corresponding to one electron charge (pulsing
+to variations of those parameters.                              from one Coulomb valley to the next) and a frequency of
+   Figure 5(d) shows the evolution of EM across parameter       0.5 kHz. The wire-plunger voltage Vwp = −1.365 13 V is
+space as a function of the wire-plunger gate voltage and        tuned to a regime where EM is minimized which is consis-
+the in-plane magnetic field. We observe that throughout         tent with the low energy region determined in Sec. 3 up
+the identified region of interest EM is on the order of         to minor shifts.
+the measurement resolution ≈ 1 µeV, which confirms the             Figure 6(b) presents the standard deviation σ(CQ ) of
+presence of an extended region with stable low-energy           the CQ time traces as a function of magnetic flux and
+modes. At the boundaries of this region, the zero-bias          QDL gate voltage. Here, the flux is tuned by varying the
+peaks split, giving rise to the darker features that surround   Bx component of the external magnetic field. Due to a
+the identified cluster.                                         small misalignment between the device and the external
+   The rf measurements presented here provide a natural         magnet, Bx does not correspond exactly to the out-of-
+and effective tuning step for tetron devices prior to parity    plane field component (B⊥ ) that determines the flux,
+readout measurements. They enable the identification            resulting in an offset of approximately −10 mT that is
+of correlated low-energy states in the NW that exhibit          not corrected for in the data shown here. A pronounced
+minimal energy splitting, thereby defining favorable oper-      flux dependence is observed when QDL is tuned close
+ating points for qubit operation. We emphasize that our         to resonance, with a periodicity of 1.3 ± 0.3 mT. This is
+rf tuning protocol is distinct from and complementary           consistent with h/2e periodicity, which corresponds to
+to the TGP [60, 88]. While the TGP enables mapping              a magnetic field period of 1.0 ± 0.3 mT, determined by
+the large-scale phase diagram of simpler devices via DC         the area of the loop. Figure 6(c) shows representative
+transport measurements, our rf tuning protocol is used          time traces of CQ corresponding to flux points of maximal
+to identify regions of small EM for qubit operations.           (minimal) standard deviation σ(CQ ). At flux values of
+                                                                high σ(CQ ), the time traces exhibit a clear step function
+                                                                behavior, with switching events occurring at the applied
+ 4.   INTERFEROMETRIC PARITY READOUT                            injection rate of 0.5 kHz, while they are absent for the
+                                                                in-between flux values of low σ(CQ ), as expected.
+   The Pauli-Z measurement is a fundamental operation              This measurement technique enables rapid identifica-
+of a tetron. It can be implemented by probing the parity        tion of optimal operating points for interferometric mea-
+of the NW via an interference loop formed between the           surements, without being limited by the intrinsic parity
+NW and a long QD. This QD is coupled to the ends of             switching time associated with quasiparticle poisoning.
+                                                                                                                                8
+
+
+
+
+FIG. 6. h/2e-periodic bimodality. Long time traces. (a) Schematic of the Z measurement loop with parity injection.
+Depending on the detuning of a nearby QD4 an electron is injected (red) into the Z measurement loop or remains on the
+QD (blue). (b) Standard deviation of time traces, in the presence of parity injection pulses via QD4, measured on QDL as a
+function of Bx and detuning of QDL. The parity jumps due to parity injection pulses leading to a flux-periodic increase in
+the standard deviation. Flux values of high (low) standard deviation are marked by a star (circle). (c) Full time traces of
+the CQ signal measured over 10 µs integration time at the parameter points marked by a star (circle) in panel (b). The step
+function pulses on QD4 with period 2 ms (indicated by blue/red coloring) manifests as periodic jumps in the CQ response with
+flux-dependent visibility. (d) Example of a long time trace at 200 ms integration time with parity injection pulses turned off at
+the same parameter point as (c)⋆. The data is classified into two states based on thresholding with the state switching whenever
+the signal exceeds (drops below) the high (low) threshold indicated by the dashed lines. (e) Dwell time analysis of the classified
+time trace in (d) and 8 additional time traces (taken from repeat measurements and ranges of Vwp = −1.365 13 V ± 10 µV)
+showing a fit to an exponential dwell time distribution with characteristic time scale of τZ = 22 ± 1 s.
+
+
+At the same parity-sensitive operating point, we perform           Quasiparticles are also more likely to recombine quickly
+additional measurements with the voltage pulse on QD4              due to the stronger electron-phonon coupling. These
+disabled. In this configuration, the time trace of CQ re-          effects reduce poisoning events and extend the stability
+veals the intrinsic Z-parity lifetime of the device which          of the parity state. The change to GaSb substrate and
+far exceeds the measurement time of the pulsed time                introduction of Sb in the quantum well were both designed
+traces, see Fig. 6(d). To quantify the lifetime we classify        to increase the topological gap, but they have subleading
+the data by fitting a Gaussian mixture model which es-             effect on the non-equilibrium quasiparticle density.
+timates the center values of two states CQh and CQl and
+sets a high (low) threshold of 0.75CQh + 0.25CQl . The
+use of two thresholds avoids accidental misclassification
+                                                                            5.   DISCUSSION AND OUTLOOK
+due to possible drift during the long time traces. By
+aggregating multiple measurements, we observe a total of
+N = 324 dwell intervals. The data are consistent with a              Our results confirm a central premise of topological
+single exponential distribution, as expected for a homo-          quantum computing: increasing the excitation gap dra-
+geneous Poisson process due to high-energy quasiparticle          matically reduces error mechanisms and improves qubit
+poisoning. We extract a characteristic parity lifetime and        performance. By incorporating a higher-TC superconduc-
+corresponding fit uncertainty of τZ = 22 ± 1 s by per-            tor (Pb) and an optimized semiconductor heterostructure
+forming an exponential fit on the measured dwell time             into a multi-tetron array, we achieve a robust topological
+distribution as shown in Fig. 6(e).                               phase with a significantly enlarged topological gap and an
+                                                                  extended topological phase region [see Fig. 3]. These ma-
+   We attribute the more than 3 orders of magnitude               terial and design improvements directly yield qubit-level
+enhancement in parity lifetime, relative to Refs. 59 and          benefits: we observe Majorana parity lifetimes exceeding
+61, to the difference between Pb and Al. It is more               20 s, over three orders of magnitude longer than those in
+difficult to break Cooper pairs since our epitaxial Pb            comparable Al-based tetrons (Refs. 59 and 61). Qubit
+films have higher gap ≈ 1300 µeV than Al ≈ 300 µeV,               operations are no longer limited by non-equilibrium quasi-
+thereby suppressing quasiparticle generation [62, 68, 89].        particles on experimental timescales. A parity switching
+                                                                                                                           9
+
+time of ∼ 20 s is more than seven orders of magnitude                         ACKNOWLEDGMENTS
+longer than typical qubit operation times (∼ 1 µs), al-
+lowing an extremely large number of operations within            We thank Gabriel Aeppli, Peter Armitage, Haim Bei-
+a fixed parity state. We expect that parity lifetimes in       denkopf, and Jacob R. Taylor for discussions and Pureum
+floating (charging-energy protected) tetrons could be even     Lee and Edward Lee for assistance with the figures.
+longer, since their smaller superconducting islands may
+further suppress residual quasiparticle effects. Thus, the
+probability of any unintended parity flip during a typical
+qubit operation becomes effectively negligible.                   Correspondence      and requests for ma-
+                                                               terials should be addressed to Chetan Nayak
+                                                               (cnayak@microsoft.com).
+   We have also developed a scalable tuning protocol based
+on dispersive quantum-dot readout, enabling parallel char-
+acterization of multiple NWs. Using this approach, we            †
+directly probe low-energy states at both ends of a NW and          Morteza Aghaee, Zulfi Alam, Mariusz Andrzejczuk, An-
+extract the Majorana splitting energy EM . Our parity-         drey Antipov, Theodora Asimakidis, Mikhail Astafev, Lukas
+switching spectroscopy confirms that EM is below our           Avilovas, Ahmad Azizimanesh, Amin Barzegar, Bela Bauer,
+∼ 1 µeV resolution across extended parameter regimes, in       Jonathan Becker, Umesh Kumar Bhaskar, Andrea G. Boa,
+line with design simulations and smaller than typical val-     Srini Boddapati, Nichlaus Bohac, Jouri Bommer, Jan
+ues in earlier Al-based devices. Within the relevant oper-     Borovsky, Léo Bourdet, Samuel Boutin, Srivatsa Chakravarthi,
+ating range, therefore, both key error channels—Majorana       Benjamin J. Chapman, Nikolaos Chatzaras, Tzu-Chiao Chien,
+hybridization and quasiparticle poisoning—are strongly         Jason Cho, Patrick T. Codd, William Cole, Paul W. Cooper,
+suppressed.                                                    Fabiano Corsetti, Ajuan Cui, Tareq El Dandachi, Konstanti-
+                                                               nos Divanis, Clayton Doyle, Andreas Ekefjard, Javier A.
+                                                               Falcon, Saeed Fallahi, Luca Galletti, Geoffrey C. Gardner,
+   Looking ahead, the values of EM achieved here are           Haris Gavranovic, João Pedro Morais Gomes, Deshan Goven-
+expected to have beneficial implications for Pauli-X mea-      der, Flavio Griggio, Ruben Grigoryan, Sebastian Grijalva,
+surements, whose characteristic switching time τX scales       Sergei Gronin, Jan Gukelberger, Marzie Hamdast, Esben
+      2                                                        Bork Hansen, Sebastian Heedt, Samantha Ho, Laurens Hol-
+as EM   [59]. Deep in the topological regime, EM ∼
+∆T exp(−L/ξT ), where ξT is the topological coherence          gaard, Kevin van Hoogdalem, Jinnapat Indrapiromkul, Hen-
+length. Increased ∆T of the type demonstrated here leads       rik Ingerslev, Lovro Ivancevic, Max Jantos, Thomas Jensen,
+to shorter ξT (in the perfectly clean case, ξT = vF /∆T ,      Jaspreet Singh Jhoja, Vidul R. Joshi, Konstantin V. Kalash-
+where vF is the Fermi velocity, but the relation is more       nikov, Ray Kallaher, Rachpon Kalra, Farhad Karimi, Torsten
+complicated in the generic case). Increasing the NW            Karzig, Maren Elisabeth Kloster, Christina Knapp, Jonathan
+length L exponentially suppresses EM and thus dramati-         Knoblauch, Jonne Koski, Anders Kringhøj, Tom Laeven, Jef-
+cally extends τX , which suggests that τX could be more        frey Lai, Gijs de Lange, Thorvald W. Larsen, Kyunghoon Lee,
+than an order of magnitude longer than in previous de-         Kongyi Li, Shuang Liang, Tyler Lindemann, Luna Lochmat-
+vices. Investigating these effects will be an important        ter, Marijn Lucas, Roman Lutchyn, Morten Hannibal Madsen,
+direction for future work.                                     Nasiari Madulid, Ivan Maliyov, Yanick Mampaey, Michael
+                                                               Manfra, Signe Brynold Markussen, Esteban A. Martinez, J.
+                                                               R. Mattinson, Mónica Meira, Camille A. Mikolas, Sarang Mit-
+   Finally, our demonstration constitutes a significant step   tal, Gopakumar Mohandas, Christian Mollgaard, Michiel W.
+towards scalable, fault-tolerant Majorana-based quantum        A. de Moor, Chris Moore, George Moussa, Bhargav Nabar,
+computing. The multi-tetron array presented here func-         Anirudh Narla, Ahmad Naseri, Chetan Nayak, Bjørn Funch
+tions as a modular “unit cell” for a larger architecture;      Schrøder Nielsen, Jens Hedegaard Nielsen, Michael J. Nys-
+it can be tiled into much larger qubit arrays (e.g., a 12-     trom, Eoin O’Farrell, Keita Ohtani, Theodore Rex Orth, Sara
+qubit array) without altering the underlying control or        Di Paolo, Camille Papon, Luca Petit, Dima Pikulin, Mohana
+readout approach. The strong parity protection observed        Rajpalke, Alejandro Alcaraz Ramirez, Katrine Rasmussen,
+in our tetron prototype suggests that, even as the system      David Razmadze, Yuan Ren, Mariya Romanova, Loı̈c Roure,
+scales up, each qubit will remain well isolated from non-      Ivan Sadovskyy, Lauri Sainiemi, Juan Carlos Estrada Saldaña,
+equilibrium quasiparticles and will benefit from exponen-      Irene Sanlorenzo, Tatiane Pereira dos Santos, Carl Vincent
+tially suppressed error rates due to the large ∆T . The pri-   C. Saruda, Simon Schaal, John Schack, Emma R. Schmidgall,
+mary challenge for scaling will be to preserve and further     Christina Sfetsou, Cristina Sfiligoj, Zahra Shekason, Sarat
+improve these favorable conditions in larger devices and       Shankar Sinha, Patrick Sohr, Maria João Lourenço de Sousa,
+across broader parameter ranges. Continued refinements         Kasper Roed Spiegelhauer, Tomas Stankevic, Henri J. Suomi-
+in materials quality and device design—including driving       nen, Judith Suter, Attila Szénási, Samuel M. L. Teicher, Na-
+EM to zero and eliminating any residual nonequilibrium         ganivetha Thiyagarajah, Raj Tholapi, Mason Thomas, Dennis
+quasiparticles—will be crucial for realizing high-fidelity,    Tom, Emily Toomey, Joshua Tracy, Michelle Turley, Matthew
+fault-tolerant multi-qubit Majorana arrays.                    D. Turner, Ivan Urban, Aakash Valliappan, Dmitrii V. Vi-
+                                                                                                                               10
+
+azmitinov, Anna Wulff Viazmitinova, Dominik Johannes Vogel,        van Woerkom, Brian Paquelet Wuetz, Cécile X. Yu, Emrah
+Wenbo Wang, Christopher A. Watson, John Watson, Alex               Yucelen, Jesús Herranz Zamorano, Roland Zeisel, Guoji Zheng,
+Webster, Timothy Williamson, Georg W. Winkler, David J.            A. M. Zimmerman.
+
+
+
+
+ [1] D. Aasen et al. (Microsoft Quantum), Blueprint for fault-     [17] J. Alicea, New directions in the pursuit of Majorana
+     tolerant quantum computation with topological qubit                fermions in solid state systems, Rep. Prog. Phys. 75,
+     arrays, Phys. Rev. Res. 7, 041002 (2025).                          076501 (2012), arXiv:1202.1293.
+ [2] A. Y. Kitaev, Fault-tolerant quantum computation              [18] S. Das Sarma, M. Freedman, and C. Nayak, Majorana
+     by anyons, Ann. Phys. 303, 2 (2003), arXiv:quant-                  zero modes and topological quantum computation, npj
+     ph/9707021.                                                        Quantum Inf. 1, 15001 (2015).
+ [3] M. H. Freedman, P /N P , and the quantum field computer,      [19] B. van Heck, F. Hassler, A. R. Akhmerov, and C. W. J.
+     Proc. Natl. Acad. Sci. USA 95, 98 (1998).                          Beenakker, Coulomb stability of the 4π-periodic Joseph-
+ [4] C. Nayak, S. H. Simon, A. Stern, M. Freedman, and                  son effect of Majorana fermions, Phys. Rev. B 84, 180502
+     S. Das Sarma, Non-Abelian anyons and topological quan-             (2011).
+     tum computation, Rev. Mod. Phys. 80, 1083 (2008),             [20] B. van Heck, A. R. Akhmerov, F. Hassler, M. Burrello,
+     arXiv:0707.1889.                                                   and C. W. J. Beenakker, Coulomb-assisted braiding of
+ [5] A. Y. Kitaev, Unpaired Majorana fermions in quan-                  Majorana fermions in a Josephson junction array, New J.
+     tum wires, Phys.-Usp. 44, 131 (2001), arXiv:cond-                  Phys. 14, 035019 (2012), arXiv:1111.6001.
+     mat/0010440.                                                  [21] T. Hyart, B. van Heck, I. C. Fulga, M. Burrello, A. R.
+ [6] L. Fu and C. L. Kane, Superconducting proximity ef-                Akhmerov, and C. W. J. Beenakker, Flux-controlled quan-
+     fect and Majorana fermions at the surface of a topo-               tum computation with Majorana fermions, Phys. Rev. B
+     logical insulator, Phys. Rev. Lett. 100, 096407 (2008),            88, 035121 (2013), arXiv:1303.4379.
+     arXiv:0707.1692.                                              [22] M. Houzet, J. S. Meyer, D. M. Badiane, and L. I. Glazman,
+ [7] J. D. Sau, R. M. Lutchyn, S. Tewari, and S. Das Sarma,             Dynamics of Majorana states in a topological Josephson
+     Generic new platform for topological quantum compu-                junction, Phys. Rev. Lett. 111, 046401 (2013).
+     tation using semiconductor heterostructures, Phys. Rev.       [23] F. Pientka, A. Romito, M. Duckheim, Y. Oreg, and
+     Lett. 104, 040502 (2010), arXiv:0907.2239.                         F. von Oppen, Signatures of topological phase transi-
+ [8] R. M. Lutchyn, J. D. Sau, and S. Das Sarma, Ma-                    tions in mesoscopic superconducting rings, New J. Phys.
+     jorana fermions and a topological phase transition in              15, 025001 (2013).
+     semiconductor-superconductor heterostructures, Phys.          [24] M. Cheng and R. Lutchyn, Fractional Josephson effect
+     Rev. Lett. 105, 077001 (2010), arXiv:1002.4033.                    in number-conserving systems, Phys. Rev. B 92, 134516
+ [9] Y. Oreg, G. Refael, and F. von Oppen, Helical liquids              (2015).
+     and Majorana bound states in quantum wires, Phys. Rev.        [25] J. D. Sau, B. Swingle, and S. Tewari, Proposal to probe
+     Lett. 105, 177002 (2010), arXiv:1003.1145.                         quantum nonlocality of Majorana fermions in tunneling
+[10] L. Fu and C. L. Kane, Josephson current and                        experiments, Phys. Rev. B 92, 020511 (2015).
+     noise     at    a    superconductor/quantum-spin-Hall-        [26] K. Yavilberg, E. Ginossar, and E. Grosfeld, Fermion parity
+     insulator/superconductor junction, Phys. Rev. B                    measurement and control in Majorana circuit quantum
+     79, 161408(R) (2009).                                              electrodynamics, Phys. Rev. B 92, 075143 (2015).
+[11] A. R. Akhmerov, J. Nilsson, and C. W. J. Beenakker,           [27] D. Aasen, M. Hell, R. V. Mishmash, A. Higginbotham,
+     Electrically detected interferometry of Majorana fermions          J. Danon, M. Leijnse, T. S. Jespersen, J. A. Folk, C. M.
+     in a topological insulator, Phys. Rev. Lett. 102, 216404           Marcus, K. Flensberg, and J. Alicea, Milestones toward
+     (2009), arXiv:0903.2196.                                           Majorana-based quantum computing, Phys. Rev. X 6,
+[12] L. Fu and C. L. Kane, Probing neutral Majorana fermion             031016 (2016), arXiv:1511.05153.
+     edge modes with charge transport, Phys. Rev. Lett. 102,       [28] M. Hell, K. Flensberg, and M. Leijnse, Distinguishing
+     216403 (2009).                                                     Majorana bound states from localized Andreev bound
+[13] L. Fu, Electron teleportation via Majorana bound states            states by interferometry, Phys. Rev. B 97, 161401 (2018).
+     in a mesoscopic superconductor, Phys. Rev. Lett. 104,         [29] C.-K. Chiu, J. D. Sau, and S. Das Sarma, Conductance
+     056402 (2010), arXiv:0909.5172.                                    interference in a superconducting Coulomb blockaded
+[14] F. Hassler, A. R. Akhmerov, C.-Y. Hou, and C. W. J.                Majorana ring, Phys. Rev. B 97, 035310 (2018).
+     Beenakker, Anyonic interferometry without anyons: how         [30] C. Drukier, H.-G. Zirnstein, B. Rosenow, A. Stern, and
+     a flux qubit can read out a topological qubit, New J. Phys.        Y. Oreg, Evolution of the transmission phase through
+     12, 125002 (2010), arXiv:1005.3423.                                a Coulomb-blockaded Majorana wire, Phys. Rev. B 98,
+[15] J. D. Sau, D. J. Clarke, and S. Tewari, Controlling                161401 (2018).
+     non-Abelian statistics of Majorana fermions in semi-          [31] S. Vijay, T. H. Hsieh, and L. Fu, Majorana fermion surface
+     conductor nanowires, Phys. Rev. B 84, 094505 (2011),               code for universal quantum computation, Phys. Rev. X
+     arXiv:1012.0561.                                                   5, 041038 (2015), arXiv:1504.01724.
+[16] L. Fidkowski, R. M. Lutchyn, C. Nayak, and M. P. A.           [32] S. Vijay and L. Fu, Physical implementation of a Majorana
+     Fisher, Majorana zero modes in one-dimensional quantum             fermion surface code for fault-tolerant quantum computa-
+     wires without long-ranged superconducting order, Phys.             tion, Phys. Scr. T168, 014002 (2016), arXiv:1509.08134.
+     Rev. B 84, 195436 (2011), arXiv:1106.2598.                    [33] S. Vijay and L. Fu, Teleportation-based quantum infor-
+                                                                                                                               11
+
+     mation processing with Majorana zero modes, Phys. Rev.            Mater. 5, 124602 (2021).
+     B 94, 235446 (2016), arXiv:1609.00950.                       [52] S. Das Sarma, J. D. Sau, and T. D. Stanescu, Spectral
+[34] C. Knapp, T. Karzig, R. M. Lutchyn, and C. Nayak,                 properties, topological patches, and effective phase dia-
+     Dephasing of Majorana-based qubits, Phys. Rev. B 97,              grams of finite disordered Majorana nanowires, Phys. Rev.
+     125404 (2018).                                                    B 108, 085416 (2023).
+[35] C. Knapp, M. Beverland, D. I. Pikulin, and T. Karzig,        [53] T. Kanne, M. Marnauza, D. Olsteins, D. J. Carrad, J. E.
+     Modeling noise and error correction for Majorana-based            Sestoft, J. de Bruijckere, L. Zeng, E. Johnson, E. Olsson,
+     quantum computing, Quantum 2, 88 (2018).                          K. Grove-Rasmussen, and J. Nygård, Epitaxial Pb on
+[36] C.-X. Liu, W. S. Cole, and J. D. Sau, Proposal for mea-           InAs nanowires for quantum devices, Nat. Nanotechnol.
+     suring the parity anomaly in a topological superconductor         16, 776 (2021).
+     ring, Phys. Rev. Lett. 122, 117001 (2019).                   [54] M. Pendharkar, B. Zhang, H. Wu, A. Zarassi, P. Zhang,
+[37] M. I. K. Munk, J. Schulenborg, R. Egger, and K. Flens-            C. P. Dempsey, J. S. Lee, S. D. Harrington, G. Badawy,
+     berg, Parity-to-charge conversion in Majorana qubit read-         S. Gazibegovic, J. Jung, A. H. Chen, M. A. Verheijen,
+     out, Phys. Rev. Res. 2, 033254 (2020), arXiv:2004.02123.          M. Hocevar, E. P. A. M. Bakkers, C. J. Palmstrøm, and
+[38] J. F. Steiner and F. von Oppen, Readout of Ma-                    S. M. Frolov, Parity-preserving and magnetic field resilient
+     jorana qubits, Phys. Rev. Res. 2, 033255 (2020),                  superconductivity in indium antimonide nanowires with
+     arXiv:2004.02124.                                                 tin shells (2019), arXiv:1912.06071.
+[39] A. Khindanov, D. Pikulin, and T. Karzig, Visibility of       [55] W. Song, Z. Yu, Y. Wang, Y. Gao, Z. Li, S. Yang,
+     noisy quantum dot-based measurements of Majorana                  S. Zhang, Z. Geng, R. Li, Z. Wang, F. Chen, L. Yang,
+     qubits, SciPost Phys. 10, 127 (2021), arXiv:2007.11024.           W. Miao, J. Xu, X. Feng, T. Wang, Y. Zang, L. Li,
+[40] O. Motrunich, K. Damle, and D. A. Huse, Griffiths effects         R. Shang, Q. Xue, K. He, and H. Zhang, Reducing disor-
+     and quantum critical points in dirty superconductors with-        der in PbTe nanowires for Majorana research, Nano Lett.
+     out spin-rotation invariance: One-dimensional examples,           25, 2350 (2025).
+     Phys. Rev. B 63, 224204 (2001).                              [56] S. Zhang, W. Song, Z. Li, Z. Yu, R. Li, Y. Wang, Z. Yan,
+[41] I. A. Gruzberg, N. Read, and S. Vishveshwara, Local-              J. Xu, Z. Wang, Y. Gao, S. Yang, L. Yang, X. Feng,
+     ization in disordered superconducting wires with broken           T. Wang, Y. Zang, L. Li, R. Shang, Q.-K. Xue, K. He,
+     spin-rotation symmetry, Phys. Rev. B 71, 245124 (2005).           and H. Zhang, Strong enhancement of g-factor in PbTe–
+[42] P. W. Brouwer, M. Duckheim, A. Romito, and F. von                 Pb hybrid nanowires, Nano Lett. 26, 4739 (2026).
+     Oppen, Topological superconducting phases in disordered      [57] S. Plugge, A. Rasmussen, R. Egger, and K. Flensberg,
+     quantum wires with strong spin-orbit coupling, Phys. Rev.         Majorana box qubits, New J. Phys. 19, 012001 (2017).
+     B 84, 144526 (2011).                                         [58] T. Karzig, C. Knapp, R. M. Lutchyn, P. Bonderson, M. B.
+[43] P. W. Brouwer, M. Duckheim, A. Romito, and F. von                 Hastings, C. Nayak, J. Alicea, K. Flensberg, S. Plugge,
+     Oppen, Probability distribution of Majorana end-state             Y. Oreg, C. M. Marcus, and M. H. Freedman, Scalable
+     energies in disordered wires, Phys. Rev. Lett. 107, 196804        designs for quasiparticle-poisoning-protected topological
+     (2011).                                                           quantum computation with Majorana zero modes, Phys.
+[44] T. D. Stanescu, R. M. Lutchyn, and S. Das Sarma, Majo-            Rev. B 95, 235305 (2017).
+     rana fermions in semiconductor nanowires, Phys. Rev. B       [59] M. Aghaee et al. (Microsoft Quantum), Distinct lifetimes
+     84, 144522 (2011), arXiv:1106.3078.                               for X and Z loop measurements in a Majorana tetron
+[45] A. M. Lobos, R. M. Lutchyn, and S. Das Sarma, Interplay           device (2025), arXiv:2507.08795.
+     of disorder and interaction in Majorana quantum wires,       [60] M. Aghaee et al. (Microsoft Quantum), InAs-Al hybrid
+     Phys. Rev. Lett. 109, 146403 (2012).                              devices passing the topological gap protocol, Phys. Rev.
+[46] J. D. Sau, S. Tewari, and S. Das Sarma, Experimental              B 107, 245423 (2023), arXiv:2207.02472.
+     and materials considerations for the topological super-      [61] M. Aghaee et al. (Microsoft Quantum), Interferometric
+     conducting state in electron- and hole-doped semicon-             single-shot parity measurement in InAs-Al hybrid devices,
+     ductors: Searching for non-Abelian Majorana modes in              Nature 638, 651 (2025), arXiv:2401.09549.
+     1D nanowires and 2D heterostructures, Phys. Rev. B 85,       [62] J. Aumentado, M. W. Keller, J. M. Martinis, and M. H.
+     064512 (2012).                                                    Devoret, Nonequilibrium quasiparticles and 2e periodicity
+[47] W. De Gottardi, Strong correlations and topological order         in single-Cooper-pair transistors, Phys. Rev. Lett. 92,
+     in one-dimensional systems, Ph.D. thesis, University of           066802 (2004).
+     Illinois at Urbana-Champaign (2012).                         [63] O. Naaman and J. Aumentado, Time-domain measure-
+[48] W. DeGottardi, D. Sen, and S. Vishveshwara, Majorana              ments of quasiparticle tunneling rates in a single-Cooper-
+     fermions in superconducting 1D systems having periodic,           pair transistor, Phys. Rev. B 73, 172504 (2006).
+     quasiperiodic, and disordered potentials, Phys. Rev. Lett.   [64] R. M. Lutchyn, L. I. Glazman, and A. I. Larkin, Kinetics
+     110, 146404 (2013).                                               of the superconducting charge qubit in the presence of a
+[49] B. Pekerten, A. Teker, O. Bozat, M. Wimmer, and                   quasiparticle, Phys. Rev. B 74, 064515 (2006).
+     I. Adagideli, Disorder-induced topological transitions in    [65] A. J. Ferguson, N. A. Court, F. E. Hudson, and R. G.
+     multichannel Majorana wires, Phys. Rev. B 95, 064507              Clark, Microsecond resolution of quasiparticle tunneling
+     (2017).                                                           in the single-Cooper-pair transistor, Phys. Rev. Lett. 97,
+[50] S. Das Sarma and H. Pan, Disorder-induced zero-bias               106603 (2006).
+     peaks in Majorana nanowires, Phys. Rev. B 103, 195158        [66] M. D. Shaw, R. M. Lutchyn, P. Delsing, and P. M. Echter-
+     (2021).                                                           nach, Kinetics of nonequilibrium quasiparticle tunneling
+[51] S. Ahn, H. Pan, B. Woods, T. D. Stanescu, and                     in superconducting charge qubits, Phys. Rev. B 78, 024503
+     S. Das Sarma, Estimating disorder and its adverse ef-             (2008).
+     fects in semiconductor Majorana nanowires, Phys. Rev.        [67] F. Persson, C. M. Wilson, M. Sandberg, and P. Delsing,
+                                                                                                                                12
+
+     Fast readout of a single Cooper-pair box using its quantum         gap, EM , and parity lifetime are measured directly and
+     capacitance, Phys. Rev. B 82, 134533 (2010).                       do not depend on this value.
+[68] R. Barends, J. Wenner, M. Lenander, Y. Chen, R. C.            [78] A. M. Zimmerman, S. Fallahi, S. Gronin, T. Linde-
+     Bialczak, J. Kelly, E. Lucero, P. O’Malley, M. Mariantoni,         mann, P. Sohr, R. Kallaher, A. A. Ramirez, G. W. Win-
+     D. Sank, H. Wang, T. C. White, Y. Yin, J. Zhao, A. N.              kler, S. M. L. Teicher, W. Cole, S. Heedt, E. O’Farrell,
+     Cleland, J. M. Martinis, and J. J. A. Baselmans, Mini-             G. de Lange, R. Lutchyn, M. J. Manfra, and J. Watson,
+     mizing quasiparticle generation from stray infrared light          Shubnikov-de Haas characterization of superconductor-
+     in superconducting quantum circuits, Appl. Phys. Lett.             semiconductor heterostructures (2026), arXiv:2605.13722.
+     99, 113507 (2011).                                            [79] J. I. Colless, A. C. Mahoney, J. M. Hornibrook, A. C.
+[69] D. Ristè, C. Bultink, M. J. Tiggelman, R. N. Schouten,            Doherty, H. Lu, A. C. Gossard, and D. J. Reilly, Dispersive
+     K. W. Lehnert, and L. DiCarlo, Millisecond charge-parity           readout of a few-electron double quantum dot with fast
+     fluctuations and induced decoherence in a superconduct-            rf gate sensors, Phys. Rev. Lett. 110, 046805 (2013),
+     ing transmon qubit, Nat. Commun. 4, 1913 (2013).                   arXiv:1210.4645.
+[70] C. Janvier, L. Tosi, L. Bretheau, Ç. Ö. Girit, M. Stern,    [80] D. J. Clarke, Experimentally accessible topological quality
+     P. Bertet, P. Joyez, D. Vion, D. Esteve, M. F. Goffman,            factor for wires with zero energy modes, Phys. Rev. B 96,
+     H. Pothier, and C. Urbina, Coherent manipulation of An-            201109 (2017).
+     dreev states in superconducting atomic contacts, Science      [81] E. Prada, R. Aguado, and P. San-Jose, Measuring Majo-
+     349, 1199 (2015).                                                  rana nonlocality and spin structure with a quantum dot,
+[71] M. Hays, G. de Lange, K. Serniak, D. J. van Wo-                    Phys. Rev. B 96, 085418 (2017).
+     erkom, D. Bouman, P. Krogstrup, J. Nygârd, A. Geresdi,       [82] M.-T. Deng, S. Vaitiekėnas, E. Prada, P. San-Jose,
+     and M. H. Devoret, Direct microwave measurement                    J. Nygård, P. Krogstrup, R. Aguado, and C. M. Mar-
+     of Andreev-bound-state dynamics in a semiconductor-                cus, Nonlocality of Majorana modes in hybrid nanowires,
+     nanowire Josephson junction, Phys. Rev. Lett. 121,                 Phys. Rev. B 98, 085125 (2018).
+     047001 (2018).                                                [83] While, for simplicity, the model described does not in-
+[72] K. Serniak, S. Diamond, M. Hays, V. Fatemi, S. Shankar,            clude the injector QD, we have verified that the results
+     L. Frunzio, R. J. Schoelkopf, and M. H. Devoret, Direct            are unaffected when including explicitly the injector QD
+     dispersive monitoring of charge parity in offset-charge-           as long as it is sufficiently detuned (δL ≫ tL , t̃L ), such
+     sensitive transmons, Phys. Rev. Appl. 12, 014052 (2019),           that its coupling to the wire can be diagonalized using a
+     arXiv:1903.00113.                                                  perturbative Schrieffer–Wolff transformation.
+[73] W. Uilhoorn, J. G. Kroll, A. Bargerbos, S. D. Nabi, C.-K.     [84] S. Boutin, T. Karzig, T. E. Dandachi, R. V. Mishmash,
+     Yang, P. Krogstrup, L. P. Kouwenhoven, A. Kou, and                 J. Gukelberger, R. M. Lutchyn, and B. Bauer, Predic-
+     G. de Lange, Quasiparticle trapping by orbital effect in           tive simulations of the dynamical response of mesoscopic
+     a hybrid superconducting-semiconducting circuit (2021),            devices (2025), arXiv:2502.12960.
+     arXiv:2105.11038.                                             [85] Based on the position of features, we estimate the region
+[74] E. T. Mannila, P. Samuelsson, S. Simbierowicz, J. T. Pel-          with a stable low-energy state shifted to more positive
+     tonen, V. Vesterinen, L. Grönberg, J. Hassel, V. F. Maisi,        voltage by approximately 200 µV in the interval between
+     and J. P. Pekola, A superconductor free of quasiparticles          the measurements.
+     for seconds, Nat. Phys. 18, 145 (2022), arXiv:2102.00484.     [86] M. Cheng, R. M. Lutchyn, V. Galitski, and S. Das Sarma,
+[75] O. Erlandsson, D. Sabonis, A. Kringhøj, T. W. Larsen,              Splitting of Majorana-fermion modes due to intervortex
+     P. Krogstrup, K. D. Petersson, and C. M. Marcus, Parity            tunneling in a px + ipy superconductor, Phys. Rev. Lett.
+     switching in a full-shell superconductor-semiconductor             103, 107001 (2009).
+     nanowire qubit, Phys. Rev. B 108, L121406 (2023),             [87] S. Das Sarma, J. D. Sau, and T. D. Stanescu, Split-
+     arXiv:2202.05974.                                                  ting of the zero-bias conductance peak as smoking gun
+[76] J. J. Wesdorp, L. Grünhaupt, A. Vaartjes, M. Pita-Vidal,          evidence for the existence of the Majorana mode in a
+     A. Bargerbos, L. J. Splitthoff, P. Krogstrup, B. van Heck,         superconductor-semiconductor nanowire, Phys. Rev. B
+     and G. de Lange, Dynamical polarization of the fermion             86, 220506 (2012).
+     parity in a nanowire Josephson junction, Phys. Rev. Lett.     [88] D. I. Pikulin, B. van Heck, T. Karzig, E. A. Martinez,
+     131, 117001 (2023), arXiv:2112.01936.                              B. Nijholt, T. Laeven, G. W. Winkler, J. D. Watson,
+[77] This value is estimated from 2D spin-orbit coupling values         S. Heedt, M. Temurhan, V. Svidenko, R. M. Lutchyn,
+     obtained from Shubnikov–de Haas oscillations [78] in van           M. Thomas, G. de Lange, L. Casparis, and C. Nayak,
+     der Pauw devices in which there is a Pb layer above the            Protocol to identify a topological superconducting phase
+     quantum well but the density is fixed, together with weak          in a three-terminal device (2021), arXiv:2103.12217.
+     anti-localization measurements in Hall bars in which the      [89] C. M. Wilson and D. E. Prober, Quasiparticle number
+     density can be varied but there is no Pb layer. We use this        fluctuations in superconductors, Phys. Rev. B 69, 094524
+     spin-orbit coupling in our simulations, but the topological        (2004).
+
