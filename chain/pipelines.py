@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -803,6 +804,54 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
     return _emit_pipeline_summary(base, results)
 
 
+def _build_patent_report_pdf(base: Path) -> None:
+    """Final step of patent-audit: render the styled PDF report.
+
+    Always runs (the pipeline should produce a PDF). Graceful: if the
+    builder or a LaTeX engine is missing it logs and returns rather than
+    failing the run. Compiles with lualatex (UTF-8-native, for the Greek /
+    math glyphs the examiner prose emits), falling back to pdflatex.
+    """
+    builder = (REPO / "examples" / "end_to_end" / "patent_audit"
+               / "build_patent_report.py")
+    if not builder.is_file():
+        print(f"[patent-audit] report builder not found at {builder}; "
+              "skipping PDF")
+        return
+    tex = base / "PATENT_REPORT.tex"
+    try:
+        r = subprocess.run(
+            [sys.executable, str(builder), "--run-dir", str(base),
+             "--out", str(tex)],
+            capture_output=True, text=True, timeout=180)
+        if r.returncode != 0 or not tex.is_file():
+            print("[patent-audit] PDF .tex build failed: "
+                  f"{(r.stderr or r.stdout)[:300]}")
+            return
+    except Exception as e:                       # noqa: BLE001
+        print(f"[patent-audit] report builder error: {e}")
+        return
+    engine = shutil.which("lualatex") or shutil.which("pdflatex")
+    if not engine:
+        print(f"[patent-audit] wrote {tex}; no lualatex/pdflatex on PATH "
+              "— PDF not compiled")
+        return
+    for _ in range(2):          # two passes for refs/longtables
+        try:
+            subprocess.run(
+                [engine, "-interaction=nonstopmode", tex.name],
+                cwd=str(base), capture_output=True, text=True, timeout=240)
+        except Exception as e:                   # noqa: BLE001
+            print(f"[patent-audit] {Path(engine).name} error: {e}")
+            break
+    pdf = base / "PATENT_REPORT.pdf"
+    if pdf.is_file():
+        print(f"[patent-audit] report PDF: {pdf}")
+    else:
+        print(f"[patent-audit] {Path(engine).name} did not produce {pdf}; "
+              f"see PATENT_REPORT.log in {base}")
+
+
 def pipeline_patent_audit(args: argparse.Namespace) -> int:
     """Audit a single quantum-computing patent (the USPTO-examiner analogue
     of paper-audit):
@@ -958,7 +1007,10 @@ def pipeline_patent_audit(args: argparse.Namespace) -> int:
     }
     (base / "_chain_config.json").write_text(
         json.dumps(chain_config, indent=2), encoding="utf-8")
-    return _emit_pipeline_summary(base, results)
+    rc = _emit_pipeline_summary(base, results)
+    # Always render the styled PDF report as the final step.
+    _build_patent_report_pdf(base)
+    return rc
 
 
 def pipeline_status(args: argparse.Namespace) -> int:
