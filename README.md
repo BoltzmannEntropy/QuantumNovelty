@@ -318,8 +318,10 @@ reaches `skills/common/llm.py::_call_claude_cli`, which runs:
 ```text
 claude --print
        --output-format json
+       --model "$QN_CLAUDE_MODEL"   # default: opus
        --dangerously-skip-permissions
        --no-session-persistence
+       --tools ""
 ```
 
 Why each flag matters:
@@ -328,8 +330,10 @@ Why each flag matters:
 |---|---|
 | `--print` | Headless one-shot; no TUI, no interactive prompts |
 | `--output-format json` | Returns a structured JSON envelope including `result` (the text), `usage.input_tokens`, `usage.output_tokens`, `usage.cache_*`, `total_cost_usd`, `modelUsage[<snapshot-id>]`. This is what feeds the per-call cost ledger. |
+| `--model "$QN_CLAUDE_MODEL"` | Pins the model. **Without `--model` the CLI adaptively routes by prompt complexity** — short prompts silently fall to Haiku while only large ones reach Opus, so identical inputs land on different models run-to-run. QN pins every stage to one model (default `opus`) for review quality and reproducibility. Override with the `QN_CLAUDE_MODEL` env var (see below). |
 | `--dangerously-skip-permissions` | Needed for nested-CLI calls — without it, sub-tools (WebSearch, WebFetch) prompt for permission and a non-interactive call returns "I don't have permission to do that" |
 | `--no-session-persistence` | Avoids session-id collisions with the parent Claude Code session you may be running from |
+| `--tools ""` | Disables the tool set for the nested call. Nested calls are pure text generation; if the model attempts a tool call, the extra turn can trip the API's `"tool_use ids must be unique"` 400. Disabling tools removes that failure class. |
 
 Around that command, `_call_claude_cli` enforces the **nested-CLI
 isolation playbook** every single time:
@@ -373,6 +377,90 @@ cat runs/<ts>/claude/<pipeline>/<stage>/_backend_used.json
 
 No API key. No HTTP. Every call goes through your Claude Code
 subscription, billed flat.
+
+#### Configuring the Claude Code backend
+
+Everything is configured by environment variables — there is no config
+file to edit. Set these in your shell before running the chain (or inline,
+`VAR=value chain/run.sh ...`):
+
+| Env var | Default | Effect |
+|---|---|---|
+| `QN_CLAUDE_MODEL` | `opus` | The model every `--llm claude` stage is pinned to (passed as `--model`). Use an **evergreen alias** (`opus`, `sonnet`, `haiku`) so it never 404s on snapshot retirement, or a **dated snapshot id** (e.g. `claude-opus-4-5-20251101`) for byte-reproducibility. `sonnet` is the cheap-run choice; `opus` maximises review quality. |
+| `CLAUDE_DISABLE_CODEX_FALLBACK` | `1` | No silent claude→codex fallback inside the Claude Code CLI. |
+| `INVOKE_LLM_NO_FALLBACK` | `1` | No `invoke_llm`-level fallback. |
+| `QN_DISABLE_BACKEND_FALLBACK` | `1` | No QN-level backend fallback. A failed stage stops and is flagged, never silently swapped. |
+
+```bash
+# One-time check: the CLI is installed and you're logged in
+claude --version
+claude --print "say ok"          # should print: ok   (uses your subscription)
+
+# Pin a cheaper model for a whole run:
+export QN_CLAUDE_MODEL=sonnet
+# …or pin a snapshot for a byte-reproducible run:
+export QN_CLAUDE_MODEL=claude-opus-4-5-20251101
+```
+
+The CLI authenticates from your local Claude Code login (`~/.claude`),
+which is preserved through the env scrub — so nested calls use your
+subscription with no API key in the environment.
+
+#### Full example invocations
+
+Every pipeline defaults to `--llm claude`; the `--llm` flag is shown
+explicitly below for clarity. All are run from the repo root.
+
+```bash
+# ── Examine a quantum PATENT → a simulated USPTO Office Action ──────────
+# 6-voice examiner panel (§§101/102/103/112 + quantum operability + SPE).
+# Input can be a Google Patents URL, a publication number, or a saved file.
+# Always writes <outdir>/PATENT_REPORT.pdf as the final step.
+bash chain/run.sh \
+  --pipeline patent-audit \
+  --patent "https://patents.google.com/patent/US10614371B2/en" \
+  --art-unit "AU 2128 (CPC G06N10/00)" \
+  --llm claude \
+  --outdir runs/patent_demo
+# By publication number instead of URL:
+bash chain/run.sh --pipeline patent-audit --patent US10614371B2 --llm claude
+
+# ── Review an existing PAPER (PDF / TeX / text) → reviewer panel ────────
+bash chain/run.sh \
+  --pipeline paper-audit \
+  --paper draft.pdf \
+  --journal npj-quantum-information \
+  --topic "Generative flow-based warm start of the VQE" \
+  --llm claude \
+  --outdir runs/paper_demo
+
+# ── Write a NEW paper from a topic (full Stage 1→6 generative pipeline) ─
+QN_CLAUDE_MODEL=opus bash chain/run.sh \
+  --pipeline full-pipeline \
+  --topic "LLM-driven UCCSD pruning on H2O" \
+  --hamiltonian H2O_4e_4o_8q \
+  --journal npj-quantum-information \
+  --quantum-lib mlxq \
+  --llm claude \
+  --outdir runs/write_demo
+
+# ── Natural-language frontend: describe what you want (plans a pipeline)─
+bash chain/run.sh --pipeline chat \
+  --prompt "Review this paper and scan it for quantum-CS fallacies" \
+  --paper draft.pdf --llm claude --execute
+
+# ── Cheaper run: pin sonnet for the whole chain ────────────────────────
+QN_CLAUDE_MODEL=sonnet bash chain/run.sh \
+  --pipeline patent-audit --patent US10614371B2 --llm claude
+```
+
+After any run, inspect what actually executed:
+
+```bash
+bash chain/run.sh --pipeline status --outdir runs/patent_demo   # stage states
+cat runs/patent_demo/02_examiner_panel/_office_action.json      # disposition + rejections-by-statute
+cat runs/patent_demo/*/_backend_used.json                       # model + tokens + USD per stage
+```
 
 ### Codex CLI integration (for cross-LLM falsifiability — or as fallback)
 
