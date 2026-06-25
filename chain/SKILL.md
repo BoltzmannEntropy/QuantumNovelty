@@ -12,6 +12,7 @@ A single entry point (`chain/run.sh`, dispatching to `chain/pipelines.py`) that 
 | Pipeline               | Building blocks (in order)                                                                                                      | Use case                                                                                              |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | `paper-audit`          | `deep_research --mode review` → `quantum_reviewer --mode full` → `logical_fallacies` → `process_summary` (Stage-6 CQE)            | Audit an existing paper (PDF / TeX / text). Default 4 stages; opt-in `novelty-audit` + `cross-llm`.   |
+| `patent-audit`         | `deep_research --mode review` (prior-art) → `patent_reviewer --mode full` (USPTO panel) → `logical_fallacies` → `process_summary` | Examine a quantum patent. Input `--patent URL\|NUMBER\|FILE` (Google Patents). 6-voice §§101/102/103/112 + quantum-operability panel → an Office Action + `_office_action.json`. |
 | `full`                 | `deep_research --mode full` → `pareto_explorer` → `novelty_audit` → `quantum_paper --mode full` → `cross_llm_prediction` → `quantum_reviewer` → `logical_fallacies` → `process_summary` | Full Stage 1→6 pipeline: literature surface → discovery → audit → draft → cross-LLM → review → CQE.   |
 | `mid-entry-stage-2.5`  | `deep_research --mode full` (lit-1.5) → `novelty_audit` (audit-only mode) → `quantum_reviewer` → `logical_fallacies` → `process_summary` | Paper exists; integrity-first pass without the discovery / draft stages.                              |
 | `mid-entry-stage-4`    | `quantum_paper --mode revision` → `quantum_reviewer --mode re-review` → `process_summary`                                       | Reviewer comments in hand; revision pass.                                                             |
@@ -114,6 +115,13 @@ bash chain/run.sh --pipeline paper-audit \
 
 # Reviewer-panel-only run:
 bash chain/run.sh --pipeline paper-audit --skip-research --skip-fallacies --skip-cqe ...
+
+# Examine a quantum patent (USPTO examiner panel → Office Action):
+bash chain/run.sh --pipeline patent-audit \
+  --patent "https://patents.google.com/patent/US10614371B2/en" \
+  --art-unit "AU 2128 (CPC G06N10/00)" --llm claude --outdir runs/patent_demo
+# Output: 02_examiner_panel/office_action.md + _office_action.json
+# (disposition, rejected_claims, rejections_by_statute {101/102/103/112}).
 
 # Add cross-LLM falsifiability:
 bash chain/run.sh --pipeline paper-audit \

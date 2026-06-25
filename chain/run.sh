@@ -40,6 +40,8 @@ OUTDIR=""
 FORCE=false
 # Pipeline-specific
 PAPER=""
+PATENT=""
+ART_UNIT=""
 TOPIC=""
 HAMILTONIAN=""
 BASELINE=""
@@ -83,6 +85,11 @@ Pipelines:
                     research -> reviewer -> fallacies -> cqe. Opt-in extras
                     (novelty-audit, cross-llm) via --with-X when their inputs
                     are also passed. Used by examples/end_to_end/two_paper_novelty.
+  patent-audit      USPTO examiner panel for a quantum patent. Input via
+                    --patent URL|NUMBER|FILE (Google Patents). Default-on
+                    stages: prior-art -> examiner (6-voice §§101/102/103/112
+                    Office Action) -> fallacies -> cqe. Emits
+                    02_examiner_panel/_office_action.json.
   chat              Natural-language frontend: describe what you want in
                     --prompt "STR" (optionally with --paper PATH) and the
                     chat skill plans the matching pipeline. Add --execute
@@ -191,6 +198,8 @@ while [[ $# -gt 0 ]]; do
     --list-skills) list_skills; exit 0 ;;
     --force)    FORCE=true; shift ;;
     --paper)    PAPER="$2"; shift 2 ;;
+    --patent|--patent-url) PATENT="$2"; shift 2 ;;
+    --art-unit) ART_UNIT="$2"; shift 2 ;;
     --topic)    TOPIC="$2"; shift 2 ;;
     --hamiltonian) HAMILTONIAN="$2"; shift 2 ;;
     --baseline) BASELINE="$2"; shift 2 ;;
@@ -213,6 +222,8 @@ while [[ $# -gt 0 ]]; do
     # Per-stage toggles for paper-audit. Collected here and
     # passed through to pipelines.py verbatim.
     --skip-research|--skip-reviewer|--skip-fallacies|--skip-cqe) \
+      STAGE_TOGGLES+=("$1"); shift ;;
+    --skip-prior-art|--skip-examiner) \
       STAGE_TOGGLES+=("$1"); shift ;;
     --with-novelty-audit|--with-cross-llm|--with-synthesizer) \
       STAGE_TOGGLES+=("$1"); shift ;;
@@ -360,12 +371,19 @@ case "$PIPELINE" in
     run_skill process_summary --run-dir "$OUTDIR/.."
     ;;
   # ---- multi-stage pipeline orchestrator (new) ----
-  full-pipeline|mid-entry-stage-2.5|mid-entry-stage-4|paper-audit|status)
+  full-pipeline|mid-entry-stage-2.5|mid-entry-stage-4|paper-audit|patent-audit|status)
     PIPE_NAME="$PIPELINE"
     [[ "$PIPE_NAME" == "full-pipeline" ]] && PIPE_NAME="full"
+    if [[ "$PIPE_NAME" == "patent-audit" && -z "$PATENT" ]]; then
+      echo "Error: --pipeline patent-audit requires --patent SOURCE" >&2
+      echo "       (Google Patents URL, publication number, or saved file)" >&2
+      exit 2
+    fi
     PIPE_ARGS=("$PIPE_NAME" --outdir "$OUTDIR" --llm "$LLM")
     [[ -n "$TOPIC" ]]              && PIPE_ARGS+=(--topic "$TOPIC")
     [[ -n "$PAPER" ]]              && PIPE_ARGS+=(--paper "$PAPER")
+    [[ -n "$PATENT" ]]            && PIPE_ARGS+=(--patent "$PATENT")
+    [[ -n "$ART_UNIT" ]]          && PIPE_ARGS+=(--art-unit "$ART_UNIT")
     [[ -n "$REVIEWER_COMMENTS" ]]  && PIPE_ARGS+=(--reviewer-comments "$REVIEWER_COMMENTS")
     [[ -n "$HAMILTONIAN" ]]        && PIPE_ARGS+=(--hamiltonian "$HAMILTONIAN")
     [[ -n "$BASELINE" ]]           && PIPE_ARGS+=(--baseline "$BASELINE")

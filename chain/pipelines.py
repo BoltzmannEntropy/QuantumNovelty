@@ -81,8 +81,11 @@ def _stage_complete(out: Path) -> bool:
     return False
 
 
-# Stage execution order for --resume-from comparisons (paper-audit ids).
-_STAGE_ORDER = ["01-research", "00-evidence-ledger", "02-reviewer",
+# Stage execution order for --resume-from comparisons (paper-audit +
+# patent-audit ids; patent ids 01-prior-art / 02-examiner share the tail
+# stages 03-fallacies / 03c-claims-registry / 04-cqe with paper-audit).
+_STAGE_ORDER = ["01-research", "01-prior-art", "00-evidence-ledger",
+                "02-reviewer", "02-examiner",
                 "02e-requirements-judge", "02b-novelty-audit",
                 "02c-cross-llm", "02d-argument-structure",
                 "03-fallacies", "03b-synthesizer",
@@ -406,6 +409,12 @@ PAPER_AUDIT_OPTIONAL = ("novelty-audit", "cross-llm", "synthesizer",
                         "argument-structure", "requirements-judge",
                         "citation-integrity", "disclosure-audit",
                         "revision-planner", "evidence-ledger")
+
+# patent-audit: the USPTO-examiner analogue of paper-audit. Default-on
+# stages reuse the shared `fallacies` + `cqe` toggles (already registered
+# for paper-audit); `prior-art` and `examiner` are patent-specific.
+PATENT_AUDIT_DEFAULT_ON = ("prior-art", "examiner", "fallacies", "cqe")
+PATENT_AUDIT_OPTIONAL = ("disclosure-audit",)
 
 
 def _stage_enabled(name: str, args: argparse.Namespace,
@@ -731,7 +740,11 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
 
     # Stage: cqe (process_summary, always last)
     if _stage_enabled("cqe", args, default_on=True):
-        cqe_args = ["--run-dir", str(base)]
+        # paper-audit mode: tell the CQE scorer this is an external paper so it
+        # reads the manuscript text rather than scoring absent generative
+        # artifacts (the 25/100-vs-6.67/10 mismatch fix).
+        cqe_args = ["--run-dir", str(base), "--audit-mode",
+                    "--paper", str(args.paper)]
         if args.no_llm_narrative:
             cqe_args.append("--no-llm-narrative")
         _log_stage_decision(
@@ -787,6 +800,164 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
     (base / "_chain_config.json").write_text(
         json.dumps(chain_config, indent=2), encoding="utf-8"
     )
+    return _emit_pipeline_summary(base, results)
+
+
+def pipeline_patent_audit(args: argparse.Namespace) -> int:
+    """Audit a single quantum-computing patent (the USPTO-examiner analogue
+    of paper-audit):
+
+    prior-art research -> USPTO examiner panel -> fallacies -> cqe
+
+    Input is a patent SOURCE (Google Patents URL, publication number, or a
+    saved file) via --patent. The patent is materialized once to a
+    structured Markdown file that the text-based stages consume; the
+    examiner stage takes the original source so it gets full bibliographic
+    metadata (kind code A1 vs B2 decides application-vs-granted framing).
+    """
+    if not getattr(args, "patent", None):
+        print("ERROR: patent-audit requires --patent SOURCE "
+              "(URL / publication number / saved file)", file=sys.stderr)
+        return 2
+
+    # Materialize the patent once (single fetch) into the run dir so every
+    # downstream stage reads the same bytes and the run is reproducible.
+    sys.path.insert(0, str(REPO / "skills" / "common"))
+    try:
+        from patent_io import load_patent  # noqa: E402
+        patent = load_patent(str(args.patent))
+    except Exception as e:                       # noqa: BLE001 — surface clean
+        print(f"ERROR: could not load patent {args.patent!r}: {e}",
+              file=sys.stderr)
+        return 2
+
+    base = args.outdir
+    base.mkdir(parents=True, exist_ok=True)
+    patent_md = base / "_patent_extracted.md"
+    patent_md.write_text(patent.to_markdown(), encoding="utf-8")
+    patent_path = str(patent_md)
+    print(f"[patent-audit] {patent.pub_number} ({patent.kind_code}) — "
+          f"{patent.n_claims()} claims -> {patent_md}")
+
+    results: list[StageResult] = []
+    decisions: list[str] = ["# Stage decisions"]
+    common_flags = ["--llm", args.llm]
+    journal_flags = (["--journal", args.journal] if args.journal else [])
+    qlib_flags = (["--quantum-lib", args.quantum_lib]
+                  if args.quantum_lib else [])
+    topic = args.topic or patent.title or "quantum-computing patent"
+
+    # Stage: prior-art (deep_research --mode review over the patent text).
+    if _stage_enabled("prior-art", args, default_on=True):
+        _log_stage_decision("prior-art", True,
+                            "default-on; deep_research --mode review "
+                            "(prior-art surface)", decisions)
+        results.append(_run_skill(
+            "deep_research", base / "01_prior_art",
+            ["--mode", "review", "--paper", patent_path, "--topic", topic]
+            + journal_flags + qlib_flags + common_flags,
+            force=args.force, stage_id="01-prior-art", run_dir=base,
+            resume_from=args.resume_from,
+        ))
+    else:
+        _log_stage_decision("prior-art", False, "--skip-prior-art passed",
+                            decisions)
+
+    # Stage: examiner (the USPTO 6-voice panel -> Office Action).
+    if _stage_enabled("examiner", args, default_on=True):
+        _log_stage_decision("examiner", True,
+                            "default-on; patent_reviewer --mode full "
+                            "(USPTO §§101/102/103/112 panel)", decisions)
+        exam_args = ["--mode", "full", "--patent", str(args.patent)]
+        if getattr(args, "art_unit", None):
+            exam_args += ["--art-unit", args.art_unit]
+        results.append(_run_skill(
+            "patent_reviewer", base / "02_examiner_panel",
+            exam_args + common_flags, force=args.force,
+            stage_id="02-examiner", run_dir=base,
+            resume_from=args.resume_from,
+        ))
+    else:
+        _log_stage_decision("examiner", False, "--skip-examiner passed",
+                            decisions)
+
+    # Stage: fallacies (reuse logical_fallacies over the patent text).
+    if _stage_enabled("fallacies", args, default_on=True):
+        _log_stage_decision("fallacies", True,
+                            "default-on; logical_fallacies over claims+spec",
+                            decisions)
+        results.append(_run_skill(
+            "logical_fallacies", base / "03_fallacies",
+            ["--draft", patent_path] + common_flags, force=args.force,
+            stage_id="03-fallacies", run_dir=base,
+            resume_from=args.resume_from,
+        ))
+    else:
+        _log_stage_decision("fallacies", False, "--skip-fallacies passed",
+                            decisions)
+
+    # Stage: disclosure-audit (opt-in). For patents this surfaces
+    # inventorship / assignee / funding-derived government-rights flags.
+    if _stage_enabled("disclosure-audit", args, default_on=False):
+        _log_stage_decision("disclosure-audit", True,
+                            "--with-disclosure-audit", decisions)
+        results.append(_run_skill(
+            "disclosure_audit", base / "03e_disclosure_audit",
+            ["--paper", patent_path] + journal_flags + common_flags,
+            force=args.force, stage_id="03e-disclosure-audit", run_dir=base,
+            resume_from=args.resume_from,
+        ))
+
+    # Stage: cqe (process_summary, always last; audit-mode reads the patent).
+    if _stage_enabled("cqe", args, default_on=True):
+        cqe_args = ["--run-dir", str(base), "--audit-mode",
+                    "--paper", patent_path]
+        if args.no_llm_narrative:
+            cqe_args.append("--no-llm-narrative")
+        _log_stage_decision("cqe", True, "default-on; 6-dim composite",
+                            decisions)
+        results.append(_run_skill(
+            "process_summary", base / "04_summary",
+            cqe_args + common_flags, force=args.force,
+            stage_id="04-cqe", run_dir=base,
+            resume_from=args.resume_from,
+        ))
+    else:
+        _log_stage_decision("cqe", False, "--skip-cqe passed", decisions)
+
+    base.mkdir(parents=True, exist_ok=True)
+    telemetry.pipeline_summary(base)
+    telemetry.audit_heartbeats(base)
+    final_decision = "proceed" if all(r.rc == 0 for r in results) else "fail"
+    telemetry.decision_log(base, final_decision)
+
+    chain_config = {
+        "pipeline": "patent-audit",
+        "llm": args.llm,
+        "patent_source": str(args.patent),
+        "pub_number": patent.pub_number,
+        "kind_code": patent.kind_code,
+        "is_application": patent.is_application,
+        "n_claims": patent.n_claims(),
+        "venue": args.journal,
+        "topic": topic,
+        "stages_default_on": list(PATENT_AUDIT_DEFAULT_ON),
+        "stages_optional": list(PATENT_AUDIT_OPTIONAL),
+        "stages_ran": [r.stage for r in results if not r.skipped],
+        "stages_skipped_by_flag": [
+            name for name in PATENT_AUDIT_DEFAULT_ON
+            if getattr(args, "skip_" + name.replace("-", "_"), False)
+        ],
+        "stages_opted_in_by_flag": [
+            name for name in PATENT_AUDIT_OPTIONAL
+            if getattr(args, "with_" + name.replace("-", "_"), False)
+        ],
+        "pause_after": getattr(args, "pause_after", None),
+        "resume_from": getattr(args, "resume_from", None),
+        "decision_log": decisions,
+    }
+    (base / "_chain_config.json").write_text(
+        json.dumps(chain_config, indent=2), encoding="utf-8")
     return _emit_pipeline_summary(base, results)
 
 
@@ -855,12 +1026,19 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("pipeline", choices=[
         "full", "mid-entry-stage-2.5", "mid-entry-stage-4",
-        "paper-audit", "status", "list-stages",
+        "paper-audit", "patent-audit", "status", "list-stages",
     ])
     ap.add_argument("--outdir", required=True, type=Path)
     ap.add_argument("--llm", default="claude")
     ap.add_argument("--topic", default=None)
     ap.add_argument("--paper", default=None, type=Path)
+    ap.add_argument("--patent", default=None,
+                    help="patent-audit input: Google Patents URL, "
+                         "publication number (US10614371B2), or a saved "
+                         "patent file")
+    ap.add_argument("--art-unit", default=None,
+                    help="optional USPTO art-unit / CPC context for the "
+                         "patent examiner panel")
     ap.add_argument("--reviewer-comments", default=None, type=Path)
     ap.add_argument("--hamiltonian", default=None)
     ap.add_argument("--baseline", default=None)
@@ -879,16 +1057,23 @@ def main() -> int:
     ap.add_argument("--no-llm-narrative", action="store_true",
                     help="Disable the LLM-narrative pass in process_summary")
 
-    # Per-stage toggles for the paper-audit pipeline.
+    # Per-stage toggles for the paper-audit + patent-audit pipelines.
+    # Registered from the deduped union so shared stages (fallacies, cqe)
+    # get exactly one flag while patent-specific stages (prior-art,
+    # examiner) and paper-specific stages (research, ...) each get theirs.
+    _default_on = list(dict.fromkeys(
+        PAPER_AUDIT_DEFAULT_ON + PATENT_AUDIT_DEFAULT_ON))
+    _optional = list(dict.fromkeys(
+        PAPER_AUDIT_OPTIONAL + PATENT_AUDIT_OPTIONAL))
     # Default-on stages (skip with --skip-<name>):
-    for name in PAPER_AUDIT_DEFAULT_ON:
+    for name in _default_on:
         ap.add_argument(f"--skip-{name}",
                         dest=f"skip_{name.replace('-', '_')}",
                         action="store_true",
                         help=f"Skip the {name} stage (default-on; "
                              f"toggling off removes it from the chain)")
     # Optional stages (opt-in with --with-<name>):
-    for name in PAPER_AUDIT_OPTIONAL:
+    for name in _optional:
         ap.add_argument(f"--with-{name}",
                         dest=f"with_{name.replace('-', '_')}",
                         action="store_true",
@@ -1007,7 +1192,7 @@ def main() -> int:
     # Cross-model fork: run twice (claude + codex branches),
     # write index. Only meaningful for orchestrated pipelines.
     if getattr(args, "with_cross_model", False) \
-            and args.pipeline in {"paper-audit", "full",
+            and args.pipeline in {"paper-audit", "patent-audit", "full",
                                    "mid-entry-stage-2.5",
                                    "mid-entry-stage-4"}:
         return _run_cross_model_fork(args)
@@ -1017,6 +1202,7 @@ def main() -> int:
         "mid-entry-stage-2.5": pipeline_midentry_2_5,
         "mid-entry-stage-4":   pipeline_midentry_4,
         "paper-audit":         pipeline_paper_audit,
+        "patent-audit":        pipeline_patent_audit,
         "status":              pipeline_status,
     }
     return pipeline_map[args.pipeline](args)
@@ -1047,6 +1233,7 @@ def _run_cross_model_fork(args: argparse.Namespace) -> int:
             "mid-entry-stage-2.5": pipeline_midentry_2_5,
             "mid-entry-stage-4":   pipeline_midentry_4,
             "paper-audit":         pipeline_paper_audit,
+            "patent-audit":        pipeline_patent_audit,
         }
         try:
             rc = pipeline_map[args.pipeline](branch_args)
@@ -1086,6 +1273,7 @@ def _print_stage_table() -> int:
     """
     table = [
         ("paper-audit", PAPER_AUDIT_DEFAULT_ON, PAPER_AUDIT_OPTIONAL),
+        ("patent-audit", PATENT_AUDIT_DEFAULT_ON, PATENT_AUDIT_OPTIONAL),
         ("full", ("literature", "discovery", "audit", "draft",
                   "cross-llm", "review", "fallacies", "cqe"), ()),
         ("mid-entry-stage-2.5",
