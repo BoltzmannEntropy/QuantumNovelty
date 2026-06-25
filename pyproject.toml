@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "quantumnovelty"
 version = "1.0.0"
-description = "Agent-skill framework for exploring genuine novelty in quantum-computing research, with an audit-and-falsify layer."
+description = "Agent-skill framework for exploring genuine novelty in quantum-computing research and examining quantum patents (a simulated USPTO examiner panel), with an audit-and-falsify layer."
 authors = [{name = "Shlomo Kashani"}]
 readme = "README.md"
 license = {text = "MIT"}

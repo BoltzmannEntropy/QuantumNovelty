@@ -4,14 +4,15 @@
 
 <br/>
 
-<code>v1.0.0</code> &nbsp;Claude Code CLI · Quantum-Computing Research · 152 tests
+<code>v1.0.0</code> &nbsp;Claude Code CLI · Quantum Papers &amp; Patents · 152 tests
 
 <b>Shlomo Kashani</b> · <a href="https://qneura.ai/apps.html">QNeura.ai</a>
 
-<h2>Review any quantum paper <em>like a referee</em> + Agentic Audit-and-Falsify Pipeline</h2>
+<h2>Review any quantum paper <em>like a referee</em> · Examine any quantum patent <em>like a USPTO examiner</em> + Agentic Audit-and-Falsify Pipeline</h2>
 
-Eighteen agent skills that write and review quantum-computing papers —<br/>
-a 5-voice reviewer panel, an 11-fallacy quantum-CS taxonomy, strict-domination novelty audits,<br/>
+Nineteen agent skills that write and review quantum-computing papers, and examine quantum patents —<br/>
+a 5-voice reviewer panel, a 6-voice USPTO examiner panel (§§101/102/103/112 → an Office Action),<br/>
+an 11-fallacy quantum-CS taxonomy, strict-domination novelty audits,<br/>
 and an exact token + USD cost ledger on every LLM call.<br/>
 Runs on the <b>Claude Code CLI</b> by default; Codex available for cross-vendor falsifiability.
 
@@ -25,9 +26,9 @@ Claude Code CLI · MIT licensed · Sister project: <a href="https://github.com/B
 
 </div>
 
-> **Paper Audit | 5-Voice Review Panel | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
+> **Paper Audit | 5-Voice Review Panel | Patent Examination (USPTO Office Action) | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
 
-A framework for **exploring genuine novelty** in quantum-computing research. Built on the shoulders of **AutoResearchClaw (ARC)** and [**academic-research-skills (ARS)**](https://github.com/imbad0202/academic-research-skills), with one new contribution of our own: an **audit-and-falsify layer** that refuses to let an LLM-driven discovery loop declare victory until the win has been compared against the strongest known baseline at **strict Pareto-domination tolerances**, and every numerical claim in the resulting paper has been **re-derived from on-disk JSON artifacts**. Tested on five real papers — four peer-reviewed (PRX Quantum / npj Quantum Information / Quantum) plus Microsoft Quantum's tetron preprint — with the full review PDFs and per-call cost receipts shipped in `examples/`.
+A framework for **exploring genuine novelty** in quantum-computing research **and patents**. Built on the shoulders of **AutoResearchClaw (ARC)** and [**academic-research-skills (ARS)**](https://github.com/imbad0202/academic-research-skills), with one new contribution of our own: an **audit-and-falsify layer** that refuses to let an LLM-driven discovery loop declare victory until the win has been compared against the strongest known baseline at **strict Pareto-domination tolerances**, and every numerical claim in the resulting paper has been **re-derived from on-disk JSON artifacts**. The same machinery turns on patents: a `patent-audit` pipeline runs a **simulated USPTO examiner panel** that examines every claim under **35 U.S.C. §§ 101/102/103/112** and issues an **Office Action** (with a deterministic disposition + rejections-by-statute gate and a styled PDF report). Tested on five real papers — four peer-reviewed (PRX Quantum / npj Quantum Information / Quantum) plus Microsoft Quantum's tetron preprint — with the full review PDFs and per-call cost receipts shipped in `examples/`.
 
 License: MIT. See [LICENSE](LICENSE).
 
@@ -1429,7 +1430,7 @@ If QuantumNovelty's audit-and-falsify framework helps you publish a paper, pleas
 @software{kashani2026quantumnovelty,
   author  = {Kashani, Shlomo},
   title   = {QuantumNovelty: an audit-and-falsify framework for
-             quantum-computing research papers},
+             quantum-computing research papers and patents},
   year    = {2026},
   version = {1.0.0},
   license = {MIT},
