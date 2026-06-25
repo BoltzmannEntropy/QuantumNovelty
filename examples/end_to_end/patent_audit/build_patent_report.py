@@ -138,7 +138,7 @@ def render(data: dict) -> str:
     W(r"\usepackage[margin=0.9in]{geometry}")
     for pkg in ("booktabs", "xcolor", "titlesec", "hyperref", "titling",
                 "fancyhdr", "longtable", "calc", "array", "amssymb",
-                "amsmath"):
+                "amsmath", "xurl"):
         W(rf"\usepackage{{{pkg}}}")
     W(r"\usepackage[T1]{fontenc}")
     W(r"\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}")
@@ -152,9 +152,14 @@ def render(data: dict) -> str:
     W(r"\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.5em}{}")
     W(r"\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}")
     W(r"\setlength{\droptitle}{-3em}")
+    # Running header: the patent under examination, on every page.
+    _short_title = str(title)
+    if len(_short_title) > 52:
+        _short_title = _short_title[:49].rstrip() + "..."
+    _hdr = rf"{latex_escape(pub)} --- {latex_escape(_short_title)}"
     W(r"\pagestyle{fancy}")
     W(r"\fancyhf{}")
-    W(r"\rhead{\footnotesize\color{muted}QuantumNovelty USPTO Examiner Report}")
+    W(rf"\rhead{{\footnotesize\color{{muted}}{_hdr}}}")
     W(r"\lhead{\footnotesize\color{muted}\thepage}")
     W(r"\renewcommand{\headrulewidth}{0pt}")
 
@@ -172,7 +177,7 @@ def render(data: dict) -> str:
                      if s.get("model_id")})
     W(r"\begin{center}")
     W(r"\renewcommand{\arraystretch}{1.25}")
-    W(r"\begin{tabular}{ll}")
+    W(r"\begin{tabular}{l>{\raggedright\arraybackslash}p{0.62\textwidth}}")
     W(r"\toprule")
     W(r"\textbf{Project} & QuantumNovelty (QN) --- audit-and-falsify "
       r"framework for quantum-computing research \& patents \\")
@@ -208,7 +213,7 @@ def render(data: dict) -> str:
     # ---------- patent under examination ----------
     W(r"\section{Patent under examination}")
     W(r"\renewcommand{\arraystretch}{1.2}")
-    W(r"\begin{tabular}{ll}")
+    W(r"\begin{tabular}{l>{\raggedright\arraybackslash}p{0.70\textwidth}}")
     W(r"\toprule")
     W(rf"\textbf{{Publication number}} & \texttt{{{latex_escape(pub)}}} \\")
     W(rf"\textbf{{Kind code}} & \texttt{{{latex_escape(kind)}}} "
@@ -216,11 +221,13 @@ def render(data: dict) -> str:
     W(rf"\textbf{{Title}} & {latex_escape(str(title))} \\")
     W(rf"\textbf{{Claims examined}} & {latex_escape(str(n_claims))} \\")
     if source:
-        disp = source if source.startswith("http") else latex_escape(source)
         if source.startswith("http"):
-            W(rf"\textbf{{Source}} & \url{{{source}}} \\")
+            # Canonical patent URL (drop ?inventor=…&sort=… query noise);
+            # xurl lets the remaining path wrap rather than overflow.
+            canon = source.split("?", 1)[0]
+            W(rf"\textbf{{Source}} & \url{{{canon}}} \\")
         else:
-            W(rf"\textbf{{Source}} & {disp} \\")
+            W(rf"\textbf{{Source}} & {latex_escape(source)} \\")
     W(r"\bottomrule")
     W(r"\end{tabular}")
     W()
