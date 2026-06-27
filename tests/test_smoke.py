@@ -63,7 +63,7 @@ def test_chain_list_skills():
     assert r.returncode == 0
     expected = ["novelty_audit", "literature_surfacer", "pareto_explorer",
                 "ablation_designer", "cross_llm_prediction",
-                "book_acquirer", "audit_falsify"]
+                "book_acquirer", "audit_falsify", "patent_drafter"]
     for name in expected:
         assert name in r.stdout, f"missing skill {name} in --list-skills"
 
@@ -73,7 +73,7 @@ def test_chain_help_lists_pipelines():
                        capture_output=True, text=True, timeout=10)
     assert r.returncode == 0
     for pipe in ["literature", "pareto-discover", "novelty-audit",
-                 "cross-llm", "draft-paper", "full"]:
+                 "cross-llm", "draft-paper", "patent-draft", "full"]:
         assert pipe in r.stdout, f"missing pipeline {pipe} in --help"
 
 

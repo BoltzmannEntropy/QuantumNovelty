@@ -65,6 +65,45 @@ _DISPOSITIONS = {
     "restriction-requirement",
 }
 _PASSING = {"allowance"}
+_FILING_STANDARD_BLOCKS = {
+    "uspto": (
+        "## Filing-standard context\n\n"
+        "Run the compliance pass under USPTO practice. Claims compliance "
+        "must apply 35 U.S.C. § 112(b) definiteness, antecedent basis, "
+        "claim structure, and means-plus-function risk. Full-application "
+        "review must cover § 112(a) written description / enablement / "
+        "best mode, MPEP 608 formalities, abstract, title, drawings, "
+        "required sections, and specification-claim support."
+    ),
+    "epo": (
+        "## Filing-standard context\n\n"
+        "Run the compliance pass under EPO practice. Claims compliance "
+        "must apply EPC Article 84 clarity, support by the description, "
+        "essential features, two-part form where appropriate, claim "
+        "category structure, and multiple-dependency clarity. "
+        "Full-application review must cover specification adequacy, "
+        "drawings, abstract, description amendments / support, and EPO "
+        "formal requirements."
+    ),
+    "pct": (
+        "## Filing-standard context\n\n"
+        "Run the compliance pass under PCT application practice. Claims "
+        "compliance must address clarity, support, unity-relevant claim "
+        "structure, dependency form, and international-search readability. "
+        "Full-application review must cover request/specification/claims/"
+        "abstract/drawings completeness, sequence listings if applicable, "
+        "and PCT formal requirements."
+    ),
+    "multi": (
+        "## Filing-standard context\n\n"
+        "Run the compliance pass under all three standards: USPTO, EPO, "
+        "and PCT. Claims compliance must separately flag USPTO § 112(b) "
+        "definiteness / antecedent basis / structure issues and EPO "
+        "Article 84 clarity / support / two-part-form issues. "
+        "Full-application review must separately cover USPTO § 112(a) + "
+        "MPEP 608, EPO application formalities, and PCT required sections."
+    ),
+}
 
 
 def _load_template(mode: str) -> str:
@@ -275,6 +314,10 @@ def main() -> int:
     ap.add_argument("--art-unit", default=None,
                     help="optional USPTO art-unit / CPC context string "
                          "for the examiner prompt")
+    ap.add_argument("--filing-standard", default="uspto",
+                    choices=sorted(_FILING_STANDARD_BLOCKS),
+                    help="application-review standard: uspto (§112/MPEP), "
+                         "epo (Art. 84/EPC), pct, or multi")
     args = ap.parse_args()
 
     args.outdir.mkdir(parents=True, exist_ok=True)
@@ -305,6 +348,8 @@ def main() -> int:
         "status_line": patent.status_line,
         "n_claims": patent.n_claims(),
         "art_unit_block": art_unit_block,
+        "filing_standard": args.filing_standard,
+        "filing_standard_block": _FILING_STANDARD_BLOCKS[args.filing_standard],
     }))
     (args.outdir / f"full_prompt_{args.mode}.txt").write_text(
         prompt, encoding="utf-8")
@@ -343,6 +388,7 @@ def main() -> int:
     (args.outdir / "_llm_generation.log").write_text(
         f"--- mode: {args.mode} ---\n"
         f"--- patent: {patent.pub_number} ({patent.kind_code}) ---\n"
+        f"--- filing_standard: {args.filing_standard} ---\n"
         f"--- claims: {patent.n_claims()} ---\n"
         f"--- backend: {result.backend_actually_used} ---\n"
         f"--- elapsed_s: {result.elapsed_s:.2f} ---\n"

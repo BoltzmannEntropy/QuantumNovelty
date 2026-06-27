@@ -8,10 +8,11 @@
 
 <b>Shlomo Kashani</b> · <a href="https://qneura.ai/apps.html">QNeura.ai</a>
 
-<h2>Review any quantum paper <em>like a referee</em> · Examine any quantum patent <em>like a USPTO examiner</em> + Agentic Audit-and-Falsify Pipeline</h2>
+<h2>Review any quantum paper <em>like a referee</em> · Examine or draft any quantum patent <em>like a USPTO examiner</em> + Agentic Audit-and-Falsify Pipeline</h2>
 
-Nineteen agent skills that write and review quantum-computing papers, and examine quantum patents —<br/>
+Twenty agent skills that write and review quantum-computing papers, examine quantum patents, and draft quantum-patent filing packages —<br/>
 a 5-voice reviewer panel, a 6-voice USPTO examiner panel (§§101/102/103/112 → an Office Action),<br/>
+USPTO §112(b) / EPO Art. 84 claim-compliance review, full-application formalities checks,<br/>
 an 11-fallacy quantum-CS taxonomy, strict-domination novelty audits,<br/>
 and an exact token + USD cost ledger on every LLM call.<br/>
 Runs on the <b>Claude Code CLI</b> by default; Codex available for cross-vendor falsifiability.
@@ -26,9 +27,9 @@ Claude Code CLI · MIT licensed · Sister project: <a href="https://github.com/B
 
 </div>
 
-> **Paper Audit | 5-Voice Review Panel | Patent Examination (USPTO Office Action) | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
+> **Paper Audit | 5-Voice Review Panel | Patent Examination (USPTO Office Action) | Quantum Patent Drafting | Claim Compliance | Full Application Review | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
 
-A framework for **exploring genuine novelty** in quantum-computing research **and patents**. Built on the shoulders of **AutoResearchClaw (ARC)** and [**academic-research-skills (ARS)**](https://github.com/imbad0202/academic-research-skills), with one new contribution of our own: an **audit-and-falsify layer** that refuses to let an LLM-driven discovery loop declare victory until the win has been compared against the strongest known baseline at **strict Pareto-domination tolerances**, and every numerical claim in the resulting paper has been **re-derived from on-disk JSON artifacts**. The same machinery turns on patents: a `patent-audit` pipeline runs a **simulated USPTO examiner panel** that examines every claim under **35 U.S.C. §§ 101/102/103/112** and issues an **Office Action** (with a deterministic disposition + rejections-by-statute gate and a styled PDF report). Tested on five real papers — four peer-reviewed (PRX Quantum / npj Quantum Information / Quantum) plus Microsoft Quantum's tetron preprint — with the full review PDFs and per-call cost receipts shipped in `examples/`.
+A framework for **exploring genuine novelty** in quantum-computing research **and patents**. Built on the shoulders of **AutoResearchClaw (ARC)** and [**academic-research-skills (ARS)**](https://github.com/imbad0202/academic-research-skills), with one new contribution of our own: an **audit-and-falsify layer** that refuses to let an LLM-driven discovery loop declare victory until the win has been compared against the strongest known baseline at **strict Pareto-domination tolerances**, and every numerical claim in the resulting paper has been **re-derived from on-disk JSON artifacts**. The same machinery turns on patents: a `patent-audit` pipeline runs a **simulated USPTO examiner panel** that examines every claim under **35 U.S.C. §§ 101/102/103/112** and issues an **Office Action** (with a deterministic disposition + rejections-by-statute gate and a styled PDF report). The patent workflow is meant for patent examiners who need claim-by-claim statutory triage, patent attorneys who need disclosure intake / prosecution prep / validity-risk analysis, and inventors who want a structured pre-filing pressure test; it includes claim-compliance review for USPTO **35 U.S.C. § 112(b)** and EPO **Art. 84 EPC**, full-application review for specification adequacy / formalities / required sections under USPTO, EPO, or PCT standards, and a `patent-draft` workflow that turns a quantum invention disclosure into a draft filing package. It is an audit and drafting aid, not legal advice. Tested on five real papers — four peer-reviewed (PRX Quantum / npj Quantum Information / Quantum) plus Microsoft Quantum's tetron preprint — with the full review PDFs and per-call cost receipts shipped in `examples/`.
 
 License: MIT. See [LICENSE](LICENSE).
 
@@ -59,7 +60,7 @@ I built this because I wanted to publish the *workflow* that survived contact wi
 
 ## What it is
 
-QuantumNovelty is a Python + bash skill catalog plus a workflow chain that composes those skills into pipelines. Each skill is a single-purpose agent (one prompt template + one Python driver) that does one named thing — surface literature, predict amplitudes, run an ablation, audit a Pareto front, write a manuscript section. The chain composes them.
+QuantumNovelty is a Python + bash skill catalog plus a workflow chain that composes those skills into pipelines. Each skill is a single-purpose agent (one prompt template + one Python driver) that does one named thing — surface literature, predict amplitudes, run an ablation, audit a Pareto front, write a manuscript section, examine a patent claim set, or draft a quantum-patent filing package. The chain composes them.
 
 Concretely:
 
@@ -117,7 +118,7 @@ The combination of (1)–(6) is what we mean by "audit-and-falsify". It is not i
 
 ## All skills — the full catalog
 
-Eighteen skills under `skills/`. Every one has its own `SKILL.md` with the
+Twenty skills under `skills/`. Every one has its own `SKILL.md` with the
 full contract; the table below is the at-a-glance summary so you can find
 what you need without grepping.
 
@@ -132,6 +133,8 @@ what you need without grepping.
 | **`deep_research`** | 7: `full` / `quick` / `systematic-review` / `socratic` / `fact-check` / `lit-review` / `review` | `--mode MODE` `--topic STR` (optional `--paper PATH` to ground in actual text) | mode-specific markdown + `_backend_used.json` | Surface literature, fact-check claims, draft the Related Work section, run a research-rigour assessment on a paper. |
 | **`quantum_paper`** | 10: `full` / `plan` / `outline-only` / `revision` / `revision-coach` / `abstract-only` / `lit-review` / `format-convert` / `citation-check` / `disclosure` | `--mode MODE` plus `--topic` or `--draft` per mode | venue-formatted LaTeX or markdown | Author a quantum-computing paper, plan it, revise from reviewer comments, switch venues, write the disclosure block. |
 | **`quantum_reviewer`** | 6: `full` (EIC + R1 + R2 + R3 + DA) / `quick` / `guided` / `methodology-focus` / `re-review` / `calibration` | `--mode MODE` `--draft PATH` (optional `--journal SLUG`) | `review_panel.md` (or quick / methodology variants) + verdict | Get a 5-voice reviewer panel on a paper — yours or someone else's. |
+| **`patent_drafter`** | `guided` | `--disclosure PATH` or `--topic STR` (optional `--filing-standard {uspto,epo,pct,multi}`) | `filing_package.md`, `package_manifest.json`, `_backend_used.json` | Draft a quantum-patent filing package from invention disclosure: claims, spec, abstract, drawing plan, claim-compliance review, full-application review, and filing handoff checklist. |
+| **`patent_reviewer`** | `full` / `quick` | `--patent URL_OR_NUMBER_OR_FILE` (optional `--art-unit`, `--filing-standard`) | `office_action.md`, `_office_action.json`, `_patent_extracted.md` | Simulated USPTO examining unit plus attorney workflow: Office Action, claim-compliance review, full-application review, and validity/prosecution triage. |
 | **`logical_fallacies`** | (single) | `--draft PATH` (optional `--severity-threshold {low,medium,high,critical}`) | `fallacy_report.md`, `fallacy_findings.json` | Detect standard fallacies plus 11 quantum-CS-specific ones (cherry-picked-baseline, ad-hoc-precision-floor, simulator-laundering, mapping-by-convenience, pareto-cherry-picked-axes, cross-llm-theatre, …). |
 | **`cross_llm_prediction`** | (single) | `--hamiltonian-id ID` `--geometry-sweep STR` `--llms LIST` (must be ≥2 different vendors) `--k N` | per-LLM predictions JSON + overlap-vs-truth table | Build a falsifiable amplitude-prediction rubric across two vendors with predictions persisted before truth. |
 | **`pareto_explorer`** | built-in / `--evaluator-cmd` / `--plan-only` | `--hamiltonian ID` `--baseline LIST` (built-in registry: TFIM/Heisenberg 2-10q, H2_2q; or bring your own evaluator) | `archive.json` (strict-domination Pareto archive at calibrated ε) with REAL energies — bundled numpy statevector sim + SPSA | LLM-in-loop ansatz discovery with real numbers out of the box. |
@@ -164,6 +167,7 @@ $ bash chain/run.sh --list-stages
 pipeline                  default-on stages                                             optional
 --------------------------------------------------------------------------------------------------------------
 paper-audit               research, reviewer, fallacies, cqe                            novelty-audit, cross-llm
+patent-audit              prior-art, examiner, fallacies, cqe                           disclosure-audit
 full                      literature, discovery, audit, draft, cross-llm, review, ...   -
 mid-entry-stage-2.5       literature-1.5, audit, review, fallacies, cqe                 -
 mid-entry-stage-4         revision, re-review, cqe                                      -
@@ -200,6 +204,29 @@ This runs the four default-on stages in order:
 
 Each stage is **idempotent** — re-running with the same `--outdir` skips completed stages unless `--force` is passed. The resolved configuration (which stages ran, which `--skip-X` / `--with-X` flags were honored, decision log) is written to `_chain_config.json` in the outdir and surfaced in the final PIPELINE_REPORT.pdf.
 
+**Examine a quantum patent** (for examiner-style review, attorney intake, prosecution prep, or validity-risk triage):
+
+```
+bash chain/run.sh \
+  --pipeline patent-audit \
+  --patent "https://patents.google.com/patent/US10614371B2/en" \
+  --art-unit "AU 2128 (CPC G06N10/00)" \
+  --llm claude \
+  --outdir runs/patent_demo
+```
+
+This runs the patent chain in order:
+
+| Stage      | Skill                  | What it produces                                         |
+| ---------- | ---------------------- | -------------------------------------------------------- |
+| prior-art  | `deep_research --mode review` | candidate anticipating / obviousness references and search notes over the patent text |
+| examiner   | `patent_reviewer --mode full` | 6-voice simulated examining unit: §101, §102, §103, §112, quantum technical specialist, and SPE disposition |
+| fallacies  | `logical_fallacies`    | overclaiming / operability / quantum-CS reasoning issues in claims and specification |
+| cqe        | `process_summary`      | 6-dim audit summary for the patent run |
+| report     | report builder         | `PATENT_REPORT.{tex,pdf}` plus `_office_action.json` with disposition and rejections by statute |
+
+Inputs can be a Google Patents URL, a publication number, or a saved file. The loader preserves the kind-code framing: an A1 application is reviewed as an application under examination, while a B1/B2 patent is reviewed as an issued patent for validity-risk and response-planning work. Patent attorneys can use the outputs to prepare amendment options, Office Action responses, prior-art charts, or client-risk memos; patent examiners can use the same artifacts as a structured search-and-rejection workbench.
+
 **Drop or add stages:**
 
 ```
@@ -234,7 +261,7 @@ bash chain/run.sh --pipeline paper-audit --pause-after reviewer ...
 bash chain/run.sh --pipeline paper-audit --resume-from fallacies ...
 ```
 
-**Other pipelines** (`full`, `mid-entry-stage-2.5`, `mid-entry-stage-4`) follow the same toggle pattern. See `chain/pipelines.py` for the canonical stage definitions and `examples/end_to_end/two_paper_novelty/run_two_papers.sh` for a complete end-to-end harness.
+**Other pipelines** (`full`, `paper-audit`, `patent-audit`, `mid-entry-stage-2.5`, `mid-entry-stage-4`) follow the same toggle pattern. See `chain/pipelines.py` for the canonical stage definitions and `examples/end_to_end/two_paper_novelty/run_two_papers.sh` for a complete end-to-end harness.
 
 ### Telemetry — ARC's stage-health pattern
 
@@ -420,10 +447,21 @@ bash chain/run.sh \
   --pipeline patent-audit \
   --patent "https://patents.google.com/patent/US10614371B2/en" \
   --art-unit "AU 2128 (CPC G06N10/00)" \
+  --filing-standard multi \
   --llm claude \
   --outdir runs/patent_demo
 # By publication number instead of URL:
 bash chain/run.sh --pipeline patent-audit --patent US10614371B2 --llm claude
+
+# ── Draft a quantum PATENT from an invention disclosure ─────────────────
+# Generates claims, specification sections, abstract, drawing plan, claim
+# compliance review, full-application review, and filing handoff checklist.
+bash chain/run.sh \
+  --pipeline patent-draft \
+  --disclosure invention_disclosure.md \
+  --filing-standard uspto \
+  --llm claude \
+  --outdir runs/patent_draft_demo
 
 # ── Review an existing PAPER (PDF / TeX / text) → reviewer panel ────────
 bash chain/run.sh \
@@ -847,6 +885,69 @@ Optional:
 
 ---
 
+## Quick start — pick the path that fits your setup
+
+All paths get you to the same place: a local QuantumNovelty checkout whose
+skills can run through Claude Code CLI by default, or Codex CLI when you want
+OpenAI-side generation.
+
+### Option A: Local checkout (fastest for this repo)
+
+```bash
+git clone https://github.com/BoltzmannEntropy/QuantumNovelty.git
+cd QuantumNovelty
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
+```
+
+### Option B: Existing Claude Code or Codex CLI
+
+```bash
+which claude
+claude --version
+
+which codex
+codex --version
+```
+
+You do not need an Anthropic API key for the default path. QN shells out to
+your installed `claude` binary and records each call in `_backend_used.json`.
+Use `--llm codex` for an OpenAI/Codex run.
+
+### Option C: Optional patent-data augmentation
+
+QuantumNovelty works out of the box with Google Patents URLs, publication
+numbers, or saved files. For broader data access, you can install separate
+patent-data MCPs beside QN, such as Patent Client Agents or a USPTO/PTAB MCP.
+QN does not vendor those projects; the imported workflow pattern is
+progressive disclosure: start from a small case record, fetch only targeted
+documents when needed, and keep source provenance in the run directory.
+
+### Verify it worked
+
+```bash
+bash chain/run.sh --list-skills
+bash chain/run.sh --list-stages
+python -m pytest tests/test_smoke.py
+```
+
+### What can I actually do with this?
+
+| What you want | Command or prompt | What happens |
+|---|---|---|
+| Find patentability issues in a quantum patent | `bash chain/run.sh --pipeline patent-audit --patent US10614371B2 --filing-standard multi` | Prior-art surface, six-voice examiner panel, Office Action JSON/PDF, fallacy scan, CQE summary. |
+| Check claims for compliance | `bash skills/patent_reviewer/run.sh --mode full --patent patent.html --filing-standard multi --outdir out` | Flags USPTO §112(b) definiteness / antecedent-basis / structure issues and EPO Art. 84 clarity / two-part-form issues. |
+| Review a full application | `--filing-standard uspto`, `epo`, `pct`, or `multi` on `patent-audit` | Reviews specification adequacy, enablement, written description/support, formalities, required sections, abstract/title/drawings. |
+| Draft a quantum patent from scratch | `bash chain/run.sh --pipeline patent-draft --disclosure invention.md --filing-standard uspto` | Guided drafting workflow: claims, specification, abstract, drawing plan, compliance review, and filing handoff checklist. |
+| Search prior art thoroughly | Use `patent-audit` plus optional external patent-data MCPs | QN keeps the analysis artifacts and any targeted source documents in the run directory. |
+| Review a quantum paper | `bash chain/run.sh --pipeline paper-audit --paper paper.pdf --journal npj-quantum-information` | Research review, 5-voice reviewer panel, claims registry, fallacy scan, and CQE summary. |
+
+Patent outputs are drafting and review aids. They must be independently
+verified by a qualified patent professional before any USPTO, EPO, or PCT
+filing or response.
+
+---
+
 ## Quick start — natural-language
 
 The `chat` skill maps free-text into the right pipeline + skill + mode. Every
@@ -912,6 +1013,22 @@ chain/run.sh --pipeline chat --prompt "status"
    --prior-comments r1.md                                        → re-review
 "Calibrate this reviewer against my gold set" --paper paper.tex
    --gold-set golds/                                             → calibration
+```
+
+**Patent Reviewer / Patent Audit**
+```
+"Examine this quantum patent" --patent US10614371B2           → patent-audit
+"Prepare Office Action-style claim triage" --patent patent.pdf   → patent-audit
+"Assess validity risk for this issued patent" --patent US...B2   → patent-audit
+"Check these claims for USPTO 112(b) and EPO Art. 84"            → patent-audit --filing-standard multi
+"Review the full application for specification and formalities"  → patent-audit --filing-standard multi
+```
+
+**Quantum Patent Drafting**
+```
+"Draft a quantum patent application from this disclosure"         → patent-draft
+"Create a USPTO filing package for this quantum controller"      → patent-draft --filing-standard uspto
+"Create EPO-ready claims with two-part-form review"              → patent-draft --filing-standard epo
 ```
 
 **Pipeline orchestrator (Stages 1 → 6)**

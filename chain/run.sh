@@ -42,6 +42,8 @@ FORCE=false
 PAPER=""
 PATENT=""
 ART_UNIT=""
+FILING_STANDARD="uspto"
+DISCLOSURE=""
 TOPIC=""
 HAMILTONIAN=""
 BASELINE=""
@@ -89,7 +91,13 @@ Pipelines:
                     --patent URL|NUMBER|FILE (Google Patents). Default-on
                     stages: prior-art -> examiner (6-voice §§101/102/103/112
                     Office Action) -> fallacies -> cqe. Emits
-                    02_examiner_panel/_office_action.json.
+                    02_examiner_panel/_office_action.json. Use
+                    --filing-standard uspto|epo|pct|multi to add
+                    USPTO §112(b), EPO Art. 84/two-part-form, and
+                    full-application formalities checks.
+  patent-draft      Guided quantum-patent drafting workflow from invention
+                    disclosure to filing package. Use --disclosure FILE or
+                    --topic "STR", plus --filing-standard uspto|epo|multi.
   chat              Natural-language frontend: describe what you want in
                     --prompt "STR" (optionally with --paper PATH) and the
                     chat skill plans the matching pipeline. Add --execute
@@ -137,6 +145,8 @@ Common:
   --llm MODEL              Backend: claude (default), codex, codex-acp,
                            codex-mcp, anthropic-api
   --outdir DIR             Output root for this run
+  --filing-standard STD    Patent review/drafting standard:
+                           uspto (default), epo, pct, or multi
   --list-skills            Print discovered skills, then exit
   --force                  Re-run stages even if outputs exist
   --help, -h               This help
@@ -200,6 +210,8 @@ while [[ $# -gt 0 ]]; do
     --paper)    PAPER="$2"; shift 2 ;;
     --patent|--patent-url) PATENT="$2"; shift 2 ;;
     --art-unit) ART_UNIT="$2"; shift 2 ;;
+    --filing-standard) FILING_STANDARD="$2"; shift 2 ;;
+    --disclosure) DISCLOSURE="$2"; shift 2 ;;
     --topic)    TOPIC="$2"; shift 2 ;;
     --hamiltonian) HAMILTONIAN="$2"; shift 2 ;;
     --baseline) BASELINE="$2"; shift 2 ;;
@@ -356,6 +368,15 @@ case "$PIPELINE" in
     run_skill quantum_reviewer --mode "$MODE" --draft "$PAPER" \
       "${COMMON_FLAGS[@]+"${COMMON_FLAGS[@]}"}"
     ;;
+  patent-draft)
+    [[ -n "$DISCLOSURE" || -n "$TOPIC" ]] || \
+      { echo "Error: --disclosure FILE or --topic required for patent-draft" >&2; exit 2; }
+    PD_ARGS=(--mode "${MODE:-guided}" --filing-standard "$FILING_STANDARD")
+    [[ -n "$DISCLOSURE" ]] && PD_ARGS+=(--disclosure "$DISCLOSURE")
+    [[ -n "$TOPIC" ]] && PD_ARGS+=(--topic "$TOPIC")
+    [[ -n "$ART_UNIT" ]] && PD_ARGS+=(--art-unit "$ART_UNIT")
+    run_skill patent_drafter "${PD_ARGS[@]}"
+    ;;
   fallacies)
     [[ -n "$PAPER" ]] || { echo "Error: --paper required for fallacies" >&2; exit 2; }
     run_skill logical_fallacies --draft "$PAPER"
@@ -384,6 +405,7 @@ case "$PIPELINE" in
     [[ -n "$PAPER" ]]              && PIPE_ARGS+=(--paper "$PAPER")
     [[ -n "$PATENT" ]]            && PIPE_ARGS+=(--patent "$PATENT")
     [[ -n "$ART_UNIT" ]]          && PIPE_ARGS+=(--art-unit "$ART_UNIT")
+    [[ -n "$FILING_STANDARD" ]]   && PIPE_ARGS+=(--filing-standard "$FILING_STANDARD")
     [[ -n "$REVIEWER_COMMENTS" ]]  && PIPE_ARGS+=(--reviewer-comments "$REVIEWER_COMMENTS")
     [[ -n "$HAMILTONIAN" ]]        && PIPE_ARGS+=(--hamiltonian "$HAMILTONIAN")
     [[ -n "$BASELINE" ]]           && PIPE_ARGS+=(--baseline "$BASELINE")

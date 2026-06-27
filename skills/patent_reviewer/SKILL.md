@@ -1,6 +1,6 @@
 ---
 name: patent_reviewer
-description: Simulated USPTO examiner panel for quantum-computing patents. Ingests a Google Patents URL / publication number / saved file, examines every claim individually under 35 U.S.C. §§ 101/102/103/112 + a quantum-operability check, and emits an Office Action plus a deterministic machine-actionable `_office_action.json` (disposition, rejected/allowed claims, rejections-by-statute). The patent analogue of quantum_reviewer.
+description: Simulated USPTO examiner panel for quantum-computing patents. Ingests a Google Patents URL / publication number / saved file, examines every claim individually under 35 U.S.C. §§ 101/102/103/112 + a quantum-operability check, runs claim-compliance and full-application review under USPTO/EPO/PCT standards, and emits an Office Action plus a deterministic machine-actionable `_office_action.json` (disposition, rejected/allowed claims, rejections-by-statute). The patent analogue of quantum_reviewer.
 ---
 
 # patent_reviewer — USPTO examiner panel
@@ -8,6 +8,16 @@ description: Simulated USPTO examiner panel for quantum-computing patents. Inges
 The quantum-patent analogue of `quantum_reviewer`. Where the paper reviewer
 runs a journal referee panel, this runs a USPTO **examining unit** and
 produces an **Office Action** keyed to the patent statutes.
+
+It also carries the patent-attorney workflow:
+
+- **Check claims for compliance.** Run draft or published claims through
+  USPTO **35 U.S.C. § 112(b)** definiteness / antecedent-basis / structure
+  review, EPO **Art. 84 EPC** clarity / support / two-part-form review, or
+  PCT clarity/support review via `--filing-standard`.
+- **Review the full application.** Specification adequacy, enablement, written
+  description/support, formalities, abstract/title/drawings, and required
+  sections are checked under USPTO, EPO, PCT, or `multi` standards.
 
 ## Why patents need their own reviewer
 
@@ -41,6 +51,17 @@ A journal reviewer asks "is this good science?"; an examiner asks "are these
 |---|---|---|
 | `full` (default) | `office_action.md` + `_office_action.json` | the full 6-voice Office Action |
 | `quick` | `quick_examination.md` | fast single-voice patentability triage |
+
+## Filing standards
+
+Pass `--filing-standard` to select the application-review lens:
+
+| Standard | What gets checked |
+|---|---|
+| `uspto` | 35 U.S.C. § 112(a)/(b), MPEP 608 formalities, title, abstract, drawings, required sections, antecedent basis, definiteness, dependency clarity, and § 112(f) risk |
+| `epo` | EPC Art. 84 clarity/support, essential features, two-part form where appropriate, claim category consistency, reference signs, description support, drawings, abstract, and EPO formalities |
+| `pct` | PCT request/specification/claims/abstract/drawings completeness, clarity/support, dependency form, unity-relevant structure, sequence listings where applicable, and international-search readability |
+| `multi` | Runs USPTO, EPO, and PCT review together, separating each issue by standard |
 
 ## Deterministic artifact — `_office_action.json`
 
@@ -76,6 +97,12 @@ bash skills/patent_reviewer/run.sh --mode full \
 
 # By publication number:
 bash skills/patent_reviewer/run.sh --mode full --patent US10614371B2 --outdir out
+
+# Claims + full-application compliance under USPTO/EPO/PCT:
+bash skills/patent_reviewer/run.sh --mode full \
+  --patent application.html \
+  --filing-standard multi \
+  --outdir out
 
 # Quick triage:
 bash skills/patent_reviewer/run.sh --mode quick --patent US10614371B2 --outdir out

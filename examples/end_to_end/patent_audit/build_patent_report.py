@@ -206,8 +206,10 @@ def render(data: dict) -> str:
       r"deep-research surface, a six-voice simulated USPTO examiner panel "
       r"(the \texttt{patent\_reviewer} skill), a logical-fallacy scan, and "
       r"Stage-6 CQE scoring. The examiner panel reasons under 35 U.S.C. "
-      r"\S\S~101/102/103/112 and the MPEP and issues an \textbf{Office "
-      r"Action}; it is a simulation for research and drafting support, "
+      r"\S\S~101/102/103/112 and the MPEP, runs claim-compliance and "
+      r"full-application review under the selected filing standard, and "
+      r"issues an \textbf{Office Action}; it is a simulation for research "
+      r"and drafting support, "
       r"\emph{not} legal advice and not an official USPTO action.")
 
     # ---------- patent under examination ----------
@@ -220,6 +222,8 @@ def render(data: dict) -> str:
       rf"--- {latex_escape(status)} \\")
     W(rf"\textbf{{Title}} & {latex_escape(str(title))} \\")
     W(rf"\textbf{{Claims examined}} & {latex_escape(str(n_claims))} \\")
+    W(rf"\textbf{{Filing standard}} & "
+      rf"\texttt{{{latex_escape(str(cfg.get('filing_standard', 'uspto')))}}} \\")
     if source:
         if source.startswith("http"):
             # Canonical patent URL (drop ?inventor=…&sort=… query noise);

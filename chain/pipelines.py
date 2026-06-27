@@ -917,7 +917,8 @@ def pipeline_patent_audit(args: argparse.Namespace) -> int:
         _log_stage_decision("examiner", True,
                             "default-on; patent_reviewer --mode full "
                             "(USPTO §§101/102/103/112 panel)", decisions)
-        exam_args = ["--mode", "full", "--patent", str(args.patent)]
+        exam_args = ["--mode", "full", "--patent", str(args.patent),
+                     "--filing-standard", args.filing_standard]
         if getattr(args, "art_unit", None):
             exam_args += ["--art-unit", args.art_unit]
         results.append(_run_skill(
@@ -984,6 +985,7 @@ def pipeline_patent_audit(args: argparse.Namespace) -> int:
         "pipeline": "patent-audit",
         "llm": args.llm,
         "patent_source": str(args.patent),
+        "filing_standard": args.filing_standard,
         "pub_number": patent.pub_number,
         "kind_code": patent.kind_code,
         "is_application": patent.is_application,
@@ -1091,6 +1093,10 @@ def main() -> int:
     ap.add_argument("--art-unit", default=None,
                     help="optional USPTO art-unit / CPC context for the "
                          "patent examiner panel")
+    ap.add_argument("--filing-standard", default="uspto",
+                    choices=["uspto", "epo", "pct", "multi"],
+                    help="patent-audit application-review standard: uspto "
+                         "(§112/MPEP), epo (Art. 84/EPC), pct, or multi")
     ap.add_argument("--reviewer-comments", default=None, type=Path)
     ap.add_argument("--hamiltonian", default=None)
     ap.add_argument("--baseline", default=None)

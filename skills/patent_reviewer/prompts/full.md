@@ -21,12 +21,17 @@ governing standards are 35 U.S.C. §§ 101, 102, 103, 112 and the MPEP, not
 
 {art_unit_block}
 
+{filing_standard_block}
+
 ## Required output (exact structure)
 
 Output SIX distinct examiner voices in this exact order, each writing
 substantive analysis. Each examiner whose statute applies MUST include a
 per-claim rejection table (claim numbers exactly as in the document). Then
 the Supervisory Patent Examiner synthesizes and a vote table closes.
+The § 112 examiner and the SPE MUST also run the patent-attorney workflow:
+claim-compliance review plus full-application review under the selected
+filing standard (`{filing_standard}`).
 
 ---
 
@@ -85,6 +90,25 @@ does the spec show possession of the claimed invention? (c) Definiteness
 function, and antecedent-basis problems. End with a per-claim § 112 table
 (claim | sub-section (a)/(b)/(f) | the specific defect).
 
+Then add this required attorney-style claims-compliance section:
+
+### Claim compliance review
+
+Run the selected filing-standard checks:
+- USPTO: 35 U.S.C. § 112(b) definiteness, antecedent basis, claim structure,
+  functional claiming / § 112(f), and dependency clarity.
+- EPO: Article 84 clarity, support by the description, essential features,
+  two-part form where appropriate, claim category consistency, and dependency
+  clarity.
+- PCT: clarity, support, unity-relevant structure, dependency form, and
+  international-search readability.
+
+Use this table:
+
+| Claim(s) | Standard | Issue | Specific feedback | Amendment target |
+|---|---|---|---|---|
+| ... | USPTO § 112(b) / EPO Art. 84 / PCT clarity | ... | ... | ... |
+
 ## Voice 5 — Quantum Technical Specialist (operability / quantum-specific)
 
 The technical-expert examiner consulted on quantum subject matter. Does the
@@ -108,9 +132,35 @@ disposition of THIS document. State it on its own line, exactly:
 Then list, in order: (1) which claims stand rejected and under which
 statute(s); (2) which claims (if any) contain allowable subject matter and
 what amendment would place the application in condition for allowance;
-(3) the single strongest rejection the applicant must overcome. A first
+(3) the claim-compliance defects that matter most for prosecution or
+post-grant validity; (4) the full-application defects in the specification,
+formalities, or required sections; (5) the single strongest rejection the
+applicant must overcome. A first
 Office Action that rejects any claim is normally a `non-final-rejection`.
 Reserve `allowance` only if NO claim is rejected by any examiner above.
+
+Before the canonical machine-readable block, emit this required full-application
+review checklist:
+
+### Full application review
+
+Assess specification adequacy, formalities, and required sections under the
+selected filing standard (`{filing_standard}`). For USPTO, cover § 112(a)
+written description / enablement / best mode, MPEP 608 formalities, title,
+abstract, drawings, brief description of drawings, detailed description, claim
+support, and sequence listings / deposits if relevant. For EPO, cover EPC
+application formalities, Art. 84 support and clarity, two-part form, reference
+signs, description support, drawings, and abstract. For PCT, cover request,
+description, claims, abstract, drawings, sequence listings where applicable,
+unity-relevant structure, and international-search readability.
+
+| Area | Standard | Pass / defect | Evidence from application | Required fix |
+|---|---|---|---|---|
+| Claims | ... | ... | ... | ... |
+| Specification support | ... | ... | ... | ... |
+| Enablement / possession | ... | ... | ... | ... |
+| Formalities / required sections | ... | ... | ... | ... |
+| Drawings / abstract / title | ... | ... | ... | ... |
 
 After your prose, emit this CANONICAL machine-readable block exactly, with
 this exact heading. List ONLY the claims you actually SUSTAIN as rejected
@@ -149,6 +199,9 @@ rejected under that statute:
   § 103 — a rejection with no named reference is not a real rejection. If
   you genuinely cannot find art, say the claim is novel/non-obvious over the
   searched art rather than inventing a fake citation.
+- The selected filing-standard checks are mandatory. Even if no statutory
+  rejection survives, still include `### Claim compliance review` and
+  `### Full application review` with concrete defects or explicit passes.
 - Examiners must DISAGREE where the record supports it; rubber-stamp
   consensus is a failure mode. The disposition must follow from the claim
   rejections, not the other way around.
