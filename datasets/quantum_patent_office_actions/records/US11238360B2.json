@@ -1,0 +1,88 @@
+{
+  "application_number": null,
+  "publication_number": "US11238360B2",
+  "title": "US11238360B2 - Fast quantum feedback using analog integration and control pulse gating",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2018-02-12",
+  "publication_date": "2022-02-01",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/40"
+  ],
+  "claims_text": "What is claimed is: 1. A system, comprising: a pulse generation component that outputs a control pulse with a timing delay; a qubit state decision component that uses an analog kernel to perform a linear filtering operation on a qubit signal to obtain a result corresponding to a qubit state, and that compares the result to a threshold value to determine a measurement outcome result corresponding to the qubit state; and a conditional gate component that conditionally gates the control pulse based on the measurement outcome result. 2. The system of claim 1 , wherein the qubit state decision component performs the linear filtering operation by multiplying the qubit signal with a value from the analog kernel to obtain a multiplication result, integrates the multiplication result into an integration result, and compares the integration result to the threshold value to determine the measurement outcome result. 3. The system of claim 1 , wherein the qubit state decision component comprises a microwave mixer component coupled to a capacitor integrator, and an analog comparator component that compares the result to the threshold value to determine the measurement outcome result. 4. The system of claim 1 , wherein the control pulse comprises a qubit reset pulse. 5. The system of claim 1 , wherein the qubit state decision component is located in a cryostat proximate a qubit that provides the qubit signal. 6. The system of claim 1 , further comprising a feedback path comprising control hardware that updates future pulses. 7. The system of claim 6 , wherein the control hardware is implemented in a field programmable gate array. 8. The system of claim 1 , further comprising an additional control pulse corresponding to speculative execution of a branch, and another conditional gate component that gates the additional control pulse. 9. The system of claim 1 , wherein the conditional gate component comprises an analog switch coupled to an analog-controlled phase shifter. 10. A method, comprising: generating, by a quantum computer comprising a processor, a pulse that is received at an analog switch; determining, by the quantum computer, a qubit state, comprising multiplying a qubit signal by an analog kernel value to obtain a multiplication result, integrating the multiplication result into an integration result, and comparing the integration result to a threshold value to determine a measurement outcome result corresponding to the qubit state; and operating, by the quantum computer, the analog switch to gate the pulse based on the measurement outcome result. 11. The method of claim 10 , wherein the pulse comprises a qubit reset pulse, and wherein operating the analog switch to gate a qubit control pulse based on the measurement outcome result comprises operating the analog switch to blank the qubit reset pulse. 12. The method of claim 10 , wherein the operating the analog switch comprises sending a microwave pulse to reset the qubit state. 13. The method of claim 10 , further comprising: receiving, by the quantum computer, a second pulse at a second analog switch; and operating, by the quantum computer, the second analog switch to gate the second pulse based on the measurement outcome result or based on another measurement outcome result. 14. The method of claim 10 , wherein the analog switch is a two-way analog switch having one speculative input corresponding to the pulse and another speculative input corresponding to another pulse, and wherein the operating the analog switch to gate the pulse based on the measurement outcome result comprises outputting the pulse instead of the other pulse. 15. The method of claim 10 , further comprising: receiving, by the quantum computer, the qubit signal at an analog-to-digital converter coupled to digital control hardware. 16. A system, comprising: a qubit control digital to analog converter component that generates a pulse to be received at an analog switch; an analog mixing integrating comparing component that determines a qubit state from an experiment, comprising to multiply a qubit signal by an analog kernel to obtain a multiplication result, integrate the multiplication result into an integration result, and compare the integration result to a threshold value to determine a measurement outcome result corresponding to the qubit state; and the analog switch that gates the pulse based on the measurement outcome result. 17. The system of claim 16 , wherein the pulse comprises a qubit reset pulse, and wherein the analog switch blanks the qubit reset pulse. 18. The system of claim 16 , wherein the analog switch sends a microwave pulse to reset the qubit state. 19. The system of claim 16 , further comprising a second pulse that is received at a second analog switch, and the second analog switch gates the second pulse based on the measurement outcome result. 20. The system of claim 16 , wherein the analog switch is a two-way analog switch having one speculative input corresponding to the pulse and another speculative input corresponding to another pulse, and wherein the analog switch gates the pulse based on the measurement outcome result by outputting the pulse instead of the other pulse. 21. A method, comprising: outputting a control pulse with a timing delay; determining a measurement outcome result corresponding to a state of a qubit, comprising using an analog kernel to perform a linear filtering operation on a qubit signal to obtain a result corresponding to a qubit state, and comparing the result to a threshold value to determine the measurement outcome result corresponding to the qubit state; and conditionally gating the control pulse based on the measurement outcome result. 22. The method of claim 21 , further comprising outputting an additional control pulse corresponding to speculative execution of a branch, and conditionally gating the additional control pulse. 23. A system, comprising: a pulse generation component that generates a pulse to be received at an analog switch; a qubit state determination component that multiplies a qubit signal by an analog kernel to obtain a multiplication result, integrates the multiplication result into an integration result, and compares the integration result to a threshold value to determine a measurement outcome result corresponding to a qubit state; and a conditional gate component that gates the pulse at the analog switch based on the measurement outcome result. 24. The system of claim 23 , wherein the qubit state determination component comprises a microwave mixer component coupled to a capacitor integrator, and an analog comparator component that compares the integration result to the threshold value to determine the measurement outcome result. 25. The system of claim 23 , wherein the analog switch is coupled to an analog-controlled phase shifter.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US12368452B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11086665B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10333503B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10454459B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10505524B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11164100B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10931267B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12579462B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10862465B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11245390B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10635990B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11681908B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11238360B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11238360B2/en",
+    "assignee": "https://patents.google.com/patent/US11238360B2/en",
+    "filing_date": "https://patents.google.com/patent/US11238360B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11238360B2/en",
+    "claims_text": "https://patents.google.com/patent/US11238360B2/en",
+    "disposition": "https://patents.google.com/patent/US11238360B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11238360B2/en",
+    "build_date": "2026-06-29T08:29:36.168538+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

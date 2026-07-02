@@ -63,7 +63,8 @@ def test_chain_list_skills():
     assert r.returncode == 0
     expected = ["novelty_audit", "literature_surfacer", "pareto_explorer",
                 "ablation_designer", "cross_llm_prediction",
-                "book_acquirer", "audit_falsify", "patent_drafter"]
+                "book_acquirer", "audit_falsify", "patent_drafter",
+                "quantum_scout"]
     for name in expected:
         assert name in r.stdout, f"missing skill {name} in --list-skills"
 
@@ -73,8 +74,27 @@ def test_chain_help_lists_pipelines():
                        capture_output=True, text=True, timeout=10)
     assert r.returncode == 0
     for pipe in ["literature", "pareto-discover", "novelty-audit",
-                 "cross-llm", "draft-paper", "patent-draft", "full"]:
+                 "cross-llm", "draft-paper", "patent-draft", "full",
+                 "scout"]:
         assert pipe in r.stdout, f"missing pipeline {pipe} in --help"
+    assert "pareto-discover   DEPRECATED" in r.stdout
+    assert "Prefer --pipeline scout" in r.stdout
+    for flag in [
+        "--source-file",
+        "--scout-n",
+        "--scout-arxiv-max-downloads",
+        "--scout-pdf-kb-only",
+        "--no-scout-live-literature",
+    ]:
+        assert flag in r.stdout, f"missing scout flag {flag} in --help"
+
+
+def test_chain_list_stages_includes_scout():
+    r = subprocess.run(["bash", str(CHAIN_RUN), "--list-stages"],
+                       capture_output=True, text=True, timeout=10)
+    assert r.returncode == 0
+    assert "scout" in r.stdout
+    assert "quote-substantiation" in r.stdout
 
 
 def test_chain_rejects_unknown_pipeline():
@@ -82,6 +102,111 @@ def test_chain_rejects_unknown_pipeline():
                        capture_output=True, text=True, timeout=10)
     assert r.returncode == 2
     assert "Unknown pipeline" in r.stderr
+
+
+def test_quantum_scout_offline_chain_writes_quote_grounded_artifacts(tmp_path):
+    src = tmp_path / "docs"
+    src.mkdir()
+    note = src / "decoder_notes.md"
+    note.write_text(
+        """---
+title: Decoder Notes
+author: Test Author
+year: 2026
+keywords: surface code decoder syndrome quantum error correction
+---
+
+# Decoder Notes
+
+Surface-code decoders must state the noise model, syndrome extraction schedule,
+and threshold metric before any quantum error-correction advantage claim can be
+compared against known baselines.
+""",
+        encoding="utf-8",
+    )
+    outdir = tmp_path / "scout_run"
+    r = subprocess.run(
+        [
+            "bash", str(CHAIN_RUN),
+            "--pipeline", "scout",
+            "--topic", "surface code decoder under biased noise",
+            "--source-file", str(note),
+            "--no-scout-live-literature",
+            "--no-llm",
+            "--outdir", str(outdir),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    assert r.returncode == 0, r.stderr
+
+    scout = outdir / "scout"
+    assert (scout / "scout_report.md").is_file()
+    assert (scout / "scout_references.bib").is_file()
+    assert (scout / "claim_ledger.json").is_file()
+    assert (scout / "global_literature" / "baseline_catalog.json").is_file()
+    assert (scout / "source_kb" / "search_results.json").is_file()
+    evidence = json.loads((scout / "substantiation" / "claim_evidence.json").read_text())
+    assert evidence["claim_count"] >= 1
+    first_evidence = evidence["claims"][0]["evidence"]
+    assert first_evidence
+    assert first_evidence[0]["exact_quote"] is True
+    assert first_evidence[0]["citation"]
+    manifest = json.loads((scout / "scout_manifest.json").read_text())
+    assert "word-for-word quote substantiation" in manifest["ss_parity_features"]
+    assert "broad quantum-subject avenue recommendation" in manifest["ss_parity_features"]
+    report = json.loads((scout / "scout_report.json").read_text())
+    assert report["ideas"][0]["venue_fit"]
+    assert "Pareto" not in report["ideas"][0]["title"]
+
+
+def test_quantum_scout_pdf_kb_only_skips_ideas_but_indexes_sources(tmp_path):
+    src = tmp_path / "docs"
+    src.mkdir()
+    note = src / "decoder_notes.md"
+    note.write_text(
+        """---
+title: Decoder Notes
+author: Test Author
+year: 2026
+keywords: surface code decoder syndrome
+---
+
+# Decoder Notes
+
+Surface-code decoders must state the noise model, syndrome extraction schedule,
+and threshold metric before any quantum error-correction advantage claim can be
+compared against known baselines.
+""",
+        encoding="utf-8",
+    )
+    outdir = tmp_path / "pdf_kb_run"
+    r = subprocess.run(
+        [
+            "bash", str(CHAIN_RUN),
+            "--pipeline", "scout",
+            "--topic", "surface code decoder syndrome",
+            "--source-file", str(note),
+            "--scout-pdf-kb-only",
+            "--no-scout-arxiv-corpus",
+            "--no-scout-live-literature",
+            "--no-llm",
+            "--outdir", str(outdir),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    assert r.returncode == 0, r.stderr
+    scout = outdir / "scout"
+    report = json.loads((scout / "scout_report.json").read_text())
+    assert report["pdf_kb_only"] is True
+    assert report["ideas"] == []
+    search = json.loads((scout / "source_kb" / "search_results.json").read_text())
+    assert search["result_count"] >= 1
+    quality = json.loads((scout / "scout_quality.json").read_text())
+    assert quality["pdf_kb_only"] is True
 
 
 # =========================================================================
@@ -109,7 +234,8 @@ def test_known_backends_set():
     try:
         import llm
         assert llm.KNOWN_BACKENDS == (
-            "claude", "codex", "codex-acp", "codex-mcp", "anthropic-api"
+            "claude", "codex", "codex-acp", "codex-mcp", "kimi",
+            "anthropic-api"
         )
     finally:
         sys.path.remove(str(SKILLS / "common"))
@@ -138,6 +264,52 @@ def test_call_llm_uses_stub_when_set(tmp_path):
             assert result.backend_actually_used == "stub"
         finally:
             os.environ.pop("QUANTUMNOVELTY_LLM_STUB", None)
+    finally:
+        sys.path.remove(str(SKILLS / "common"))
+
+
+def test_call_llm_accepts_kimi_stub_backend(tmp_path, monkeypatch):
+    """Kimi and explicit kimi-* model ids should validate before stub use."""
+    sys.path.insert(0, str(SKILLS / "common"))
+    try:
+        import llm
+        stub_file = tmp_path / "stub.txt"
+        stub_file.write_text("KIMI STUB", encoding="utf-8")
+        monkeypatch.setenv("QUANTUMNOVELTY_LLM_STUB", str(stub_file))
+
+        r1 = llm.call_llm("anything", backend="kimi")
+        assert r1.text == "KIMI STUB"
+        assert r1.backend_requested == "kimi"
+        assert r1.backend_actually_used == "stub"
+
+        r2 = llm.call_llm("anything", backend="kimi-k2.7-code")
+        assert r2.backend_requested == "kimi-k2.7-code"
+        assert r2.backend_actually_used == "stub"
+    finally:
+        sys.path.remove(str(SKILLS / "common"))
+
+
+def test_kimi_env_file_parser(tmp_path, monkeypatch):
+    """QN should load Moonshot Anthropic-compatible config without sourcing."""
+    sys.path.insert(0, str(SKILLS / "common"))
+    try:
+        import llm
+        env_file = tmp_path / "kikm.sh"
+        env_file.write_text(
+            "\n".join([
+                "export ANTHROPIC_BASE_URL=https://api.moonshot.example/anthropic",
+                "export ANTHROPIC_AUTH_TOKEN=dummy-token",
+                "export ANTHROPIC_MODEL=kimi-k2.7-code",
+            ]),
+            encoding="utf-8",
+        )
+        monkeypatch.setenv("KIMI_ENV_FILE", str(env_file))
+
+        assert llm._find_kimi_env_file() == env_file
+        parsed = llm._parse_kimi_env_file(env_file)
+        assert parsed["ANTHROPIC_BASE_URL"].endswith("/anthropic")
+        assert parsed["ANTHROPIC_AUTH_TOKEN"] == "dummy-token"
+        assert parsed["ANTHROPIC_MODEL"] == "kimi-k2.7-code"
     finally:
         sys.path.remove(str(SKILLS / "common"))
 

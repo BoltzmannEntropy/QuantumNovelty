@@ -1,0 +1,88 @@
+{
+  "application_number": null,
+  "publication_number": "US10922617B2",
+  "title": "US10922617B2 - Embedding electronic structure in controllable quantum systems",
+  "assignee": "Harvard University",
+  "filing_date": "2019-08-08",
+  "publication_date": "2021-02-16",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/40",
+    "G06N10/20",
+    "G06N10/60",
+    "G06N10/70",
+    "G06N10/80"
+  ],
+  "claims_text": "What is claimed is: 1. A method of compiling a quantum problem for execution on a quantum processor, the method comprising: reading a problem specification, the problem specification corresponding to a fermionic Hamiltonian associated with a system of one or more fermion, the system having a plurality of spin orbitals; generating a first computing specification from the problem specification, the first computing specification comprising a first plurality of qubits, the first plurality of qubits encoding parity and occupancy information of the plurality of spin orbitals non-locally, wherein generating the first computing specification comprises representing second-quantized fermionic operators as interactions between qubits of the plurality of qubits; generating a second computing specification from the first computing specification, the second computing specification comprising a plurality of logical qubits and a plurality of ancilla qubits, wherein generating the second computing specification comprises substituting interactions between ancilla qubits of the plurality of ancilla qubits for interactions between qubits of the plurality of qubits that are unavailable on the quantum processor. 2. The method of claim 1 , wherein generating the first computing specification comprises applying a Bravyi-Kitaev transformation to the Hamiltonian. 3. The method of claim 1 , wherein the first plurality of qubits comprises a first subset encoding parity information and a second, disjoint, subset encoding occupancy information. 4. The method of claim 3 , wherein the first subset contains a number of qubits no greater than log 2 of a total number of qubits in the first plurality of qubits. 5. The method of claim 3 , wherein the second subset contains a number of qubits no greater than log 2 of a total number of qubits in the first plurality of qubits. 6. The method of claim 1 , wherein the first computing specification corresponds to a first Hamiltonian, the second computing specification correspond to a second Hamiltonian, and the second Hamiltonian embeds the first Hamiltonian. 7. The method of claim 6 , wherein the second Hamiltonian is 2-local and the first Hamiltonian is greater than 2-local. 8. The method of claim 1 , wherein said generating the second computing specification comprises removing couplings unavailable on the quantum processor. 9. The method of claim 1 , where said generating the second computing specification comprises removing interactions that violate a locality constraint on the quantum processor. 10. The method of claim 1 , wherein the second-quantized fermionic operators comprise annihilation and creation operators. 11. The method of claim 1 , further comprising: executing the second computing specification on the quantum processor. 12. A non-transitory computer readable storage medium having program instructions embodied therewith, the program instructions executable by a processor to cause the processor to perform a method comprising: reading a problem specification, the problem specification corresponding to a fermionic Hamiltonian associated with a system of one or more fermion, the system having a plurality of spin orbitals; generating a first computing specification from the problem specification, the first computing specification comprising a first plurality of qubits, the first plurality of qubits encoding parity and occupancy information of the plurality of spin orbitals non-locally, wherein generating the first computing specification comprises representing second-quantized fermionic operators as interactions between qubits of the plurality of qubits; generating a second computing specification from the first computing specification, the second computing specification comprising a plurality of logical qubits and a plurality of ancilla qubits, wherein generating the second computing specification comprises substituting interactions between ancilla qubits of the plurality of ancilla qubits for interactions between qubits of the plurality of qubits that are unavailable on the quantum processor. 13. A system comprising: a quantum processor; a computer comprising a processor adapted to perform a method comprising: reading a problem specification, the problem specification corresponding to a fermionic Hamiltonian associated with a system of one or more fermion, the system having a plurality of spin orbitals; generating a first computing specification from the problem specification, the first computing specification comprising a first plurality of qubits, the first plurality of qubits encoding parity and occupancy information of the plurality of spin orbitals non-locally, wherein generating the first computing specification comprises representing second-quantized fermionic operators as interactions between qubits of the plurality of qubits; generating a second computing specification from the first computing specification, the second computing specification comprising a plurality of logical qubits and a plurality of ancilla qubits, wherein generating the second computing specification comprises substituting interactions between ancilla qubits of the plurality of ancilla qubits for interactions between qubits of the plurality of qubits that are unavailable on the quantum processor; provide the second computing specification for execution on the quantum processor.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US12087503B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP4564237A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12368503B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12587274B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12603701B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2015069625A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10069573B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10325218B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10311370B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10255555B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10332024B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US10922617B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US10922617B2/en",
+    "assignee": "https://patents.google.com/patent/US10922617B2/en",
+    "filing_date": "https://patents.google.com/patent/US10922617B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US10922617B2/en",
+    "claims_text": "https://patents.google.com/patent/US10922617B2/en",
+    "disposition": "https://patents.google.com/patent/US10922617B2/en",
+    "office_action_event": "https://patents.google.com/patent/US10922617B2/en",
+    "build_date": "2026-06-29T08:28:42.710134+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

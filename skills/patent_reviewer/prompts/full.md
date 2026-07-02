@@ -19,6 +19,8 @@ governing standards are 35 U.S.C. §§ 101, 102, 103, 112 and the MPEP, not
 {patent}
 ```
 
+{prior_art_block}
+
 {art_unit_block}
 
 {filing_standard_block}
@@ -37,16 +39,27 @@ filing standard (`{filing_standard}`).
 
 ## Voice 1 — Primary Examiner (§ 101 eligibility + overall)
 
-Apply the Alice/Mayo two-step. Step 1: are the claims directed to a
-judicial exception (abstract idea — e.g. a mathematical concept / mental
-process — or a law of nature)? Many quantum-computing claims recite
-mathematical operations (state preparation, amplitude estimation, a
-variational cost function) that draw § 101 scrutiny. Step 2: if so, do the
-claims recite "significantly more" — an inventive concept, a particular
-machine, or an improvement to the functioning of a computer/QPU? Distinguish
-claims reciting concrete hardware (controllers, cryostats, qubit couplers)
-from claims reciting only an algorithm run on a generic processor. Give a
-§ 101 verdict per independent claim. End with a per-claim § 101 table:
+Apply the Alice/Mayo two-step faithfully, INCLUDING the eligibility-preserving
+prongs — not as a reflex to reject. Step 2A Prong One: is a claim directed to a
+judicial exception (a bare mathematical concept / mental process, or a law of
+nature)? Step 2A Prong Two / Step 2B: if a judicial exception is recited, is it
+integrated into a practical application, or does the claim add an inventive
+concept? This second inquiry is decisive and must be given full weight. A claim
+that recites or controls concrete quantum hardware (qubit couplers, control
+electronics, cryogenic packaging, readout / measurement apparatus, pulse
+generation), or that improves the functioning or operation of a quantum
+processor (calibration, error mitigation, circuit compilation that runs on a
+QPU, faster/more-accurate execution), IS patent-eligible: it is an improvement
+to a machine / technology, not an abstract idea, and MUST NOT be rejected under
+§ 101. Reject under § 101 ONLY a claim that is, in substance, a bare
+mathematical algorithm or mental process on a generic computer with no
+technological improvement and no hardware or QPU-operational tie. The mere
+presence of mathematics does NOT make a quantum claim abstract — essentially
+every quantum-computing claim involves mathematics; abstractness turns on
+whether the claim is *only* the math. Default to eligibility wherever a
+practical application or hardware / operational improvement is present, and
+reserve § 101 rejections for the genuinely abstract. Give a § 101 verdict per
+independent claim. End with a per-claim § 101 table:
 
 | Claim(s) | Statute | Basis (one line) |
 |---|---|---|
@@ -54,28 +67,38 @@ from claims reciting only an algorithm run on a generic processor. Give a
 
 ## Voice 2 — § 102 Examiner (anticipation / novelty)
 
-Search the prior art (cite real, specific references you can name from the
-last ~15 years of quantum-computing patents and literature — patents,
-published applications, and key papers; give publication numbers / authors
-where you can). For a § 102 rejection, ONE reference must disclose every
-element of a claim, arranged as claimed. Identify which independent claims,
-if any, are anticipated and by which single reference. Quote the claim
-limitation and point to where the reference teaches it. Be honest where you
-cannot find an anticipatory reference — say the claim is novel over the art
-you found. End with a per-claim § 102 table (claim | reference | the
-element-by-element read).
+Ground every rejection in the **Prior art of record** listed above. You may
+cite ONLY references that appear in that list — do NOT name any reference that
+is not listed, and do NOT invent references from memory. For a § 102
+rejection, ONE listed reference must disclose every element of a claim,
+arranged as claimed; quote the claim limitation and point to where that
+reference teaches it. If no listed reference anticipates a given claim, that
+claim is **novel over the prior art of record — say so and allow it under
+§ 102**. Do not manufacture an anticipation the listed art does not support.
+If the prior-art-of-record list is empty, treat all claims as novel under
+§ 102 and state that no anticipatory art was placed of record. End with a
+per-claim § 102 table (claim | listed reference or "none" | the
+element-by-element read or "no anticipating reference of record").
 
 ## Voice 3 — § 103 Examiner (obviousness)
 
-Apply Graham v. John Deere and KSR. Build obviousness combinations: primary
-reference + secondary reference(s) + a rationale to combine (a known
-technique applied to a known device ready for improvement, design choice,
-obvious-to-try with a finite number of predictable solutions, etc.). Most
-real rejections land here. For each combination give the motivation to
-combine and address any objective indicia of non-obviousness the
-specification asserts. Build per-dependent-claim rejections too — dependent
-claims often add only routine limitations. End with a per-claim § 103 table
-(claim | primary ref + secondary ref(s) | rationale to combine).
+Apply Graham v. John Deere and KSR, grounded ONLY in the **Prior art of
+record** listed above. An obviousness combination may use ONLY listed
+references (primary + secondary) plus a genuine, articulated rationale to
+combine (a known technique applied to a known device ready for improvement,
+design choice, obvious-to-try with a finite number of predictable solutions,
+etc.). You may NOT invent references, and you may NOT assert a combination the
+listed art does not actually teach. For every proposed combination give the
+specific motivation to combine and address the objective indicia of
+non-obviousness the specification asserts. A claim is rejected under § 103
+ONLY if listed references, properly combined, teach or suggest every
+limitation; otherwise the claim is **non-obvious over the prior art of record
+— say so and allow it**. Do not assume a dependent claim's added limitation is
+"routine" without art that shows it; absent such art, the dependent claim is
+allowable. If the prior-art-of-record list is empty, no § 103 rejection can be
+sustained — state that. End with a per-claim § 103 table (claim | listed
+primary + secondary ref(s) or "none" | rationale to combine, or "no supporting
+combination of record").
 
 ## Voice 4 — § 112 Examiner (enablement / written description / definiteness)
 
@@ -89,6 +112,17 @@ does the spec show possession of the claimed invention? (c) Definiteness
 "high coherence"), functional claiming that may invoke § 112(f) means-plus-
 function, and antecedent-basis problems. End with a per-claim § 112 table
 (claim | sub-section (a)/(b)/(f) | the specific defect).
+
+Calibration (mandatory): § 112 rejections require a CONCRETE, identified defect,
+not a generic suspicion. Standard functional language that the specification
+supports is permissible and is NOT a defect — do not reject a claim merely
+because it uses a functional term. Critically, if the specification (the written
+description) is NOT included in the document provided to you — i.e. you were
+given claims only — you CANNOT assess § 112(a) enablement or written
+description, so you must NOT raise § 112(a) on that basis; limit yourself to
+§ 112(b) definiteness defects that are evident from the claim language itself
+(e.g. a genuine antecedent-basis error). A claim with no concrete § 112 defect
+is allowable under § 112 — say so.
 
 Then add this required attorney-style claims-compliance section:
 
@@ -135,9 +169,14 @@ what amendment would place the application in condition for allowance;
 (3) the claim-compliance defects that matter most for prosecution or
 post-grant validity; (4) the full-application defects in the specification,
 formalities, or required sections; (5) the single strongest rejection the
-applicant must overcome. A first
-Office Action that rejects any claim is normally a `non-final-rejection`.
-Reserve `allowance` only if NO claim is rejected by any examiner above.
+applicant must overcome, if any. A first Office Action that sustains a
+rejection of any claim is a `non-final-rejection`. But `allowance` is the
+correct disposition when the prior art of record does not support a § 102 or
+§ 103 rejection and no § 112 or § 101 defect remains — do NOT default to
+rejection, and do NOT sustain a rejection the listed art does not actually
+support. Sustain a claim rejection only when a listed reference (§ 102), a
+real combination of listed references (§ 103), or a concrete § 112/§ 101
+defect is shown for that specific claim.
 
 Before the canonical machine-readable block, emit this required full-application
 review checklist:
@@ -195,10 +234,17 @@ rejected under that statute:
 - Examine claims INDIVIDUALLY. The per-claim tables are parsed mechanically
   downstream — keep claim numbers and `§ 10X` statute cells in the table
   cells exactly as shown.
-- Cite SPECIFIC prior art (publication numbers / authors) for § 102 and
-  § 103 — a rejection with no named reference is not a real rejection. If
-  you genuinely cannot find art, say the claim is novel/non-obvious over the
-  searched art rather than inventing a fake citation.
+- PRIOR ART IS GROUNDED, NOT RECALLED. Every § 102 / § 103 rejection MUST cite
+  a reference that appears in the "Prior art of record" block above. Citing a
+  reference that is not in that list, or inventing/recalling a reference from
+  memory, is a HARD ERROR that invalidates the rejection. A rejection with no
+  listed reference is not a real rejection — drop it and allow the claim.
+- OVER-REJECTION IS A FAILURE MODE, equal in severity to rubber-stamp approval.
+  Do not reject a claim the prior art of record does not support. If the listed
+  art does not anticipate (§ 102) or render obvious (§ 103) a claim, and there
+  is no concrete § 112 / § 101 defect, the claim is ALLOWABLE — allow it. A real
+  examining unit allows many claims; a panel that rejects every claim of a
+  granted patent is miscalibrated.
 - The selected filing-standard checks are mandatory. Even if no statutory
   rejection survives, still include `### Claim compliance review` and
   `### Full application review` with concrete defects or explicit passes.

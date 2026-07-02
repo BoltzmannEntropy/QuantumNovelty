@@ -1,0 +1,85 @@
+{
+  "application_number": null,
+  "publication_number": "US11455563B2",
+  "title": "US11455563B2 - Noise reduced circuits for trapped-ion quantum computers",
+  "assignee": "IonQ Inc",
+  "filing_date": "2019-09-20",
+  "publication_date": "2022-09-27",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/60",
+    "G06N10/40"
+  ],
+  "claims_text": "The invention claimed is: 1. A method of performing computation in a hybrid quantum-classical computing system comprising a classical computer and a quantum processor, comprising: computing, by a classical computer, a model Hamiltonian onto which a selected problem is mapped, wherein the model Hamiltonian comprises a plurality of sub-Hamiltonians; setting a quantum processor in an initial state, wherein the quantum processor comprises a plurality of trapped ions, each of which has two frequency-separated states defining a qubit; transforming the quantum processor from the initial state to a trial state based on each of the plurality of sub-Hamiltonians and an initial set of variational parameters by applying a reduced trial state preparation circuit to the quantum processor; measuring an expectation value of each of the plurality of sub-Hamiltonians on the quantum processor; and determining, by the classical computer, if a difference between the measured expectation value of the model Hamiltonian is more or less than a predetermined value, wherein the classical computer either: selects another set of variational parameters based on a classical optimization method if it is determined that the difference is more than the predetermined value and then: sets the quantum processor in the initial state, transforms the quantum processor from the initial state to a new trial state based on each of the plurality of sub-Hamiltonians and the another set of variational parameters by applying a new reduced trial state preparation circuit to the quantum processor, and measures an expectation value of the each of the plurality of sub-Hamiltonians on the quantum processor after transforming the quantum processor to the new trial state; or outputs the measured expectation value of the model Hamiltonian as an optimized solution to the selected problem if it is determined that the difference is less than the predetermined value. 2. The method according to claim 1 , wherein the reduced trial state preparation circuit does not include gate operations that do not influence the expectation value of the each of the plurality of sub-Hamiltonians. 3. The method according to claim 1 , wherein if it is determined that the difference is more than the predetermined value, the determining step is repeated. 4. The method according to claim 1 , wherein the problem to be solved is finding a lowest energy of a many-particle quantum system. 5. The method according to claim 4 , further comprising: selecting, by the classical computer, the initial set of variational parameters, wherein the initial set of variational parameters is selected randomly. 6. The method according to claim 4 , wherein setting the quantum processor in the initial state comprising setting the plurality of trapped ions in the quantum processor in an approximate state of the many-particle quantum system that is calculated by the classical computer. 7. The method according to claim 1 , wherein the problem to be solved is a combinatorial optimization problem. 8. The method according to claim 7 , further comprising: selecting, by the classical computer, the initial set of variational parameters, wherein the initial set of variational parameters is selected by the classical computer randomly. 9. The method according to claim 7 , wherein setting the quantum processor in the initial state comprising setting, by a system controller, each trapped ion in the quantum processor in a superposition of the two frequency-separated states. 10. A hybrid quantum-classical computing system, comprising: a quantum processor comprising a group of trapped ions, each of the trapped ions having two hyperfine states defining a qubit; one or more lasers configured to emit a laser beam, which is provided to trapped ions in the quantum processor; and a classical computer configured to: select a problem to be solved; compute a model Hamiltonian onto which the selected problem is mapped, wherein the model Hamiltonian comprises a plurality of sub-Hamiltonians; select a set of variational parameters; set the quantum processor in an initial state; transform the quantum processor from the initial state to a trial state based on each of the plurality of sub-Hamiltonians and an initial set of variational parameters by applying a reduced trial state preparation circuit to the quantum processor; measure an expectation value of each of the plurality of sub-Hamiltonians on the quantum processor; and determine if a difference between the measured expectation value of the model Hamiltonian is more or less than a predetermined value, wherein the classical computer either: selects another set of variational parameters based on a classical optimization method if it is determined that the difference is more than the predetermined value and then: sets the quantum processor in the initial state, transforms the quantum processor from the initial state to a new trial state based on each of the plurality of sub-Hamiltonians and the another set of variational parameters by applying a new reduced trial state preparation circuit to the quantum processor, and measures an expectation value of each of the plurality of sub-Hamiltonians on the quantum processor after transforming the quantum processor to the new trial state; or outputs the measured expectation value of the model Hamiltonian as an optimized solution to the selected problem if it is determined that the difference is less than the predetermined value. 11. The hybrid quantum-classical computing system according to claim 10 , wherein the reduced trial state preparation circuit does not include gate operations that do not influence the expectation value of the each of the plurality of sub-Hamiltonians. 12. The hybrid quantum-classical computing system according to claim 10 , wherein if it is determined that the difference is more than the predetermined value, the classical computer repeats the determining step. 13. The hybrid quantum-classical computing system according to claim 10 , wherein the problem to be solved is finding a lowest energy of a many-particle quantum system. 14. The hybrid quantum-classical computing system according to claim 13 , wherein the classical computer further selects the initial set of variational parameters randomly. 15. The hybrid quantum-classical computing system according to claim 13 , wherein the initial state is an approximate state of the many-particle quantum system that is calculated by the classical computer. 16. The hybrid quantum-classical computing system according to claim 10 , wherein the problem to be solved is a combinatorial optimization problem. 17. The hybrid quantum-classical computing system according to claim 16 , wherein the classical computer selects the initial set of variational parameters randomly. 18. The hybrid quantum-classical computing system according to claim 16 , wherein the initial state is a superposition of the two hyperfine states. 19. A hybrid quantum-classical computing system comprising non-volatile memory having a number of instructions stored therein which, when executed by one or more processors, causes the hybrid quantum-classical computing system to perform operations comprising: computing a model Hamiltonian onto which a selected problem is mapped, wherein the model Hamiltonian comprises a plurality of sub-Hamiltonians; setting a quantum processor in an initial state, wherein the quantum processor comprises a plurality of trapped ions, each of which has two frequency-separated states defining a qubit; transforming the quantum processor from the initial state to a trial state based on each of the plurality of sub-Hamiltonians and an initial set of variational parameters by applying a reduced trial state preparation circuit to the quantum processor; measuring an expectation value of each of the plurality of sub-Hamiltonians on the quantum processor; and determining if a difference between the measured expectation value of the model Hamilt",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20210073668A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20210255871A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20240403678A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20220147358A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20240338590A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN113935490B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12488274B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN116245184B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2024027933A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN115965087B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2025248684A1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11455563B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11455563B2/en",
+    "assignee": "https://patents.google.com/patent/US11455563B2/en",
+    "filing_date": "https://patents.google.com/patent/US11455563B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11455563B2/en",
+    "claims_text": "https://patents.google.com/patent/US11455563B2/en",
+    "disposition": "https://patents.google.com/patent/US11455563B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11455563B2/en",
+    "build_date": "2026-06-29T08:29:29.679752+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

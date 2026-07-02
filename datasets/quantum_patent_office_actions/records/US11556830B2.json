@@ -1,0 +1,88 @@
+{
+  "application_number": null,
+  "publication_number": "US11556830B2",
+  "title": "US11556830B2 - Efficient quadratic ising hamiltonian generation with qubit reduction",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2019-11-19",
+  "publication_date": "2023-01-17",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/60"
+  ],
+  "claims_text": "What is claimed is: 1. A system, comprising: a memory that stores computer executable components; and a processor that executes the following computer executable components: a formulation component that structures an optimization problem as a quadratic pseudo-boolean optimization problem; a quadratization component that quadratizes the quadratic pseudo-boolean optimization problem to reduce number of additional variables used to solve the optimization problem so as to generate an equivalent first quadratic pseudo-boolean function (QPBF) to optimize; and an optimization component that reduces number of variables in the first QPBF using at least one of a roof duality or extended roof duality technique to obtain a second QPBF with fewer number of boolean variables than the first QPBF to facilitate qubit reduction. 2. The system of claim 1 , further comprising a determination component that determines an integer variable as linear sums of binary variables. 3. The system of claim 1 , further comprising a transformation component that changes inequality constraints to equality constraints. 4. The system of claim 3 , further comprising a computing component that creates an unconstrained pseudo-boolean optimization problem based on the equality constraints. 5. The system of claim 1 , wherein the optimization component employs a polynomial time algorithm to determine optimal values of a subset of the boolean variables to facilitate the qubit reduction. 6. The system of claim 3 , wherein the transformation component converts an inequality constraint to an equality constraint with an additional integer variable without loss of generality by employing: ƒ( x )≤ c →ƒ( x )+ s=c ƒ( x )=Σ i a i x i +Σ i b i y i ƒ ≤ƒ( x )≤ ƒ x i : binary variable, y i : integer variable, a i , b i : coefficients, c: constant s: contiguous set valued integer variable with range [0, c− ƒ ] Similarly: ƒ( x )≥ c →ƒ( x )− s=c s: contiguous set valued integer variable with range [0, ƒ −c]. 7. The system of claim 4 , wherein the computing component creates an unconstrained pseudo-boolean optimization problem by squaring and adding the equality constraints to the following objective function with a weight parameter: g ( x 1 , . . . ,x p″ )=ƒ( x 1 , . . . ,x p″ )+λΣ j=1 m″ ( c j ( x 1 , . . . ,x p″ )) 2 8. The system of claim 1 , further wherein the quadratization component introduces additional binary variables into the optimization problem. 9. A computer-implemented method comprising: using a classical processor to execute computer executable components stored in memory to perform the following acts: using the classical processor to structure an optimization problem as a quadratic pseudo-boolean optimization problem; using the classical processor to quadratize the quadratic pseudo-boolean optimization problem to reduce number of additional variables used to solve the optimization problem so as to generate an equivalent first quadratic pseudo-boolean function (QPBF) to optimize; and using the classical processor to reduce number of variables in the first QPBF using at least one of a roof duality or extended roof duality technique to obtain a second QPBF with fewer number of boolean variables than the first QPBF to facilitate qubit reduction. 10. The method of claim 9 , further comprising using the classical processor to determine an integer variable as linear sums of binary variables. 11. The method of claim 9 , further comprising using the classical processor to change inequality constraints to equality constraints. 12. The method of claim 9 , further comprising using the classical processor to create an unconstrained pseudo-boolean optimization problem based on the equality constraints. 13. The method of claim 9 , further comprising using the classical processor to employ a polynomial time algorithm to determine optimal values of a subset of the boolean variables to facilitate the qubit reduction. 14. The method of claim 9 , further comprising using the classical processor to convert an inequality constraint to an equality constraint with an additional integer variable without loss of generality by employing: ƒ( x )≤ c →ƒ( x )+ s=c ƒ( x )=Σ i a i x i +Σ i b i y i ƒ ≤ƒ( x )≤ ƒ x i : binary variable, y i : integer variable, a i , b i : coefficients, c: constant s: contiguous set valued integer variable with range [0, c− ƒ ] Similarly: ƒ( x )≥ c →ƒ( x )− s=c s: contiguous set valued integer variable with range [0, ƒ −c]. 15. The method of claim 9 , further comprising using the classical processor to create an unconstrained pseudo-boolean optimization problem by squaring and adding the equality constraints to the following objective function with a weight parameter: g ( x 1 , . . . ,x p″ )=ƒ( x 1 , . . . ,x p″ )+λΣ j=1 m″ ( c j ( x 1 , . . . ,x p″ )) 2 16. The method of claim 9 , further comprising using the classical processor to introduce additional binary variables into the optimization problem. 17. A computer program product comprising a computer readable storage medium having program instructions embodied therewith, the program instructions executable by a classical processor to cause the classical processor to: formulate, using the classical processor, an optimization problem as a quadratic pseudo-boolean optimization problem; quadratize, using the classical processor, the quadratic pseudo-boolean optimization problem to reduce number of additional variables used to solve the optimization problem so as to generate an equivalent first quadratic pseudo-boolean function (QPBF) to optimize; and reduce, using the classical processor, number of variables in the first QPBF using at least one of a roof duality or extended roof duality technique to obtain a second QPBF with fewer number of boolean variables than the first QPBF to facilitate qubit reduction. 18. The computer program product of claim 17 , wherein the program instructions are further executable by the classical processor to cause the classical processor to: determine, using the classical processor, an integer variable as linear sums of binary variables. 19. The computer program product of claim 17 , wherein the program instructions are further executable by the classical processor to cause the classical processor to: change, using the classical processor, inequality constraints to equality constraints. 20. The computer program product of claim 17 , wherein the program instructions are further executable by the classical processor to cause the classical processor to: create, using the classical processor, unconstrained pseudo-boolean optimization problem based on the equality constraints.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "JP7562508B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "JP7502269B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2020196883A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN113646787B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2020196915A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230017335A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN113761717B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12118434B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230315800A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2024042605A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP4612620A4",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN118246563A",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11556830B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11556830B2/en",
+    "assignee": "https://patents.google.com/patent/US11556830B2/en",
+    "filing_date": "https://patents.google.com/patent/US11556830B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11556830B2/en",
+    "claims_text": "https://patents.google.com/patent/US11556830B2/en",
+    "disposition": "https://patents.google.com/patent/US11556830B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11556830B2/en",
+    "build_date": "2026-06-29T08:30:56.621114+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

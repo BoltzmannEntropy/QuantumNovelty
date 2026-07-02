@@ -1330,6 +1330,9 @@ def _print_stage_table() -> int:
     will execute.
     """
     table = [
+        ("scout", ("literature", "arxiv-corpus", "source-kb",
+                   "quote-substantiation", "ideas"),
+         ("pdf-kb-only", "no-arxiv-corpus", "no-live-literature", "no-llm")),
         ("paper-audit", PAPER_AUDIT_DEFAULT_ON, PAPER_AUDIT_OPTIONAL),
         ("patent-audit", PATENT_AUDIT_DEFAULT_ON, PATENT_AUDIT_OPTIONAL),
         ("full", ("literature", "discovery", "audit", "draft",

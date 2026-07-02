@@ -39,3 +39,8 @@ _backend_used.txt
 
 # Generated audit scripts move into paper repos; ignore drafts here
 audit_claims_*.py.draft
+
+# Dataset evaluation run artifacts. Keep dataset records, scripts, and summary
+# CSV/markdown, but ignore per-patent prompt/output directories.
+datasets/*/eval/*/
+datasets/*/eval_fixed*/

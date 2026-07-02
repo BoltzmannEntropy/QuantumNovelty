@@ -1,0 +1,86 @@
+{
+  "application_number": null,
+  "publication_number": "US11348024B2",
+  "title": "US11348024B2 - Universal adiabatic quantum computing with superconducting qubits",
+  "assignee": "D Wave Systems Inc",
+  "filing_date": "2018-07-06",
+  "publication_date": "2022-05-31",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/40",
+    "G06N10/80"
+  ],
+  "claims_text": "The invention claimed is: 1. A tunable superconducting capacitive coupler to communicatively couple a pair of qubits, the tunable superconducting capacitive coupler comprising: a pair of coupling capacitors in series with one another; a fixed capacitor in parallel with the pair of coupling capacitors, and a compound Josephson junction connected to a node between the coupling capacitors of the pair of coupling capacitors, the compound Josephson junction responsive to a flux bias to tune a sign and a magnitude of a sum of a capacitance of the fixed capacitor and a tunable capacitance which is mediated across the pair of coupling capacitors. 2. The tunable superconducting capacitive coupler of claim 1 , further comprising: a node which connects to a voltage source to provide a gate voltage to the compound Josephson junction. 3. The tunable superconducting capacitive coupler of claim 1 , further comprising: a node which connects to a voltage rail to provide a gate voltage to the compound Josephson junction of the tunable superconducting capacitive coupler and to one or more additional tunable superconducting capacitive couplers. 4. The tunable superconducting capacitive coupler of claim 1 wherein the compound Josephson junction is directly connected to the node between the coupling capacitors of the pair of coupling capacitances.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US12087503B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12501840B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12518187B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12536459B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US7533068B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10339466B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9477796B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11797641B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10650319B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN107580752B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9461588B1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11348024B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11348024B2/en",
+    "assignee": "https://patents.google.com/patent/US11348024B2/en",
+    "filing_date": "https://patents.google.com/patent/US11348024B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11348024B2/en",
+    "claims_text": "https://patents.google.com/patent/US11348024B2/en",
+    "disposition": "https://patents.google.com/patent/US11348024B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11348024B2/en",
+    "build_date": "2026-06-29T08:29:18.836472+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

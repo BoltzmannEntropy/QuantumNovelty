@@ -10,6 +10,8 @@ Backends (all share the `call_llm(prompt, backend, ...)` signature):
                               persistent session across multiple skill calls.
   - "codex-mcp"               Codex as an MCP client; QuantumNovelty skills are
                               exposed as MCP tools. (Driver registered separately.)
+  - "kimi"                    Kimi/Moonshot via the Anthropic-compatible
+                              Messages API. Requires KIMI_ENV_FILE or kikm.sh.
   - "anthropic-api"           Anthropic HTTP API. OPT-IN ONLY. Requires
                               ANTHROPIC_API_KEY. The framework will REFUSE to
                               fall back to this from any of the above; you must
@@ -31,6 +33,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -43,7 +46,9 @@ from typing import Any
 # Public API
 # =========================================================================
 
-KNOWN_BACKENDS = ("claude", "codex", "codex-acp", "codex-mcp", "anthropic-api")
+KNOWN_BACKENDS = (
+    "claude", "codex", "codex-acp", "codex-mcp", "kimi", "anthropic-api"
+)
 
 
 @dataclass
@@ -113,9 +118,10 @@ def call_llm(
     `acp_session`: for backend="codex-acp" only — name of the persistent
     session. If None, the session name is derived from os.getpid().
     """
-    if backend not in KNOWN_BACKENDS:
+    if not _is_known_backend(backend):
         raise ValueError(
-            f"unknown backend {backend!r}; choose from {KNOWN_BACKENDS}"
+            f"unknown backend {backend!r}; choose from {KNOWN_BACKENDS} "
+            "or an explicit kimi-* / moonshot* model id"
         )
     # Test seam: QUANTUMNOVELTY_LLM_STUB shortcuts the entire call. Used by fixtures.
     stub = os.environ.get("QUANTUMNOVELTY_LLM_STUB")
@@ -144,6 +150,8 @@ def call_llm(
         return _call_codex_acp(prompt, env, timeout, acp_session)
     if backend == "codex-mcp":
         return _call_codex_mcp(prompt, env, timeout)
+    if _is_kimi_backend(backend):
+        return _call_kimi(prompt, backend, timeout)
     if backend == "anthropic-api":
         return _call_anthropic_api(prompt, timeout)
     # Should be unreachable given the KNOWN_BACKENDS check above.
@@ -179,6 +187,21 @@ def _neutral_cwd() -> str:
     return tempfile.gettempdir()
 
 
+def _is_kimi_backend(backend: str) -> bool:
+    """Return True for the generic Kimi backend or an explicit Kimi model id."""
+    return (
+        backend == "kimi"
+        or backend == "moonshot"
+        or backend.startswith("kimi-")
+        or backend.startswith("moonshot")
+    )
+
+
+def _is_known_backend(backend: str) -> bool:
+    """Validate fixed backend ids plus explicit Kimi/Moonshot model ids."""
+    return backend in KNOWN_BACKENDS or _is_kimi_backend(backend)
+
+
 # =========================================================================
 # Backend: Claude Code CLI (DEFAULT)
 # =========================================================================
@@ -199,9 +222,25 @@ def _call_claude_cli(prompt: str, env: dict[str, str],
 
     On JSON parse failure we degrade to plain text + char-count estimates.
     """
+    # Pin a capable model explicitly. Without --model the Claude Code CLI
+    # ADAPTIVELY ROUTES by prompt complexity: small prompts silently fall to
+    # claude-haiku-4-5 while only large prompts reach Opus. We observed exactly
+    # this in a paper-audit run -- the 5-voice panel and fallacy stages got
+    # Opus, but the research-quality review and the claim-vs-evidence
+    # requirements judge ran on Haiku. For a referee/audit pipeline that is a
+    # quality AND reproducibility hole: identical inputs can land on different
+    # models run-to-run. We therefore pin every stage to one capable model.
+    # Default `opus` matches this codebase's own direct-API default
+    # (QN_API_MODEL=claude-opus-4-5) and maximises review quality; override
+    # with QN_CLAUDE_MODEL (e.g. `sonnet` for cheaper runs, or a pinned
+    # snapshot id for byte-reproducibility). We use an evergreen alias rather
+    # than a dated snapshot id (those 404 on retirement). The resolved model is
+    # surfaced in each stage's _backend_used.json ledger.
+    model = os.environ.get("QN_CLAUDE_MODEL", "opus")
     cmd = [
         "claude", "--print",
         "--output-format", "json",
+        "--model", model,
         "--dangerously-skip-permissions",
         "--no-session-persistence",
         # Nested calls are pure text generation. If the model attempts a
@@ -245,8 +284,20 @@ def _call_claude_cli(prompt: str, env: dict[str, str],
                 result.total_cost_usd = float(cost)
             mu = envelope.get("modelUsage") or {}
             if isinstance(mu, dict) and mu:
-                # The first key is the snapshot ID (e.g. claude-opus-4-5-20251101)
-                result.model_id = next(iter(mu.keys()))
+                # The CLI may list MULTIPLE models: the pinned model that did
+                # the main generation PLUS a tiny internal helper call (often
+                # claude-haiku for titling/summarisation). `next(iter(...))`
+                # picked an arbitrary first key, so the ledger could record
+                # `haiku` for a stage that actually ran on `opus`. Attribute
+                # the stage to the model that produced the most output tokens.
+                def _out_tokens(v: object) -> int:
+                    if isinstance(v, dict):
+                        return int(v.get("outputTokens")
+                                   or v.get("output_tokens")
+                                   or v.get("tokens") or 0)
+                    return 0
+                result.model_id = max(mu.keys(),
+                                      key=lambda k: _out_tokens(mu[k]))
     except (json.JSONDecodeError, ValueError):
         # Backend returned non-JSON despite the flag — keep raw text and
         # fall back to char-count token estimates.
@@ -374,6 +425,174 @@ def _ensure_mcp_config() -> Path:
     cfg_path = Path(tempfile.gettempdir()) / f"qn_mcp_{os.getpid()}.json"
     cfg_path.write_text(json.dumps(config, indent=2), encoding="utf-8")
     return cfg_path
+
+
+# =========================================================================
+# Backend: Kimi / Moonshot Anthropic-compatible Messages API
+# =========================================================================
+
+def _find_kimi_env_file() -> Path | None:
+    """Locate kikm.sh. KIMI_ENV_FILE wins; otherwise search upward.
+
+    The DSS root normally holds kikm.sh. We search from both the caller's cwd
+    and this module's location so QN works when launched from DSS, QN's repo
+    root, a skill directory, or a workflow wrapper.
+    """
+    explicit = os.environ.get("KIMI_ENV_FILE")
+    if explicit and Path(explicit).is_file():
+        return Path(explicit)
+
+    starts = [Path.cwd(), Path(__file__).resolve()]
+    seen: set[Path] = set()
+    for start in starts:
+        base = start if start.is_dir() else start.parent
+        for parent in (base, *base.parents):
+            if parent in seen:
+                continue
+            seen.add(parent)
+            cand = parent / "kikm.sh"
+            if cand.is_file():
+                return cand
+    return None
+
+
+def _parse_kimi_env_file(path: Path) -> dict[str, str]:
+    """Parse ANTHROPIC_* exports from kikm.sh without sourcing shell code."""
+    overrides: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"\s*export\s+(ANTHROPIC_[A-Z_]+)=(.+)", line)
+        if not m:
+            continue
+        value = m.group(2).strip().strip('"').strip("'")
+        overrides[m.group(1)] = value
+    return overrides
+
+
+def _kimi_env_overrides() -> tuple[dict[str, str], Path]:
+    """Load the Kimi/Moonshot gateway configuration from kikm.sh."""
+    env_file = _find_kimi_env_file()
+    if not env_file:
+        raise RuntimeError(
+            "Kimi env file not found "
+            "(set KIMI_ENV_FILE=/path/to/kikm.sh)"
+        )
+    overrides = _parse_kimi_env_file(env_file)
+    if not overrides.get("ANTHROPIC_BASE_URL") or not (
+        overrides.get("ANTHROPIC_AUTH_TOKEN")
+        or overrides.get("ANTHROPIC_API_KEY")
+    ):
+        raise RuntimeError(
+            f"Kimi env file {env_file} missing "
+            "ANTHROPIC_BASE_URL / AUTH_TOKEN"
+        )
+    return overrides, env_file
+
+
+def _call_kimi(prompt: str, backend: str, timeout: int) -> LLMResult:
+    """Invoke Kimi/Moonshot directly over the Messages API.
+
+    `kimi-k2.7-code` requires `thinking: enabled`, which the Claude CLI path
+    cannot express. This backend therefore uses direct HTTP while preserving
+    QN's structured `_backend_used.json` provenance.
+    """
+    import time
+    import urllib.error
+    import urllib.request
+
+    env, env_file = _kimi_env_overrides()
+    base_url = env["ANTHROPIC_BASE_URL"].rstrip("/")
+    token = env.get("ANTHROPIC_AUTH_TOKEN") or env.get("ANTHROPIC_API_KEY")
+    model = os.environ.get(
+        "QN_KIMI_MODEL",
+        env.get("ANTHROPIC_MODEL", "kimi-k2.7-code"),
+    )
+    if backend not in ("kimi", "moonshot"):
+        model = backend
+
+    max_tokens = int(os.environ.get(
+        "QN_KIMI_MAX_TOKENS",
+        os.environ.get("KIMI_MAX_TOKENS", "16384"),
+    ))
+    thinking_budget = int(os.environ.get(
+        "QN_KIMI_THINKING_BUDGET",
+        os.environ.get("KIMI_THINKING_BUDGET", "4096"),
+    ))
+    if thinking_budget >= max_tokens:
+        max_tokens = thinking_budget + 4096
+
+    body = json.dumps({
+        "model": model,
+        "max_tokens": max_tokens,
+        "thinking": {"type": "enabled", "budget_tokens": thinking_budget},
+        "messages": [{"role": "user", "content": prompt}],
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"{base_url}/v1/messages",
+        data=body,
+        headers={
+            "content-type": "application/json",
+            "x-api-key": token or "",
+            "authorization": f"Bearer {token or ''}",
+            "anthropic-version": "2023-06-01",
+        },
+        method="POST",
+    )
+
+    t0 = time.monotonic()
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode("utf-8")[:500]
+        except Exception:
+            detail = ""
+        raise RuntimeError(
+            f"Kimi call failed ({model}): HTTP {e.code} {e.reason} {detail}"
+        ) from e
+    except (urllib.error.URLError, TimeoutError) as e:
+        raise RuntimeError(f"Kimi network error ({model}): {e}") from e
+    elapsed = time.monotonic() - t0
+
+    parts = [
+        block.get("text", "")
+        for block in payload.get("content", [])
+        if isinstance(block, dict) and block.get("type") == "text"
+    ]
+    text = "".join(parts).strip()
+    if not text:
+        raise RuntimeError(f"Kimi returned no text content ({model})")
+
+    usage = payload.get("usage") or {}
+    input_tokens = int(usage.get("input_tokens", 0) or 0)
+    output_tokens = int(usage.get("output_tokens", 0) or 0)
+    tokens_estimated = not (input_tokens or output_tokens)
+    if tokens_estimated:
+        input_tokens = max(1, len(prompt) // 4)
+        output_tokens = max(1, len(text) // 4)
+
+    return LLMResult(
+        text=text,
+        backend_requested=backend,
+        backend_actually_used="kimi",
+        model_id=payload.get("model", model),
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        cache_read_input_tokens=int(
+            usage.get("cache_read_input_tokens", 0) or 0
+        ),
+        cache_creation_input_tokens=int(
+            usage.get("cache_creation_input_tokens", 0) or 0
+        ),
+        elapsed_s=elapsed,
+        tokens_estimated=tokens_estimated,
+        extras={
+            "env_file": str(env_file),
+            "max_tokens": max_tokens,
+            "thinking_budget": thinking_budget,
+        },
+    )
 
 
 # =========================================================================
@@ -538,7 +757,15 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(
         description="Invoke one of QuantumNovelty's LLM backends with a prompt."
     )
-    ap.add_argument("--backend", default="claude", choices=KNOWN_BACKENDS)
+    ap.add_argument(
+        "--backend",
+        default="claude",
+        help=(
+            "backend id; one of "
+            f"{', '.join(KNOWN_BACKENDS)}, or an explicit kimi-* / moonshot* "
+            "model id"
+        ),
+    )
     ap.add_argument("--prompt-file", required=True, type=Path,
                     help="path to a UTF-8 file containing the prompt")
     ap.add_argument("--timeout", type=int, default=600)

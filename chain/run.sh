@@ -56,6 +56,23 @@ AUGMENTED_BASELINES=""
 GEOMETRY_SWEEP=""
 LLMS=""
 VENUE=""
+KB_IDS=""
+KB_ROOT=""
+QUESTION=""
+CLAIMS_FILE=""
+CLAIMS=()
+QUOTES_PER_CLAIM=3
+MAX_CLAIMS=8
+QUOTE_COUNT=3
+NO_LLM=false
+SOURCE_FILES=()
+SCOUT_N=6
+SCOUT_LITERATURE_N=10
+SCOUT_SOURCES="crossref,arxiv,semantic_scholar,serper"
+SCOUT_NO_LIVE_LITERATURE=false
+SCOUT_ARXIV_MAX_DOWNLOADS=5
+SCOUT_NO_ARXIV_CORPUS=false
+SCOUT_PDF_KB_ONLY=false
 
 # Per-stage toggles for paper-audit; collected during arg-parse
 # and passed through to pipelines.py.
@@ -74,11 +91,14 @@ Usage:
 
 Pipelines:
   literature        Multi-source literature surface + baseline catalog
-  pareto-discover   LLM-in-loop ansatz discovery + Pareto archive
+  pareto-discover   DEPRECATED legacy/narrow path: LLM-in-loop ansatz
+                    discovery + Pareto archive. Prefer --pipeline scout for
+                    broad quantum novelty scouting.
   novelty-audit     Audit-and-falsify framework (the marquee skill)
   cross-llm         Cross-LLM falsifiable amplitude prediction
   draft-paper       Compose results into a manuscript draft
-  full              literature -> pareto-discover (-> cross-llm when
+  full              LEGACY ansatz workflow: literature -> pareto-discover
+                    (-> cross-llm when
                     --llms + --geometry-sweep are given). novelty-audit and
                     draft-paper run separately once you've inspected the
                     Pareto archive. (full-pipeline = the python
@@ -98,6 +118,19 @@ Pipelines:
   patent-draft      Guided quantum-patent drafting workflow from invention
                     disclosure to filing package. Use --disclosure FILE or
                     --topic "STR", plus --filing-standard uspto|epo|multi.
+  scout             SS-like automatic quantum novelty scout. Topic ->
+                    literature surface -> optional source/KG quote search ->
+                    candidate ideas -> claim ledger, references, manifest,
+                    and scout_report.md.
+  quantum-kb-review Emma-like KB-grounded review. Extracts claims from
+                    --paper or accepts --claim/--claims-file, retrieves
+                    word-for-word quantum KB quotes with citations, then
+                    writes grounded_review.md. Use --no-llm for deterministic
+                    evidence-only output.
+  quantum-kb-perspective
+                    Emma Perspectives-parity KB-grounded perspective. Retrieves
+                    word-for-word quantum KB quotes, writes a perspective post,
+                    verifies quote fidelity, and appends quote/claim provenance.
   chat              Natural-language frontend: describe what you want in
                     --prompt "STR" (optionally with --paper PATH) and the
                     chat skill plans the matching pipeline. Add --execute
@@ -157,6 +190,8 @@ Pipeline-specific:
     --hamiltonian ID       Optional. Filter to literature relevant to this Hamiltonian.
 
   pareto-discover:
+    DEPRECATED for broad discovery. Use --pipeline scout for novel avenue
+    recommendations across quantum computing.
     --hamiltonian ID       Required. The Hamiltonian to optimise against.
     --baseline LIST        Required. Comma-separated baseline labels to seed
                            the Pareto archive (e.g. UCCSD-1-Trotter,HEA-5L).
@@ -177,6 +212,44 @@ Pipeline-specific:
     --pareto-archive PATH       Required.
     --xllm PATH                 Optional. cross_llm_prediction output.
     --venue STR                 Default: "generic peer-reviewed journal".
+
+  scout:
+    --topic "STR"               Required scout topic.
+    --source-file FILE          Repeatable PDF/text/markdown/docx/json source
+                                to ingest into a run-local scout KB. Alias:
+                                --scout-source.
+    --kb KB_IDS                 Optional existing quantum KB IDs to quote-search.
+    --kb-root DIR               Optional existing KB root.
+    --scout-n N                 Candidate ideas. Default 6.
+    --scout-literature-n N      Hits per literature source. Default 10.
+    --scout-sources LIST        Literature sources. Default:
+                                crossref,arxiv,semantic_scholar,serper.
+    --scout-arxiv-max-downloads N
+                                Max arXiv PDFs to download/index. Default 5.
+    --no-scout-arxiv-corpus     Disable arXiv PDF download/index.
+    --scout-pdf-kb-only         Download/ingest/index/search sources and exit
+                                before idea generation.
+    --quotes-per-claim N        Quote evidence per idea claim. Default 3.
+    --no-scout-live-literature  Skip live literature retrieval.
+    --no-llm                    Deterministic idea/report scaffold.
+
+  quantum-kb-review:
+    --paper PATH                Optional paper to extract claims from.
+    --question "STR"            Optional review question.
+    --claim "STR"               Repeatable explicit claim to substantiate.
+    --claims-file PATH          Optional txt/json/jsonl claim list.
+    --kb KB_IDS                 Comma-separated quantum KB IDs.
+    --kb-root DIR               Optional KB root.
+    --quotes-per-claim N        Default 3.
+    --max-claims N              Default 8 when extracting from paper.
+    --no-llm                    Write deterministic review only.
+
+  quantum-kb-perspective:
+    --question "STR"            Required perspective question.
+    --kb KB_IDS                 Comma-separated quantum KB IDs.
+    --kb-root DIR               Optional KB root.
+    --quote-count N             Default 3.
+    --no-llm                    Write deterministic perspective only.
 EOF
 }
 
@@ -231,6 +304,23 @@ while [[ $# -gt 0 ]]; do
     --reviewer-comments) REVIEWER_COMMENTS="$2"; shift 2 ;;
     --prompt)   PROMPT="$2"; shift 2 ;;
     --execute)  EXECUTE=true; shift ;;
+    --kb)       KB_IDS="$2"; shift 2 ;;
+    --kb-root)  KB_ROOT="$2"; shift 2 ;;
+    --question) QUESTION="$2"; shift 2 ;;
+    --claim)    CLAIMS+=("$2"); shift 2 ;;
+    --claims-file) CLAIMS_FILE="$2"; shift 2 ;;
+    --quotes-per-claim) QUOTES_PER_CLAIM="$2"; shift 2 ;;
+    --max-claims) MAX_CLAIMS="$2"; shift 2 ;;
+    --quote-count) QUOTE_COUNT="$2"; shift 2 ;;
+    --no-llm)   NO_LLM=true; shift ;;
+    --source-file|--scout-source) SOURCE_FILES+=("$2"); shift 2 ;;
+    --scout-n) SCOUT_N="$2"; shift 2 ;;
+    --scout-literature-n) SCOUT_LITERATURE_N="$2"; shift 2 ;;
+    --scout-sources) SCOUT_SOURCES="$2"; shift 2 ;;
+    --scout-arxiv-max-downloads) SCOUT_ARXIV_MAX_DOWNLOADS="$2"; shift 2 ;;
+    --no-scout-arxiv-corpus) SCOUT_NO_ARXIV_CORPUS=true; shift ;;
+    --scout-pdf-kb-only) SCOUT_PDF_KB_ONLY=true; shift ;;
+    --no-scout-live-literature|--no-live-literature) SCOUT_NO_LIVE_LITERATURE=true; shift ;;
     # Per-stage toggles for paper-audit. Collected here and
     # passed through to pipelines.py verbatim.
     --skip-research|--skip-reviewer|--skip-fallacies|--skip-cqe) \
@@ -322,6 +412,8 @@ case "$PIPELINE" in
     run_skill literature_surfacer --topic "$TOPIC"
     ;;
   pareto-discover)
+    echo "[chain] WARNING: --pipeline pareto-discover is deprecated and narrow." >&2
+    echo "[chain]          Use --pipeline scout for broad quantum novelty scouting." >&2
     [[ -n "$HAMILTONIAN" && -n "$BASELINE" ]] || \
       { echo "Error: --hamiltonian and --baseline required" >&2; exit 2; }
     PE_ARGS=(--hamiltonian "$HAMILTONIAN" --baseline "$BASELINE"
@@ -362,6 +454,29 @@ case "$PIPELINE" in
     [[ -n "$REVIEWER_COMMENTS" ]] && QP_ARGS+=(--reviewer-comments "$REVIEWER_COMMENTS")
     run_skill quantum_paper "${QP_ARGS[@]}" "${COMMON_FLAGS[@]+"${COMMON_FLAGS[@]}"}"
     ;;
+  scout)
+    [[ -n "$TOPIC" ]] || { echo "Error: --topic required for scout" >&2; exit 2; }
+    SCOUT_ARGS=(--topic "$TOPIC"
+                --n "$SCOUT_N"
+                --literature-n "$SCOUT_LITERATURE_N"
+                --sources "$SCOUT_SOURCES"
+                --arxiv-max-downloads "$SCOUT_ARXIV_MAX_DOWNLOADS"
+                --quotes-per-claim "$QUOTES_PER_CLAIM")
+    [[ -n "$KB_IDS" ]] && SCOUT_ARGS+=(--kb "$KB_IDS")
+    [[ -n "$KB_ROOT" ]] && SCOUT_ARGS+=(--kb-root "$KB_ROOT")
+    [[ -n "$HAMILTONIAN" ]] && SCOUT_ARGS+=(--hamiltonian-id "$HAMILTONIAN")
+    for source_file in "${SOURCE_FILES[@]}"; do
+      SCOUT_ARGS+=(--source-file "$source_file")
+    done
+    $SCOUT_NO_LIVE_LITERATURE && SCOUT_ARGS+=(--no-live-literature)
+    $SCOUT_NO_ARXIV_CORPUS && SCOUT_ARGS+=(--no-arxiv-corpus)
+    $SCOUT_PDF_KB_ONLY && SCOUT_ARGS+=(--pdf-kb-only)
+    $NO_LLM && SCOUT_ARGS+=(--no-llm)
+    scout_stage="$OUTDIR/scout"
+    mkdir -p "$scout_stage"
+    echo "[chain] >> scout"
+    "$SKILLS_DIR/quantum_scout/run.sh" --outdir "$scout_stage" --llm "$LLM" "${SCOUT_ARGS[@]}"
+    ;;
   quantum-reviewer)
     [[ -n "$MODE" && -n "$PAPER" ]] || \
       { echo "Error: --mode and --paper required for quantum-reviewer" >&2; exit 2; }
@@ -387,6 +502,41 @@ case "$PIPELINE" in
     [[ -n "$PAPER" ]] && CHAT_ARGS+=(--paper "$PAPER")
     [[ "$EXECUTE" == true ]] && CHAT_ARGS+=(--execute)
     run_skill chat "${CHAT_ARGS[@]}" "${COMMON_FLAGS[@]+"${COMMON_FLAGS[@]}"}"
+    ;;
+  quantum-kb-review)
+    if [[ -z "$PAPER" && -z "$QUESTION" && -z "$CLAIMS_FILE" && ${#CLAIMS[@]} -eq 0 ]]; then
+      echo "Error: quantum-kb-review requires --paper, --question, --claim, or --claims-file" >&2
+      exit 2
+    fi
+    QKB_PREFIX=()
+    [[ -n "$KB_ROOT" ]] && QKB_PREFIX=(--kb-root "$KB_ROOT")
+    QKB_ARGS=(review --outdir "$OUTDIR" --llm "$LLM"
+              --quotes-per-claim "$QUOTES_PER_CLAIM"
+              --max-claims "$MAX_CLAIMS")
+    [[ -n "$KB_IDS" ]] && QKB_ARGS+=(--kb "$KB_IDS")
+    [[ -n "$PAPER" ]] && QKB_ARGS+=(--paper "$PAPER")
+    [[ -n "$QUESTION" ]] && QKB_ARGS+=(--question "$QUESTION")
+    [[ -n "$CLAIMS_FILE" ]] && QKB_ARGS+=(--claims-file "$CLAIMS_FILE")
+    if [[ ${#CLAIMS[@]} -gt 0 ]]; then
+      for c in "${CLAIMS[@]}"; do
+        QKB_ARGS+=(--claim "$c")
+      done
+    fi
+    $NO_LLM && QKB_ARGS+=(--no-llm)
+    echo "[chain] >> quantum_kb review"
+    "$SKILLS_DIR/quantum_kb/run.sh" "${QKB_PREFIX[@]}" "${QKB_ARGS[@]}"
+    ;;
+  quantum-kb-perspective)
+    [[ -n "$QUESTION" ]] || { echo "Error: quantum-kb-perspective requires --question" >&2; exit 2; }
+    QKB_PREFIX=()
+    [[ -n "$KB_ROOT" ]] && QKB_PREFIX=(--kb-root "$KB_ROOT")
+    QKB_ARGS=(perspective --outdir "$OUTDIR" --llm "$LLM"
+              --quote-count "$QUOTE_COUNT"
+              --question "$QUESTION")
+    [[ -n "$KB_IDS" ]] && QKB_ARGS+=(--kb "$KB_IDS")
+    $NO_LLM && QKB_ARGS+=(--no-llm)
+    echo "[chain] >> quantum_kb perspective"
+    "$SKILLS_DIR/quantum_kb/run.sh" "${QKB_PREFIX[@]}" "${QKB_ARGS[@]}"
     ;;
   process-summary)
     run_skill process_summary --run-dir "$OUTDIR/.."

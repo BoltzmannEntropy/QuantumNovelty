@@ -1,0 +1,84 @@
+{
+  "application_number": null,
+  "publication_number": "US11416228B2",
+  "title": "US11416228B2 - System and method of optimizing instructions for quantum computers",
+  "assignee": "University of Chicago",
+  "filing_date": "2019-09-12",
+  "publication_date": "2022-08-16",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/80"
+  ],
+  "claims_text": "What is claimed is: 1. A quantum computing system for compiling and executing instructions on a quantum processor, the quantum computing system comprising: the quantum processor including a plurality of qubits; a classical memory including a quantum program, the quantum program defines a plurality of instructions in a source language; and a classical processor communicatively coupled to the classical memory, the classical memory including computer-executable instructions that, when executed by the classical processor, cause the classical processor to: compile the quantum program into logical assembly instructions in an intermediate language; aggregate the logical assembly instructions together into a plurality of logical blocks of instructions; generate a logical schedule for the quantum program based on commutativity between the plurality of logical blocks; generate a tentative physical schedule based on the logical schedule, the tentative physical schedule includes a mapping of the logical assembly instructions in the logical schedule onto the plurality of qubits of the quantum processor; aggregate instructions together within the tentative physical schedule that do not reduce parallelism, thereby generating an updated physical schedule; generate optimized control pulses for the aggregated instructions of the quantum program; and execute the quantum program on the quantum processor with the optimized control pulses and the updated physical schedule. 2. The quantum computing system of claim 1 , wherein the instructions further cause the classical processor to: generate a gate dependence graph for the quantum program from the logical assembly instructions, wherein aggregating sets of logical assembly instructions together further includes determining commutativity in the gate dependency graph, wherein the aggregating is based on aggregation rules defined on the gate dependence graph. 3. The quantum computing system of claim 2 , wherein determining commutativity in the gate dependency graph includes forming one or more intermediate aggregated instructions within the gate dependency graph. 4. The quantum computing system of claim 2 , wherein the instructions further cause the classical processor to: determine priority values for each instruction in the quantum program by: identifying, for a particular instruction, each parent of the particular instruction from the gate dependency graph; for each identified parent of the particular instruction, subtracting a latency of the parent from a priority value of the parent, thereby identifying a potential priority value for the particular instruction; and assigning a minimal potential priority value to the particular instruction from the identified potential priority values of the identified parents; and schedule each instruction in the quantum program based on the assigned priority value. 5. The quantum computing system of claim 2 , wherein aggregating instructions together in the tentative physical schedule comprises: identifying a monotonic action involving aggregation of two or more instructions within the gate dependence graph that does not delay critical paths within the gate dependence graph; aggregating the two or more instructions within the gate dependence graph; updating a latency of each aggregated instruction; and scheduling a circuit of aggregated instructions based on the gate dependence graph. 6. The quantum computing system of claim 5 , wherein executing the quantum program further includes transmitting control pulse sequences to the quantum processor based on the circuit of aggregated instructions. 7. The quantum computing system of claim 1 , wherein aggregating the logical assembly instructions further includes aggregating a first set of logical assembly instructions, a product of which are diagonal unitaries. 8. A computer-implemented method for compiling instructions for a quantum computer, the method is implemented using a classical processor in communication with a classical memory, the computer-implemented method comprising: receiving a quantum program from a user, the quantum program defining a plurality of instructions in a source language; compiling the quantum program into logical assembly instructions in an intermediate language; aggregating the logical assembly instructions together into a plurality of logical blocks of instructions; generating a logical schedule for the quantum program based on commutativity between the plurality of logical blocks; generating a tentative physical schedule based on the logical schedule, the tentative physical schedule including a mapping of the logical assembly instructions in the logical schedule onto a plurality of qubits of a quantum processor; aggregating instructions together in the tentative physical schedule that do not reduce parallelism, thereby generating an updated physical schedule; generating optimized control pulses for the aggregated instructions of the quantum program; and executing the quantum program on the quantum processor with the optimized control pulses and the updated physical schedule. 9. The computer-implemented method of claim 8 , further comprising: generating a gate dependence graph for the quantum program from the logical assembly instructions, wherein aggregating sets of logical assembly instructions together further includes determining commutativity in the gate dependency graph, wherein the aggregating is based on aggregation rules defined on the gate dependency graph. 10. The computer-implemented method of claim 9 , wherein determining commutativity in the gate dependency graph includes forming one or more intermediate aggregated instructions within the gate dependency graph. 11. The computer-implemented method of claim 9 , further comprising: determining priority values for each instruction in the quantum program by: identifying, for a particular instruction, each parent of the particular instruction from the gate dependency graph; for each identified parent of the particular instruction, subtracting a latency of the parent from a priority value of the parent, thereby identifying a potential priority value for the particular instruction; and assigning a minimal potential priority value to the particular instruction from the identified potential priority values of the identified parents; and scheduling each instruction in the quantum program based on the assigned priority value. 12. The computer-implemented method of claim 9 , wherein aggregating instructions together in the tentative physical schedule comprises: identifying a monotonic action involving aggregation of two or more instructions within the gate dependence graph that does not delay critical paths within the gate dependence graph; aggregating the two or more instructions within the gate dependence graph; updating a latency of each aggregated instruction; and scheduling a circuit of aggregated instructions based on the gate dependence graph. 13. The computer-implemented method of claim 12 , wherein executing the quantum program further includes transmitting control pulse sequences to the quantum processor based on the circuit of aggregated instructions. 14. The computer-implemented method of claim 8 , wherein aggregating the logical assembly instructions further includes aggregating a first set of logical assembly instructions, a product of which are diagonal unitaries. 15. A non-transitory computer-readable storage media having computer executable instructions embodied thereon, wherein when executed by at least one classical processor, the computer-executable instructions cause the classical processor to: receive a quantum program from a user, the quantum program defining a plurality of instructions in a source language; compile the quantum program into logical assembly instructions in an intermediate language; aggregate the logical assembly instructions together into a plurality of logical blocks of instructions; generate a logical schedule for the q",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20210303282A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20220374390A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11551129B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11567762B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10599988B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP3844689A4",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11593174B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN113544711B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11593695B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11748648B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11714730B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11416228B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11416228B2/en",
+    "assignee": "https://patents.google.com/patent/US11416228B2/en",
+    "filing_date": "https://patents.google.com/patent/US11416228B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11416228B2/en",
+    "claims_text": "https://patents.google.com/patent/US11416228B2/en",
+    "disposition": "https://patents.google.com/patent/US11416228B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11416228B2/en",
+    "build_date": "2026-06-29T08:29:22.852919+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

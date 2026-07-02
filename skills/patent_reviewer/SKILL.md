@@ -123,6 +123,10 @@ examining-office Office Action (see `patent_io.Patent.status_line`).
 ## In the chain
 
 Wired as the `patent-audit` pipeline in `chain/pipelines.py`
-(`bash chain/run.sh --pipeline patent-audit --patent-url URL`): prior-art
-research → this examiner panel → logical-fallacy scan → claims-registry →
-CQE summary.
+(`bash chain/run.sh --pipeline patent-audit --patent URL`): prior-art
+research → this examiner panel → logical-fallacy scan → CQE summary.
+
+For named §102/§103 grounding, run `skills/patent_prior_art/run.sh` first and
+pass its `prior_art_refs.json` to this skill with `--prior-art`. Without an
+explicit prior-art set the prompt forbids the panel from inventing named
+references from memory.

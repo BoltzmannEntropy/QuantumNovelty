@@ -1,0 +1,85 @@
+{
+  "application_number": null,
+  "publication_number": "US10679138B2",
+  "title": "US10679138B2 - Topological qubit fusion",
+  "assignee": "Microsoft Technology Licensing LLC",
+  "filing_date": "2017-06-23",
+  "publication_date": "2020-06-09",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/40",
+    "B82Y10/00",
+    "H10N60/00",
+    "H10N60/10",
+    "H10N60/128"
+  ],
+  "claims_text": "What is claimed is: 1. A quantum computing device, comprising: at least one nanowire with at least a first topological wire segment defining non-Abelian quasiparticles associated with a first qubit and a second topological wire segment defining non-Abelian quasiparticles associated with a second qubit; and at least one gate configured to: selectively induce changes of phase, from topological to nontopological and vice-versa, in the at least one nanowire and induce a potential well in the nanowire that traps a non-Abelian fusion quasiparticle produced by fusing first non-Abelian quasiparticles associated with the first qubit and the second qubit; and fuse the trapped non-Abelian fusion quasiparticle with a second non-Abelian quasiparticle associated with either the first qubit or the second qubit to produce a non-Abelian fusion outcome quasiparticle associated with a qubit produced by the fusing. 2. The quantum computing device of claim 1 , wherein the at least one nanowire comprises a Majorana wire. 3. The quantum computing device of claim 1 , wherein the at least one gate is configured to cause relative motion of the potential well such that the potential well and the second end of the first topological wire segment are brought towards each other. 4. The quantum computing device of claim 1 , wherein at least one gate is further configured to cause the potential well to brought towards the first topological wire segment. 5. The quantum computing device of claim 1 , further comprising: a measurement device for measuring the non-Abelian fusion outcome quasiparticle. 6. The quantum computing device of claim 1 , wherein the first qubit comprises first and second non-Abelian quasiparticles, and the second qubit comprises third, fourth, and fifth non-Abelian quasiparticles. 7. The quantum computing device of claim 1 , wherein the at least one nanowire includes a nontopological segment situated between topological segments associated with the first qubit and the second qubit. 8. The quantum computing device of claim 1 , wherein the first qubit is associated with a first encoding and the second qubit is associated with a second encoding, and the fusion quasiparticle has a quasiparticle encoding based on the first encoding and the second encoding. 9. The quantum computing device of claim 8 , the encoding of the first qubit or the second qubit is selected so that the produced qubit corresponds to application of a phase gate on a computational qubit. 10. The quantum computing device of claim 8 , wherein the first encoding corresponds to a state |Ψ A =α 0 |0 +α 1 |1 of the first qubit and the second encoding corresponds to a state |Ψ B )=β 0 |0 +β 1 |1 of the second qubit and the encoding based on the first encoding and the second encoding and produced by fusion is associated with a state |Ψ which is one of: α 0 ⁡ [ β 0 + ( - 1 ) N xy ⁢ β 1 ] ⁢  0 〉 + α 1 ⁡ [ β 0 - ( - 1 ) N xy ⁢ β 1 ] ⁢  1 〉  α 0 ⁡ [ β 0 + ( - 1 ) N xy ⁢ β 1 ]  2 +  α 1 ⁡ [ β 0 - ( - 1 ) N xy ⁢ β 1 ]  2 ⁢ ⁢ and [ α 0 ⁢ β 0 + ( - 1 ) N xy ⁢ α 1 ⁢ β 1 ] ⁢  0 〉 + [ α 1 ⁢ β 0 + ( - 1 ) N xy ⁢ α 0 ⁢ β 1 ] ⁢  1 〉  [ α 0 ⁢ β 0 + ( - 1 ) N xy ⁢ α 1 ⁢ β 1 ]  2 +  [ α 1 ⁢ β 0 + ( - 1 ) N xy ⁢ α 0 ⁢ β 1 ]  2 wherein N xy is a fermion parity associated with the fusion outcome. 11. The quantum computing device of claim 8 , wherein the first topological wire segment is a Majorana wire. 12. A quantum computing method, comprising: in at least one nanowire, defining non-Abelian quasiparticles associated with a first qubit with at least a first topological wire segment and defining non-Abelian quasiparticles associated with a second qubit with a second topological wire segment; with at least one gate: selectively inducing changes of phase, from topological to nontopological and vice-versa, in the at least one nanowire and induce a potential well in the nanowire that traps a non-Abelian fusion quasiparticle produced by fusing first non-Abelian quasiparticles associated with the first qubit and the second qubit; and fusing the trapped non-Abelian fusion quasiparticle with a second non-Abelian quasiparticle associated with either the first qubit or the second qubit to produce a non-Abelian fusion outcome quasiparticle associated with a qubit produced by the fusing. 13. The quantum computing method of claim 12 , wherein the at least one nanowire comprises a Majorana wire. 14. The quantum computing method of claim 12 , wherein the at least one gate is configured to cause relative motion of the potential well such that the potential well and the second end of the first topological wire segment are brought towards each other. 15. The quantum computing method of claim 12 , wherein at least one gate is further configured to cause the potential well to brought towards the first topological wire segment. 16. The quantum computing method of claim 12 , further comprising measuring the non-Abelian fusion outcome quasiparticle. 17. The quantum computing method of claim 12 , wherein the first qubit comprises first and second non-Abelian quasiparticles, and the second qubit comprises third, fourth, and fifth non-Abelian quasiparticles. 18. The quantum computing method of claim 12 , wherein the at least one nanowire includes a nontopological segment situated between topological segments associated with the first qubit and the second qubit.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US9721209B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "JP2015154416A",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11004008B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10333048B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10133984B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10490600B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2018035361A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10346348B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10635988B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10574268B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US10679138B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US10679138B2/en",
+    "assignee": "https://patents.google.com/patent/US10679138B2/en",
+    "filing_date": "https://patents.google.com/patent/US10679138B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US10679138B2/en",
+    "claims_text": "https://patents.google.com/patent/US10679138B2/en",
+    "disposition": "https://patents.google.com/patent/US10679138B2/en",
+    "office_action_event": "https://patents.google.com/patent/US10679138B2/en",
+    "build_date": "2026-06-29T08:28:54.932359+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

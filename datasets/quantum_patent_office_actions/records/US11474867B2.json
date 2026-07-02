@@ -1,0 +1,86 @@
+{
+  "application_number": null,
+  "publication_number": "US11474867B2",
+  "title": "US11474867B2 - Measurement sequence determination for quantum computing device",
+  "assignee": "Microsoft Technology Licensing LLC",
+  "filing_date": "2019-07-11",
+  "publication_date": "2022-10-18",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/40",
+    "G06N10/70"
+  ],
+  "claims_text": "The invention claimed is: 1. A computing system comprising: a processor configured to: identify a plurality of measurement sequences that implement a logic gate, each measurement sequence including a plurality of measurements of a quantum state of a topological quantum computing device; for each measurement sequence of the plurality of measurement sequences that implements the logic gate and is shorter than a predetermined number of measurements, determine a respective estimated total error rate of implementing the logic gate at the quantum state using that measurement sequence; and determine a first measurement sequence that has a lowest estimated total error rate of the plurality of measurement sequences, wherein the topological quantum computing device is configured to implement the logic gate by applying the first measurement sequence to the quantum state. 2. The computing system of claim 1 , wherein, for each measurement sequence of the plurality of measurement sequences, the processor is configured to determine the respective estimated total error rate at least in part by: determining an estimated weighted error rate of each measurement included in the measurement sequence; and determining the estimated total error rate of the measurement sequence based on the plurality of estimated weighted error rates. 3. The computing system of claim 1 , wherein the processor is configured to determine the first measurement sequence at least in part by modifying a topological encoding of a computational qubit and an ancillary qubit. 4. The computing system of claim 1 , wherein the topological quantum computing device includes a plurality of Majorana zero modes (MZMs). 5. The computing system of claim 4 , wherein the topological quantum computing device includes at least one of a Majorana tetron including four MZMs, a Majorana hexon including six MZMs, or a Majorana octon including eight MZMs. 6. The computing system of claim 4 , wherein the topological quantum computing device instantiates the plurality of MZMs in a one-sided architecture or a two-sided architecture. 7. The computing system of claim 4 , wherein the processor is configured to identify the plurality of measurement sequences that implement the logic gate at least in part by identifying one or more measurement sequences that implement the logic gate multiplied by an overall Pauli operator. 8. The computing system of claim 7 , wherein the processor is further configured to track a Pauli gate correction to the logic gate when the topological quantum computing device implements the logic gate. 9. The computing system of claim 1 , wherein the topological quantum computing device is configured to implement the logic gate at least in part by performing a forced measurement of a projection operator, wherein the forced measurement includes: performing a first measurement of a topological charge of the quantum state; determining whether a result of the first measurement is a predetermined target value; when the result of the first measurement is not the predetermined target value: resetting the quantum state; and repeating the first measurement of the topological charge. 10. The computing system of claim 9 , wherein resetting the quantum state includes repeating a second measurement that was performed prior to the first measurement in the measurement sequence. 11. The computing system of claim 9 , wherein resetting the quantum state includes measuring a plurality of topological charges including a symmetric difference of: a first plurality of topological charges on which the first measurement was performed; and a second plurality of topological charges on which a second measurement was performed prior to the first measurement in the measurement sequence. 12. A method for performing a quantum computation, the method comprising: identifying a plurality of measurement sequences that implement a logic gate, each measurement sequence including a plurality of measurements of a quantum state of a topological quantum computing device; for each measurement sequence of the plurality of measurement sequences that implements the logic gate and is shorter than a predetermined number of measurements, determining a respective estimated total error rate of implementing the logic gate at the quantum state using that measurement sequence; determining a first measurement sequence that has a lowest estimated total error rate of the plurality of measurement sequences; and implementing the logic gate at the topological quantum computing device by applying the first measurement sequence to the quantum state. 13. The method of claim 12 , wherein, for each measurement sequence of the plurality of measurement sequences, determining the respective estimated total error rate includes: determining an estimated weighted error rate of each measurement included in the measurement sequence; and determining the estimated total error rate of the measurement sequence based on the plurality of estimated weighted error rates. 14. The method of claim 12 , wherein the topological quantum computing device includes a plurality of Majorana zero modes (MZMs). 15. The method of claim 14 , wherein: the topological quantum computing device instantiates the plurality of MZMs in a one-sided architecture or a two-sided architecture; and the topological quantum computing device includes at least one of a Majorana tetron including MZMs, a Majorana hexon including six MZMs, or a Majorana octon including eight MZMs. 16. The method of claim 14 , wherein identifying the plurality of measurement sequences that implement the logic gate includes identifying one or more measurement sequences that implement the logic gate multiplied by an overall Pauli operator. 17. The method of claim 12 , wherein implementing the logic gate includes performing a forced measurement of a projection operator included in the logic gate, wherein the forced measurement includes: performing a first measurement of a topological charge of the quantum state; determining whether a result of the first measurement is a predetermined target value; when the result of the first measurement is not the predetermined target value: resetting the quantum state; and repeating the first measurement of the topological charge. 18. A computing system comprising: a processor configured to: identify a plurality of measurement sequences that implement a logic gate, each measurement sequence including a plurality of measurements of a quantum state of a topological quantum computing device, wherein the topological quantum computing device includes a Majorana hexon including six Majorana zero modes (MZMs); determine an estimated weighted error rate of each measurement included in each measurement sequence of the plurality of measurement sequences that implements the logic gate and is shorter than a predetermined number of measurements; and for each measurement sequence of the plurality of measurement sequences, determine a respective estimated total error rate of the measurement sequence based on the estimated weighted error rates of the measurements included in the measurement sequence; and determine a first measurement sequence that has a lowest estimated total error rate of the plurality of measurement sequences, wherein the topological quantum computing device is configured to implement the logic gate by applying the first measurement sequence to the quantum state.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20220114468A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20220351064A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230176912A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11507875B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2021202405A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN115293353B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230016817A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN114595623A",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12376500B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12369344B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12511566B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11474867B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11474867B2/en",
+    "assignee": "https://patents.google.com/patent/US11474867B2/en",
+    "filing_date": "https://patents.google.com/patent/US11474867B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11474867B2/en",
+    "claims_text": "https://patents.google.com/patent/US11474867B2/en",
+    "disposition": "https://patents.google.com/patent/US11474867B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11474867B2/en",
+    "build_date": "2026-06-29T08:29:33.341787+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

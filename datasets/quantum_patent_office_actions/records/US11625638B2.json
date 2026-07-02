@@ -1,0 +1,82 @@
+{
+  "application_number": null,
+  "publication_number": "US11625638B2",
+  "title": "US11625638B2 - Drive enhanced J/ZZ operation for superconducting qubits",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2021-05-19",
+  "publication_date": "2023-04-11",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/40",
+    "G06N10/70",
+    "G06N10/20"
+  ],
+  "claims_text": "What is claimed is: 1. A quantum device, comprising: a biasing component that is operatively coupled to first and second qubits via respective first and second drive lines, wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits using continuous wave (CW) tones applied via the respective first and second drive lines, wherein the CW tones applied via the respective first and second drive lines comprise a common frequency. 2. The quantum device of claim 1 , wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits by dynamically adjusting a relative phase difference between the CW tones. 3. The quantum device of claim 2 , wherein dynamically adjusting the relative phase difference between the CW tones cancels a static ZZ interaction between the first and second qubits. 4. The quantum device of claim 2 , wherein respective amplitudes of the CW tones remain constant while the relative phase difference between the CW tones is dynamically adjusted. 5. The quantum device of claim 1 , wherein the common frequency is defined using a frequency that is off-resonant from respective transitions of the first or second qubits. 6. The quantum device of claim 1 , wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits by calibrating a ZZ interaction between the first and second qubits to cancel a net ZZ interaction during a two-qubit gate operation between the first and second qubits. 7. The quantum device of claim 6 , wherein the net ZZ interaction has a magnitude based on an exchange coupling strength between the first and second qubits. 8. The quantum device of claim 1 , wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits by dynamically adjusting an amplitude of at least one CW tone among the CW tones applied via the respective first and second drive lines. 9. The quantum device of claim 8 , wherein dynamically adjusting the amplitude of the at least one CW tone cancels a static ZZ interaction between the first and second qubits. 10. The quantum device of claim 8 , wherein the relative phase difference between the CW tones remains constant while the amplitude of the at least one of the CW tones is dynamically adjusted. 11. The quantum device of claim 1 , wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits by tuning the CW tones to cancel a ZZ interaction between the first and second qubits. 12. The quantum device of claim 11 , wherein the biasing component further recalibrates respective operating frequencies of the first and second qubits while the CW tones are tuned to cancel the ZZ interaction. 13. A computer-implemented method comprising: coupling, by a system operatively coupled to a processor, a biasing component to first and second qubits via respective first and second drive lines; and using, by the system, the biasing component to dynamically control ZZ interactions between the first and second qubits with continuous wave (CW) tones applied via the respective first and second drive lines, wherein the CW tones comprise a common frequency. 14. The computer-implemented method of claim 13 , wherein the system uses the biasing component to dynamically control ZZ interactions between the first and second qubits by dynamically adjusting a relative phase difference between the CW tones, wherein dynamically adjusting the relative phase difference cancels a static ZZ interaction between the first and second qubits. 15. The computer-implemented method of claim 13 , wherein the system uses the biasing component to dynamically control ZZ interactions between the first and second qubits by dynamically adjusting an amplitude of at least one CW tone among the CW tones applied via the respective first and second drive lines tones, and wherein dynamically adjusting the amplitude of the at least one CW tone cancels a static ZZ interaction between the first and second qubits. 16. The computer-implemented method of claim 13 , wherein the system uses the biasing component to dynamically control ZZ interactions between the first and second qubits by calibrating a ZZ interaction between the first and second qubits in order to cancel a net ZZ interaction during a two-qubit gate operation between the first and second qubits. 17. The computer-implemented method of claim 13 , wherein the system uses the biasing component to dynamically control ZZ interactions between the first and second qubits by tuning the CW tones to cancel a ZZ interaction between the first and second qubits. 18. The computer-implemented method of claim 17 , further comprising: recalibrating, by the system, respective operating frequencies of the first and second qubits while the CW tones are tuned to cancel the ZZ interaction. 19. A computer program product comprising a computer readable storage medium having program instructions embodied therewith, the program instructions executable by a processor to cause the processor to: operatively couple, by the processor, a biasing component to first and second qubits via respective first and second drive lines; and use, by the processor, the biasing component to facilitate dynamic control of ZZ interactions between the first and second qubits with continuous wave (CW) tones applied via the respective first and second drive lines, wherein the CW tones applied via the respective first and second drive lines comprise a common frequency. 20. The computer program product of claim 19 , wherein the processor uses the biasing component to facilitate dynamic control of ZZ interactions between the first and second qubits by dynamically adjusting a relative phase difference between the CW tones or by adjusting an amplitude of at least one of the CW tones or by dynamically adjusting an amplitude of at least one CW tone among the CW tones applied via the respective first and second drive lines tones. 21. A quantum device, comprising: a biasing component that is operatively coupled to first and second qubits via respective first and second drive lines, wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits by dynamically adjusting a relative phase difference between continuous wave (CW) tones applied via the respective first and second drive lines, and wherein the CW tones comprise a frequency that is off-resonant from respective transitions of the first or second qubits. 22. The quantum device of claim 21 , wherein the biasing component further facilitates dynamic control of ZZ interactions between the first and second qubits by calibrating a ZZ interaction between the first and second qubits in order to cancel a net ZZ interaction during a two-qubit gate operation between the first and second qubits. 23. A quantum device, comprising: a biasing component that is operatively coupled to first and second qubits via respective first and second drive lines, wherein the biasing component facilitates dynamic control of ZZ interactions between the first and second qubits by dynamically adjusting a first amplitude of a first continuous wave (CW) tone applied via the first drive line, dynamically adjusting a second amplitude of a second CW tone applied via the second drive line, or a combination thereof. 24. The quantum device of claim 23 , wherein the biasing component further facilitates dynamic control of ZZ interactions between the first and second qubits by calibrating a ZZ interaction between the first and second qubits in order to cancel a net ZZ interaction during a two-qubit gate operation between the first and second qubits.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "WO2025080280A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20100182039A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20100194466A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9444430B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9501748B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9727823B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20180225586A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10074056B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20180260731A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10311369B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11625638B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11625638B2/en",
+    "assignee": "https://patents.google.com/patent/US11625638B2/en",
+    "filing_date": "https://patents.google.com/patent/US11625638B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11625638B2/en",
+    "claims_text": "https://patents.google.com/patent/US11625638B2/en",
+    "disposition": "https://patents.google.com/patent/US11625638B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11625638B2/en",
+    "build_date": "2026-06-29T08:30:51.098734+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

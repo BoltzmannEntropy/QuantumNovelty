@@ -1,0 +1,90 @@
+{
+  "application_number": null,
+  "publication_number": "US10755193B2",
+  "title": "US10755193B2 - Implementation of error mitigation for quantum computing machines",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2018-12-03",
+  "publication_date": "2020-08-25",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/40",
+    "G06N10/70"
+  ],
+  "claims_text": "What is claimed is: 1. A method comprising: determining one or more time correlations of noise within a quantum computing circuit of a quantum processor, the quantum computing circuit including one or more qubits; determining a coherence time for each qubit; determining one or more stretch factors based upon the one or more time correlations of the noise and the coherence time(s); initializing a first loop, the first loop performing for each of the one or more stretch factors: initializing the one or more qubits to a ground state; executing the quantum computing circuit with the one or more stretch factors; performing one or more single-qubit post-rotations associated with one or more expectation values; measuring a state of each qubit to determine the one or more expectation values of interest; and resetting each qubit to the ground state; and determining a mitigated estimate for the one or more expectation values based upon an extrapolation of the one or more expectation values determined for each stretch factor. 2. The method of claim 1 , further comprising: initializing a second loop, the second loop repeating the first loop for a predetermined number of the one or more expectation values of interest. 3. The method of claim 2 , further comprising: initializing a third loop, the third loop repeating the second loop for a predetermined number of samples. 4. The method of claim 3 , wherein the third loop further includes: increasing an order of the extrapolation; increasing the number of samples; determining one or more new stretch factors; and repeating the third loop using the increased order of extrapolation, the increased number of samples, and the one or more new stretch factors. 5. The method of claim 3 , wherein the third loop includes increasing a circuit depth of the quantum computing circuit. 6. The method of claim 3 , further comprising: initializing a fourth loop, the fourth loop repeating the third loop for a predetermined number of iterations. 7. The method of claim 6 , wherein the fourth loop further includes: increasing an order of the extrapolation; increasing a circuit depth of the quantum computing circuit; increasing the number of samples; increasing the number of iterations; determining one or more new stretch factors; and repeating the fourth loop using the increased order of extrapolation, the increased circuit depth, the increased number of samples, and the one or more new stretch factors. 8. The method of claim 1 , wherein the one or more stretch factors are determined based upon a product of a stretch factor and a pulse width of the quantum processor being less than the coherence time(s). 9. The method of claim 1 , further comprising: pre-calibrating one or more primitive gates of the quantum computing circuit for each stretch factor. 10. The method of claim 1 , wherein the extrapolation includes a Richardson extrapolation. 11. A computer usable program product comprising one or more computer-readable storage media, and program instructions stored on at least one of the one or more storage media, the stored program instructions comprising: program instructions to determine one or more time correlations of noise within a quantum computing circuit of a quantum processor, the quantum computing circuit including one or more qubits; program instructions to determine a coherence time for each qubit; program instructions to determine one or more stretch factors based upon the one or more time correlations of the noise and the coherence time(s); program instructions to initialize a first loop, the first loop performing for each of the one or more stretch factors: initializing the one or more qubits to a ground state; executing the quantum computing circuit with the one or more stretch factors; performing one or more single-qubit post-rotations associated with one or more expectation values; measuring a state of each qubit to determine the one or more expectation values of interest; and resetting each qubit to the ground state; and program instruction to determine a mitigated estimate for the one or more expectation values based upon an extrapolation of the one or more expectation values determined for each stretch factor. 12. The computer usable program product of claim 11 , further comprising: program instructions to initialize a second loop, the second loop repeating the first loop for a predetermined number of the one or more expectation values of interest. 13. The computer usable program product of claim 12 , further comprising: program instructions to initialize a third loop, the third loop repeating the second loop for a predetermined number of samples. 14. The computer usable program product of claim 13 , wherein the third loop further includes: program instructions to increase an order of the extrapolation; program instructions to increase the number of samples; program instructions to determine one or more new stretch factors; and program instructions to repeat the third loop using the increased order of extrapolation, the increased number of samples, and the one or more new stretch factors. 15. The computer usable program product of claim 13 , wherein the third loop includes program instructions to increase a circuit depth of the quantum computing circuit. 16. The computer usable program product of claim 13 , further comprising: program instructions to initialize a fourth loop, the fourth loop repeating the third loop for a predetermined number of iterations. 17. The computer usable program product of claim 11 , wherein the computer usable code is stored in a computer readable storage device in a data processing system, and wherein the computer usable code is transferred over a network from a remote data processing system. 18. The computer usable program product of claim 11 , wherein the computer usable code is stored in a computer readable storage device in a server data processing system, and wherein the computer usable code is downloaded over a network to a remote data processing system for use in a computer readable storage device associated with the remote data processing system. 19. A computer system comprising one or more processors, one or more computer-readable memories, and one or more computer-readable storage devices, and program instructions stored on at least one of the one or more storage devices for execution by at least one of the one or more processors via at least one of the one or more memories, the stored program instructions comprising: program instructions to determine one or more time correlations of noise within a quantum computing circuit of a quantum processor, the quantum computing circuit including one or more qubits; program instructions to determine a coherence time for each qubit; program instructions to determine one or more stretch factors based upon the one or more time correlations of the noise and the coherence time(s); program instructions to initialize a first loop, the first loop performing for each of the one or more stretch factors: initializing the one or more qubits to a ground state; executing the quantum computing circuit with the one or more stretch factors; performing one or more single-qubit post-rotations associated with one or more expectation values; measuring a state of each qubit to determine the one or more expectation values of interest; and resetting each qubit to the ground state; and program instruction to determine a mitigated estimate for the one or more expectation values based upon an extrapolation of the one or more expectation values determined for each stretch factor. 20. The computer system of claim 19 , further comprising: program instructions to initialize a second loop, the second loop repeating the first loop for a predetermined number of the one or more expectation values of interest.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US10996979B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20210256410A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11281524B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20220269963A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11789812B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11928004B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12204998B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12229634B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12236317B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12430197B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12511562B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12531116B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US10755193B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US10755193B2/en",
+    "assignee": "https://patents.google.com/patent/US10755193B2/en",
+    "filing_date": "https://patents.google.com/patent/US10755193B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US10755193B2/en",
+    "claims_text": "https://patents.google.com/patent/US10755193B2/en",
+    "disposition": "https://patents.google.com/patent/US10755193B2/en",
+    "office_action_event": "https://patents.google.com/patent/US10755193B2/en",
+    "build_date": "2026-06-29T08:28:37.050389+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

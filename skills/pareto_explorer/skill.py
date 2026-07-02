@@ -1,4 +1,8 @@
-"""pareto_explorer skill — LLM-in-loop Pareto-front discovery.
+"""pareto_explorer skill — DEPRECATED legacy ansatz/Pareto discovery.
+
+For broad quantum-computing novelty scouting, use `chain/run.sh --pipeline
+scout`. This skill remains only for reproducing narrow fixed-Hamiltonian
+ansatz-discovery runs.
 
 Drives an LLM mutation loop on a quantum-circuit ansatz, building a Pareto
 archive over (energy, parameter_count, op_count, CNOT_count). Each

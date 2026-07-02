@@ -66,7 +66,9 @@ def main():
 
 `call_llm` raises `RuntimeError` on failure. Do NOT catch it and silently
 swap to a different backend — silent backend swaps are explicitly forbidden
-by the framework's design.
+by the framework's design. Supported backend ids are centralized in
+`skills/common/llm.py`; currently `claude`, `codex`, `codex-acp`,
+`codex-mcp`, `kimi` / `kimi-*` / `moonshot*`, and `anthropic-api`.
 
 ## Output schema convention
 
@@ -92,6 +94,9 @@ read `"stub"` so production code can tell a stubbed run apart from a real one.
 - **Don't `subprocess.run(["claude", ...])` directly.** Always go through
   `call_llm`. Direct subprocess calls bypass the isolation playbook and will
   silently fall back to the API path if `ANTHROPIC_API_KEY` is in scope.
+- **Don't hand-roll Kimi HTTP calls in a skill.** `call_llm(..., backend="kimi")`
+  loads `kikm.sh` / `KIMI_ENV_FILE`, sends Moonshot's required `thinking`
+  request field, and writes normal backend provenance.
 - **Don't write provenance manually.** Use `write_backend_marker` so the
   schema stays consistent across skills.
 - **Don't depend on cross-stage state.** Read what you need from the prior

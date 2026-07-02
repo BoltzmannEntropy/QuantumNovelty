@@ -1,0 +1,82 @@
+{
+  "application_number": null,
+  "publication_number": "US11367011B2",
+  "title": "US11367011B2 - Compensation pulses for qubit readout",
+  "assignee": "Google LLC",
+  "filing_date": "2016-12-13",
+  "publication_date": "2022-06-21",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/70",
+    "G06N10/40",
+    "B82Y10/00"
+  ],
+  "claims_text": "What is claimed is: 1. An apparatus comprising: a qubit that operates at a qubit frequency; and a frequency controller that is configured to control the qubit frequency during a qubit measurement operation, the frequency controller further being configured to: determine a compensation pulse that when applied to the qubit, counteracts qubit frequency changes during the qubit measurement operation, wherein i) the qubit frequency changes comprise uncontrolled shifts in frequency and ii) to determine the compensation pulse the frequency controller is configured to: initially measure a shift in qubit frequency during a measurement operation; apply an initial compensation pulse to the qubit and measure a shift in qubit frequency during a measurement operation; divide a time period corresponding to a duration of the measurement operation into a plurality of time steps; and sequentially vary the initial compensation pulse at each of the plurality of time steps and measure a shift in frequency during a compensation measurement operation using the varied initial compensation pulse until a resulting measured shift in qubit frequency during the measurement operation is lower than a predetermined acceptable shift; and apply the compensation pulse to the qubit during the qubit measurement operation to maintain the qubit frequency by avoiding the uncontrolled shifts in qubit frequency. 2. The apparatus of claim 1 , wherein the compensation pulse comprises a time-dependent control waveform. 3. The apparatus of claim 1 , wherein sequentially varying the initial compensation pulse at each of the plurality of time steps comprises, for each time step, maintaining the values of the varied compensation pulse for previous time steps. 4. An apparatus comprising: a qubit that operates at a qubit frequency, wherein the qubit comprises a plurality of qubit levels, the plurality of qubit levels comprising two computational qubit levels and one or more non-computational qubit levels that are each higher than the computational qubit levels; and a frequency controller that is configured to control the qubit frequency during a qubit measurement operation, the frequency controller further being configured to: determine a compensation pulse that when applied to the qubit, counteracts qubit frequency changes during the qubit measurement operation, wherein i) the qubit frequency changes comprise uncontrolled transitions to non-computational qubit levels and ii) to determine the compensation pulse, the frequency controller is configured to iteratively construct compensation pulses, wherein for each iteration the frequency controller is configured to: identify transitions to non-computational qubit levels during a measurement operation that uses a compensation pulse from a previous iteration; construct a compensation pulse for the current iteration that when applied to the qubit, counteracts the identified transitions to non-computational qubit levels; apply the compensation pulse for the current iteration to the qubit; determine whether a completion condition has occurred; in response to determining that completion condition has not occurred, perform a next iteration; and in response to determining that the completion condition has occurred, use the compensation pulse for the current iteration as the determined compensation pulse; and apply the compensation pulse to the qubit during the qubit measurement operation to avoid the uncontrolled transitions to non-computational qubit levels. 5. The apparatus of claim 4 , wherein determining whether a completion condition occurs comprises determining that no uncontrolled transitions to qubit levels occur during a measurement operation. 6. An apparatus comprising: a qubit that operates at a qubit frequency, wherein the qubit comprises a plurality of qubit levels, the plurality of qubit levels comprising two computational qubit levels and one or more non-computational qubit levels that are each higher than the computational qubit levels; and a frequency controller that is configured to control the qubit frequency during a qubit measurement operation, the frequency controller further being configured to: determine a compensation pulse that when applied to the qubit, counteracts qubit frequency changes during the qubit measurement operation, wherein i) the qubit frequency changes comprise uncontrolled transitions to non-computational qubit levels and ii) to determine the compensation pulse, the frequency controller is configured to: identify transitions to non-computational qubit levels during a measurement operation; apply an initial compensation pulse to the qubit and identifies transitions to non-computational qubit levels during a measurement operation; divide a time period corresponding to the duration of the measurement operation into a plurality of time steps; sequentially vary the initial compensation pulse at each of the plurality of time steps until no transitions to non-computational qubit levels occur; and apply the compensation pulse to the qubit during the qubit measurement operation to avoid the uncontrolled transitions to non-computational qubit levels. 7. The apparatus of claim 1 , wherein the qubit is a superconducting qubit. 8. The apparatus of claim 7 , wherein the compensation pulse comprises a magnetic flux bias that tunes the qubit frequency. 9. The apparatus of claim 1 , further comprising a readout resonator, wherein during a measurement operation the readout resonator is coupled to the qubit and driven by an external radio frequency source. 10. The apparatus of claim 1 , wherein qubit frequency changes occur due to coupling of the qubit to its environment or parasitic systems, the parasitic systems comprising two or more level systems. 11. A method for measuring the state of a qubit, comprising: determining a compensation pulse that when applied to the qubit, counteracts qubit frequency changes during a qubit measurement operation, wherein i) the qubit frequency changes comprise uncontrolled shifts in frequency and ii) determining the compensation pulse comprises: initially measuring a shift in qubit frequency during a measurement operation; applying an initial compensation pulse to the qubit and measuring a shift in qubit frequency during a measurement operation; dividing a time period corresponding to a duration of the measurement operation into a plurality of time steps; and sequentially varying the initial compensation pulse at each of the plurality of time steps and measuring a shift in frequency during a compensation measurement operation using the varied initial compensation pulse until a resulting measured shift in qubit frequency during the measurement operation is lower than a predetermined acceptable shift; and applying the determined compensation pulse to the qubit during the qubit measurement operation to maintain the qubit frequency by avoiding the uncontrolled shifts in qubit frequency. 12. The method of claim 11 , wherein the compensation pulse comprises a time-dependent control waveform. 13. The method of claim 11 , wherein sequentially varying the initial compensation pulse at each of the plurality of time steps comprises, for each time step, maintaining the values of the varied compensation pulse for previous time steps. 14. A method for measuring the state of a qubit, wherein the qubit comprises a plurality of qubit levels, the plurality of qubit levels comprising two computational qubit levels and one or more non-computational qubit levels that are each higher than the computational qubit levels, the method comprising: determining a compensation pulse that when applied to the qubit, counteracts qubit frequency changes during a qubit measurement operation, wherein i) the qubit frequency changes comprise uncontrolled transitions to non-computational qubit levels and ii) determining the compensation pulse comprises iteratively constructing compensation pulses, comprising, for each iteration: identifyin",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "WO2024023176A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12087503B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN107580752B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN111164619B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11087233B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11694104B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP3462696B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11004009B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2019144118A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP3744001B1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11367011B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11367011B2/en",
+    "assignee": "https://patents.google.com/patent/US11367011B2/en",
+    "filing_date": "https://patents.google.com/patent/US11367011B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11367011B2/en",
+    "claims_text": "https://patents.google.com/patent/US11367011B2/en",
+    "disposition": "https://patents.google.com/patent/US11367011B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11367011B2/en",
+    "build_date": "2026-06-29T08:29:08.300025+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

@@ -1,6 +1,20 @@
-# `pareto_explorer` — LLM-in-loop Pareto-front discovery
+# `pareto_explorer` — DEPRECATED legacy ansatz/Pareto discovery
 
-Drives an LLM mutation loop over quantum-circuit ansätze, building a
+`pareto_explorer` is retained for reproducing the original VQE/ansatz
+experiments and for backward compatibility. It is intentionally narrow:
+fixed-Hamiltonian ansatz mutation plus strict-domination Pareto archiving.
+
+For general quantum-computing novelty scouting, use:
+
+```bash
+bash chain/run.sh --pipeline scout --topic "your quantum-computing subject"
+```
+
+That path can scout algorithms, hardware, control, QEC, QML, compilers,
+networks, sensing, simulation, and other quantum subjects, with literature,
+arXiv/PDF acquisition, quote substantiation, and recommended avenues.
+
+Legacy behavior: drives an LLM mutation loop over quantum-circuit ansätze, building a
 strict-domination Pareto archive over (energy, params, ops, cnots).
 Each generation the LLM proposes K candidates; the evaluator measures
 them against a fixed Hamiltonian; non-dominated points join the archive.

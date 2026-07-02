@@ -1,0 +1,81 @@
+{
+  "application_number": null,
+  "publication_number": "US11042812B2",
+  "title": "US11042812B2 - Optimized testing of quantum-logic circuits",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2019-05-29",
+  "publication_date": "2021-06-22",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/80"
+  ],
+  "claims_text": "What is claimed is: 1. A quantum-logic test-development system comprising a processor, a memory coupled to the processor, and a computer-readable hardware storage device coupled to the processor, the storage device containing program code configured to be run by the processor via the memory to implement a method for reducing complexity when testing quantum-logic circuits, the method comprising: the system optimizing a procedure for testing a quantum-logic circuit that has at least four inputs and at least one output, where the procedure comprises a series of tests that each verify that the quantum-logic circuit is placed in a particular output state in response to receiving a distinct input vector of a set of input vectors; and the system deleting from the series of tests a test that, when completed successfully by the quantum-logic circuit, does not change an existing output state of the quantum-logic circuit that had resulted from a successful performance of another test of the series of tests. 2. The system of claim 1 , further comprising: the system, as a function of the architectural information, dividing the at least four inputs into two or more non-intersecting subsets; the system creating a set of groups that each comprise one subset of the set of two or more non-intersecting subsets; the system selecting one or more permutation operations for each subset of the set of two or more non-intersecting subsets, where no individual operation of the one or more permutation operations comprises any characteristic capable of precluding the individual operation from being performed upon inputs comprised by the each subset; the system generating a direct sum of the set of groups, where the direct sum identifies an invariance group of a function that represents functionality of the quantum-logic circuit, where the invariance group comprises a set of invariant permutations, and where each permutation of the set of invariant permutations identifies a permutation of two or more inputs comprised by one and only one subset of the two or more non-intersecting subsets. 3. The system of claim 2 , where the received architectural information identifies a number of inputs of the circuit, a number of outputs of the circuit, a maximum number of concurrent states associated with each input of the circuit, and a maximum number of concurrent states associated with each output of the circuit. 4. The system of claim 2 , where a first group of the set of groups comprises a first subset of the non-intersecting subsets and a first set of all permutations capable of being performed upon inputs that consist solely of inputs comprised by the first subset. 5. The system of claim 2 , where a direct sum of a first group of the set of groups, consisting of a first subset of the non-intersecting subsets and a first set of all permutations capable of being performed upon the first subset, and a second group of the set of groups, consisting of a second subset of the non-intersecting subsets and a second set of all permutations capable of being performed upon the second subset, generates an invariance group that comprises: i) a Cartesian product of the first set of permutations and the second set of permutations, and ii) a set formed by a union of the first subset and the second subset. 6. The system of claim 2 , where f k (x) is a semi-recursive function that returns an output state produced by the quantum-logic module in response to receiving an input vector x. 7. The system of claim 6 , where f k (x) represented by the equation: f k ⁡ ( x _ ) = { 0 , ⁢ x _ = x _ 1 ⁢ 0 n k f k - 1 ⁡ ( x _ ) , ⁢ x _ = x _ 1 ⁢ 1 n k 1 , ⁢ x _ = 0 n 1 + n 2 + … + n k - 1 ⁢ x _ 2 , x _ 2 ≠ 0 n k , 1 n k 0 , ⁢ x _ = 1 n 1 + n 2 + … + n k - 1 ⁢ x _ 2 , x _ 2 ≠ 0 n k , 1 n k 0 , ⁢ otherwise where the quantum-logic circuit has n inputs that can each assume any of two or more states, where the quantum-logic circuit has one output that can assume any of at least two states, where k is a total number of the two or more non-intersecting subsets, where n i is a number of inputs in an i th subset of the two or more non-intersecting subsets, such that (n 1 + . . . +n k )=n, where x is an input vector that represents an ordered list of a set of states of the n inputs, where x1 and x 2 are vectors that each represent an ordered list of a subset of the set of states of the n inputs, where a length of x=n, a length of x 1 =(n 1 + . . . +n k−1 ), and a length of x 2 =n k , where 0 i represents a string of i zero values, where 1 i represents a string of i one value, and where ƒ k−1 (x) is a recursive function call to f(x) where inputs of the quantum-logic circuit are divided into k−1 nonintersecting subsets. 8. A method for reducing complexity when testing quantum-logic circuits, the method comprising: a quantum-logic test-development system optimizing a procedure for testing a quantum-logic circuit that has at least four inputs and at least one output, where the procedure comprises a series of tests that each verify that the quantum-logic circuit is placed in a particular output state in response to receiving a distinct input vector of a set of input vectors; and the system deleting from the series of tests a test that, when completed successfully by the quantum-logic circuit, does not change an existing output state of the quantum-logic circuit that had resulted from a successful performance of another test of the series of tests. 9. The method of claim 8 , further comprising: the system, as a function of the architectural information, dividing the at least four inputs into two or more non-intersecting subsets; the system creating a set of groups that each comprise one subset of the set of two or more non-intersecting subsets; the system selecting one or more permutation operations for each subset of the set of two or more non-intersecting subsets, where no individual operation of the one or more permutation operations comprises any characteristic capable of precluding the individual operation from being performed upon inputs comprised by the each subset; the system generating a direct sum of the set of groups, where the direct sum identifies an invariance group of a function that represents functionality of the quantum-logic circuit, where the invariance group comprises a set of invariant permutations, and where each permutation of the set of invariant permutations identifies a permutation of two or more inputs comprised by one and only one subset of the two or more non-intersecting subsets. 10. The method of claim 9 , where the received architectural information identifies a number of inputs of the circuit, a number of outputs of the circuit, a maximum number of concurrent states associated with each input of the circuit, and a maximum number of concurrent states associated with each output of the circuit. 11. The method of claim 9 , where a first group of the set of groups comprises a first subset of the non-intersecting subsets and a first set of all permutations capable of being performed upon inputs that consist solely of inputs comprised by the first subset. 12. The method of claim 9 , where a direct sum of a first group of the set of groups, consisting of a first subset of the non-intersecting subsets and a first set of all permutations capable of being performed upon the first subset, and a second group of the set of groups, consisting of a second subset of the non-intersecting subsets and a second set of all permutations capable of being performed upon the second subset, generates an invariance group that comprises: i) a Cartesian product of the first set of permutations and the second set of permutations, and ii) a set formed by a union of the first subset and the second subset. 13. The method of claim 9 , where f k (x) is a semi-recursive function that returns an output state produced by the quantum-logic module in response to receiving an input vector x. 14. The method of claim 13 , where f k (x) repres",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US12293140B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10082539B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10474960B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10657304B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN109816112B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN111653305B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12547466B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US6444999B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US6574609B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US6615377B1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11042812B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11042812B2/en",
+    "assignee": "https://patents.google.com/patent/US11042812B2/en",
+    "filing_date": "https://patents.google.com/patent/US11042812B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11042812B2/en",
+    "claims_text": "https://patents.google.com/patent/US11042812B2/en",
+    "disposition": "https://patents.google.com/patent/US11042812B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11042812B2/en",
+    "build_date": "2026-06-29T08:28:34.227699+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

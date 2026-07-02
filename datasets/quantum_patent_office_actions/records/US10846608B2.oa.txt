@@ -1,0 +1,4 @@
+[OA text not available for US10846608B2]
+Source limitation: USPTO Office Action text APIs are not accessible
+from automated environments (DNS failures / SPA WAF protection).
+Manual retrieval: https://patentcenter.uspto.gov/ → search US10846608B2

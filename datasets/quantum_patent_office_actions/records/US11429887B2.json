@@ -1,0 +1,85 @@
+{
+  "application_number": null,
+  "publication_number": "US11429887B2",
+  "title": "US11429887B2 - Tunable current-mirror qubit system",
+  "assignee": "Northrop Grumman Systems Corp",
+  "filing_date": "2019-03-01",
+  "publication_date": "2022-08-30",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/40",
+    "G06N10/70",
+    "H10N60/00",
+    "H10N60/10",
+    "H10N60/12",
+    "B82Y10/00"
+  ],
+  "claims_text": "What is claimed is: 1. A tunable current-mirror qubit comprising: a plurality of flux tunable elements coupled between nodes disposed in a circuit loop, a first portion of the flux tunable elements being configured to receive a first input flux and a remaining portion of the flux tunable elements being configured to receive a second input flux to control a mode of the tunable current-mirror qubit between a microwave excitation mode to facilitate excitation or quantum state manipulation of the tunable current-mirror qubit via a microwave input signal and a noise-protected mode to facilitate storage of the quantum state of the tunable current-mirror qubit, wherein the first and second input fluxes are independently provided to control a transition of the tunable current-mirror qubit between the microwave excitation mode and the noise-protected mode; and at least one capacitor interconnecting the nodes between respective pairs of the flux tunable elements to facilitate formation of Cooper-pair excitons in each of the microwave excitation mode and the noise-protected mode. 2. The qubit of claim 1 , wherein each of the plurality of flux tunable elements act as superconducting quantum interference devices (SQUIDs). 3. The qubit of claim 1 , wherein the first portion of the flux tunable elements corresponds to a first one of the flux tunable elements that is provided the first input flux from a first input flux source, and wherein the second portion of the flux tunable elements correspond to a remaining at least one of the plurality of flux tunable elements that is provided the second input flux from a second input flux source. 4. The qubit of claim 1 , wherein the circuit loop is configured to receive a third input flux that is provided as a static bias flux in the microwave excitation mode and is deactivated in the noise-protected mode. 5. The qubit of claim 1 , wherein the plurality of flux tunable elements are arranged about the circuit loop to form a Mobius loop. 6. The qubit of claim 1 , wherein the first input flux is adiabatically increased while the second input flux is deactivated to switch the tunable current-mirror qubit from the microwave excitation mode to a persistent current mode in which the relevant quantum states are associated with circulating currents about the circuit loop, wherein the first and second input fluxes are adiabatically increased to switch the tunable current-mirror qubit from the persistent current mode to the noise-protected mode. 7. The qubit of claim 6 , wherein the first and second input fluxes are adiabatically decreased to switch the tunable current-mirror qubit from the noise-protected mode to the persistent current mode, and wherein the first input flux is adiabatically decreased while the second input flux is deactivated to switch the tunable current-mirror qubit from the persistent current mode to the microwave excitation mode to facilitate readout of the tunable current-mirror qubit. 8. The qubit of claim 1 , wherein the tunable current-mirror qubit implements formation of Cooper-pair excitons that delocalize about the circuit loop in the noise-protected mode. 9. A qubit system comprising the tunable current-mirror qubit of claim 1 , the system further comprising a first flux source configured to provide the first input flux and a second flux source configured to provide the second input flux, wherein the first and second flux sources are independently controlled. 10. A method for controlling a tunable current-mirror qubit, the method comprising: providing excitation to the tunable current-mirror qubit via a microwave signal in a microwave excitation mode of the tunable current-mirror qubit to provide manipulation of a quantum state of the tunable current-mirror qubit; providing a first input flux to a first flux tunable element of a plurality of flux tunable elements coupled between nodes disposed in a circuit loop of the tunable current-mirror qubit, the tunable current-mirror qubit further comprising at least one capacitor interconnecting the nodes between respective pairs of the flux tunable elements to facilitate formation of Cooper-pair excitons that delocalize about the circuit loop; adiabatically increasing the first input flux to a first amplitude; providing a second input flux to a remaining at least one of the plurality of flux tunable elements; and adiabatically increasing the first input flux from the first amplitude to a second amplitude and adiabatically increasing the second input flux from approximately zero amplitude to a first amplitude to set the tunable current-mirror qubit to a noise-protected mode to store the quantum state of the tunable current-mirror qubit. 11. The method of claim 10 , wherein each of the plurality of flux tunable elements act as superconducting quantum interference devices (SQUIDs). 12. The method of claim 10 , further comprising providing a third input flux that is provided as a static bias flux in the microwave excitation mode and is deactivated in the noise-protected mode, wherein adiabatically increasing the first and second input fluxes comprises deactivating the third input flux to set the tunable current-mirror qubit to a noise-protected mode to store the quantum state of the tunable current-mirror qubit. 13. The method of claim 10 , wherein the plurality of flux tunable elements are arranged about the circuit loop to form a Mobius loop. 14. The method of claim 10 , wherein adiabatically increasing the first input flux from approximately zero amplitude to the first amplitude comprises adiabatically increasing the first input flux from approximately zero amplitude to the first amplitude to set the tunable current-mirror qubit from the microwave excitation mode to a persistent current mode in which the ground and first excited states are associated with circulating currents about the circuit loop, wherein adiabatically increasing the first and second input fluxes comprises adiabatically increasing the first and second input fluxes to set the tunable current-mirror qubit from the persistent current mode to the noise-protected mode. 15. The method of claim 10 , further comprising: adiabatically decreasing the first input flux from the second amplitude to the first amplitude and adiabatically decreasing the second input flux from the first amplitude to approximately zero amplitude; and adiabatically decreasing the first input flux from the first amplitude to approximately zero amplitude and deactivating the second input flux to set the tunable current-mirror qubit to the microwave excitation mode to readout the quantum state of the tunable current-mirror qubit. 16. A tunable current-mirror qubit system comprising: a first flux source that is controlled to provide a first input flux; a second flux source that is controlled to provide a second input flux; a third flux source that is controlled to provide a third input flux; and a tunable current-minor qubit comprising: a plurality of superconducting quantum interference devices (SQUIDs) coupled between nodes disposed in a circuit loop that is arranged as a Mobius loop and is configured to receive the third input flux, a first portion of the SQUIDs being configured to receive the first input flux and a remaining portion of the SQUIDs being configured to receive the second input flux, wherein the first, second, and third input fluxes are provided to control the mode of the tunable current-mirror qubit between a microwave excitation mode to facilitate excitation and quantum state manipulation of the tunable current-mirror qubit via a microwave input signal and a noise-protected mode to facilitate storage of the quantum state of the tunable current-mirror qubit; and at least one capacitor interconnecting the nodes between respective pairs of the SQUIDs to facilitate formation of Cooper-pair excitons that delocalize about the circuit loop in each of the microwave excitation mode and the noise-protected mode. 17. The qubi",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US12087503B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20200311525A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11392848B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN111967603B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12430579B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US3758795A",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20020188578A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20030207766A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20040173793A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20060147154A1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11429887B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11429887B2/en",
+    "assignee": "https://patents.google.com/patent/US11429887B2/en",
+    "filing_date": "https://patents.google.com/patent/US11429887B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11429887B2/en",
+    "claims_text": "https://patents.google.com/patent/US11429887B2/en",
+    "disposition": "https://patents.google.com/patent/US11429887B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11429887B2/en",
+    "build_date": "2026-06-29T08:29:15.151998+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

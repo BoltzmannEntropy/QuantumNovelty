@@ -1,0 +1,85 @@
+{
+  "application_number": null,
+  "publication_number": "US11488049B2",
+  "title": "US11488049B2 - Hybrid quantum-classical computer system and method for optimization",
+  "assignee": "Zapata Computing Inc",
+  "filing_date": "2020-04-09",
+  "publication_date": "2022-11-01",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/60",
+    "G06N10/20"
+  ],
+  "claims_text": "What is claimed is: 1. A method for solving, by a hybrid quantum-classical computer comprising a classical computing component and a quantum computing component, an optimization problem stored in a non-transitory computer-readable memory of the classical computing component of the hybrid quantum-classical computer, the method comprising: computing, by the classical computing component, based on the optimization problem and initial parameters stored in the memory of the classical computing component, a non-unitary transformation to apply to a plurality of qubits in the quantum computing component; applying, by the quantum computing component, the non-unitary transformation to an initial state of the plurality of qubits to produce an updated state; providing, by the quantum computing component, to the classical computing component, measurements of the updated state; computing, by the classical computing component, an approximate solution to the optimization problem using the initial parameters and parameters updated by the measurements of the updated state. 2. The method of claim 1 , wherein computing the non-unitary transformation comprises applying a formula to the initial parameters and a cost function of the optimization problem. 3. The method of claim 1 , further comprising, before providing the measurements of the updated state, measuring the updated state to obtain the measurements of the updated state. 4. The method of claim 1 , wherein computing the approximate solution to the optimization problem comprises: (1) computing, by the classical computing component, a first approximate solution to the optimization problem; (2) computing, by the classical computing component, an output of a cost function of the first approximate solution; (3) after computing the first approximate solution to the optimization problem, computing, by the classical computing component, a second approximate solution to the optimization problem; (4) computing, by the classical computing component, an output of the cost function of the second approximate solution; (5) computing, by the classical computing component, a difference between the first and second outputs of the cost function; (6) if the difference between the first and second outputs of the cost function is greater than a minimum threshold value, then repeating (1)-(5); (7) if the difference between the first and second outputs of the cost function is not greater than the minimum threshold value, then outputting the second approximate solution as the approximate solution to the optimization problem. 5. A hybrid quantum-classical computer for solving an optimization problem, the hybrid quantum-classical computer comprising: a classical computing component comprising at least one processor and a non-transitory computer-readable memory, the non-transitory computer-readable memory comprising data representing the optimization problem; and a quantum computing component comprising a plurality of qubits; wherein the non-transitory computer-readable memory of the classical computing component further comprises computer program instructions executable by the at least one processor to: compute, based on the optimization problem and initial parameters stored in the memory of the classical computing component, a non-unitary transformation to apply to a plurality of qubits in the quantum computing component; provide a signal to the quantum computing component to apply the non-unitary transformation to an initial state of the plurality of qubits; wherein the quantum computing component is adapted to: apply the non-unitary transformation to the initial state of the plurality of qubits in response to receiving the signal; and provide, to the classical computing component, measurements of the updated state; and wherein the computer program instructions further comprises computer program instructions which, when executed by the at least one processor, cause the classical computing component to compute an approximate solution to the optimization problem using the initial parameters and parameters updated by the measurements of the updated state. 6. The hybrid quantum-classical computer of claim 5 , wherein computing the non-unitary transformation comprises applying a formula to the initial parameters and a cost function of the optimization problem. 7. The hybrid quantum-classical computer of claim 5 , wherein the computer program instructions further comprise computer program instructions which, when executed by the at least one processor, cause the classical computing component to measure the updated state to obtain the measurements of the updated state before providing the measurements of the updated state. 8. The hybrid quantum-classical computer of claim 5 , wherein computing the approximate solution to the optimization problem comprises: (1) computing, by the classical computing component, a first approximate solution to the optimization problem; (2) computing, by the classical computing component, an output of a cost function of the first approximate solution; (3) after computing the first approximate solution to the optimization problem, computing, by the classical computing component, a second approximate solution to the optimization problem; (4) computing, by the classical computing component, an output of the cost function of the second approximate solution; (5) computing, by the classical computing component, a difference between the first and second outputs of the cost function; (6) if the difference between the first and second outputs of the cost function is greater than a minimum threshold value, then repeating (1)-(5); (7) if the difference between the first and second outputs of the cost function is not greater than the minimum threshold value, then outputting the second approximate solution as the approximate solution to the optimization problem.",
+  "office_action": {
+    "date": "2017-10-03",
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20230047145A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230169383A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230186129A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11681774B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12340277B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11507872B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11169801B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11537928B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11474867B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11797872B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP3929827A1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11488049B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11488049B2/en",
+    "assignee": "https://patents.google.com/patent/US11488049B2/en",
+    "filing_date": "https://patents.google.com/patent/US11488049B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11488049B2/en",
+    "claims_text": "https://patents.google.com/patent/US11488049B2/en",
+    "disposition": "https://patents.google.com/patent/US11488049B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11488049B2/en",
+    "build_date": "2026-06-29T08:31:02.632366+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

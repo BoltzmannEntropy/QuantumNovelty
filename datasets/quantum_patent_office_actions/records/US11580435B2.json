@@ -1,0 +1,88 @@
+{
+  "application_number": null,
+  "publication_number": "US11580435B2",
+  "title": "US11580435B2 - Scalable neutral atom based quantum computing",
+  "assignee": "Atom Computing Inc",
+  "filing_date": "2020-06-12",
+  "publication_date": "2023-02-14",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/40"
+  ],
+  "claims_text": "What is claimed is: 1. A method for performing a non-classical computation, comprising: (a) generating a plurality of spatially distinct optical trapping sites, said plurality of optical trapping sites trapping a plurality of atoms, wherein said plurality of atoms comprise one or more qubits; (b) selecting one or more individual atoms from said plurality of atoms upon which to perform a gate operation of a sequence of qubit gate operations, thereby providing a selected one or more atoms of said plurality of atoms; (c) applying electromagnetic energy to said selected one or more atoms of said plurality of atoms, to perform said gate operation within said sequence of qubit gate operations, wherein said applying comprises modulating said electromagnetic energy with at least two optic modulators, wherein said gate operation comprises an operation on a ground state manifold of said selected one or more atoms, said ground state manifold comprising a first atomic state and a second atomic state that is different from said first atomic state, wherein said gate operation within said sequence of qubit gate operations comprises at least one of: (i) inducing said selected one or more atoms to adopt one or more first superposition states of said first atomic state and said second atomic state; or (ii) quantum mechanically entangling at least a subset of said selected one or more atoms in one or more second superposition states with at least another atom of said plurality of atoms, wherein said one or more second superposition states comprise at least one of: ( 1 ) said first atomic state or ( 2 ) said second atomic state; and (d) performing one or more measurements of said one or more first superposition states or said one or more second superposition states to obtain said non-classical computation, wherein said non-classical computation is encoded in said sequence of qubit gate operations. 2. The method of claim 1 , wherein said at least two optic modulators comprise one or more spatial light modulators (SLMs), acousto-optic devices (AODs), or acousto-optic modulators (AOMs). 3. The method of claim 2 , wherein said one or more SLMs comprise one or more digital micromirror devices (DMDs) or one or more liquid crystal on silicon (LCoS) devices. 4. The method of claim 1 , wherein (c) comprises using said at least two optic modulators to selectively apply said electromagnetic energy to said selected one or more atoms. 5. The method of claim 1 , wherein (c) further comprises performing one or more electromagnetic energy artificial intelligence (AI) operations to selectively apply said electromagnetic energy to said selected one or more atoms. 6. The method of claim 5 , wherein said one or more electromagnetic energy AI operations comprise one or more machine learning (ML) operations. 7. The method of claim 5 , wherein said one or more electromagnetic energy AI operations comprise one or more reinforcement learning (RL) operations. 8. The method of claim 1 , wherein said electromagnetic energy comprises optical energy. 9. The method of claim 8 , wherein said optical energy comprises one or more wavelengths between 300 nanometers (nm) and 1,100 nm. 10. The method of claim 8 , wherein said optical energy comprises an average power of no more than 100 Watts (W). 11. The method of claim 1 , wherein said electromagnetic energy comprises microwave energy. 12. The method of claim 11 , wherein said microwave energy comprises one or more wavelengths between 1 millimeter (mm) and 1 meter (m). 13. The method of claim 11 , wherein said microwave energy comprises an average power of no more than 1,000 W. 14. The method of claim 1 , wherein said electromagnetic energy comprises radiofrequency (RF) energy. 15. The method of claim 14 , wherein said RF energy comprises one or more wavelengths of at least 1 m. 16. The method of claim 14 , wherein said RF energy comprises an average power of no more than 1,000 W. 17. The method of claim 1 , wherein (c) comprises using said at least two optic modulators to implement one or more single-qubit gate operations on said selected one or more atoms. 18. The method of claim 1 , wherein (c) comprises using said at least two optic modulators to implement one or more two-qubit gate operations on said selected one or more atoms. 19. The method of claim 1 , wherein said one or more qubits comprise at least 10 qubits. 20. The method of claim 1 , further comprising repeating (b)-(d) for another gate operation of said sequence of qubit gate operations. 21. The method of claim 1 , wherein (c) comprises using said at least two optic modulators to implement one or more multi-qubit gate operations on said selected one or more atoms. 22. The method of claim 1 , wherein said plurality of atoms comprise strontium or ytterbium. 23. The method of claim 1 , wherein said plurality of atoms comprise neutral atoms.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20220318661A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230342648A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11875227B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12106183B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12112238B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11995512B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10504033B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11631024B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "JP7708774B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11183989B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN112951011B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2022213302A1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11580435B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11580435B2/en",
+    "assignee": "https://patents.google.com/patent/US11580435B2/en",
+    "filing_date": "https://patents.google.com/patent/US11580435B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11580435B2/en",
+    "claims_text": "https://patents.google.com/patent/US11580435B2/en",
+    "disposition": "https://patents.google.com/patent/US11580435B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11580435B2/en",
+    "build_date": "2026-06-29T08:29:05.464788+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

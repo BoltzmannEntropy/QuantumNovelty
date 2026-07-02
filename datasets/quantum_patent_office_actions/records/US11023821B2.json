@@ -1,0 +1,87 @@
+{
+  "application_number": null,
+  "publication_number": "US11023821B2",
+  "title": "US11023821B2 - Embedding of a condensed matter system with an analog processor",
+  "assignee": "D Wave Systems Inc",
+  "filing_date": "2018-01-26",
+  "publication_date": "2021-06-01",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/40",
+    "H10N60/00",
+    "H10N60/10",
+    "H10N60/12"
+  ],
+  "claims_text": "The invention claimed is: 1. A method of simulating a physical material in an analog processor comprising a plurality of qubits, the method comprising: forming a set of logical qubits, one or more of the logical qubits formed by assigning a first ferromagnetic coupling strength to one or more couplers communicatively coupling at least one qubit in the plurality of qubits; forming a three-dimensional structure corresponding to a model of the physical material by coupling each logical qubit to at least one other logical qubit by assigning a second coupling strength to each of a first set of couplers communicatively coupling pairs of logical qubits based on the model of the physical material; evolving a state of the analog processor from a first state until a value of the annealing coefficient s reaches s*, wherein s is a coefficient that controls a rate of evolution from an initial Hamiltonian H i and a final Hamiltonian H f , according to H e =(1−s)H i +sH f wherein H e is an evolution Hamiltonian, and s* is an intermediate point in the evolution of the analog processor; pausing the evolution of the analog processor; applying a longitudinal flux to one or more of the plurality of qubits of the analog processor; resuming evolving the state of the analog processor to a second state; measuring one or more characteristics of the set of logical qubits at the second state; and determining a property of the physical material based on the one or more characteristics. 2. The method of claim 1 wherein applying a longitudinal flux to one or more of the plurality of qubits of the analog processor includes applying a longitudinal flux to one or more of the plurality of qubits of the analog processor based on a magnetic field represented in the model of the physical material. 3. The method of claim 1 wherein coupling each logical qubit to at least one other logical qubit further comprises assigning a first antiferromagnetic coupling strength to each of a second set of couplers communicatively coupling pairs of logical qubits based on a doping characteristic of the model of the physical material. 4. The method of claim 3 wherein the doping characteristic comprises a probability that a given one of the second set of couplers is doped. 5. The method of claim 1 wherein coupling each logical qubit to at least one other logical qubit further comprises assigning a zero coupling strength to each of a second set of couplers communicatively coupling pairs of logical qubits based on a doping characteristic of the model of the physical material. 6. The method of claim 1 wherein the one or more characteristics comprise a magnetic susceptibility of at least one of the plurality of qubits. 7. The method of claim 1 wherein the property of the physical material comprises a phase transition response of the simulated material to a simulated condition.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US11809839B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11880741B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12190203B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12555022B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11087233B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN111164619B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11694104B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11121302B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "JP2024526085A",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2006066415A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20110238607A1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11023821B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11023821B2/en",
+    "assignee": "https://patents.google.com/patent/US11023821B2/en",
+    "filing_date": "https://patents.google.com/patent/US11023821B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11023821B2/en",
+    "claims_text": "https://patents.google.com/patent/US11023821B2/en",
+    "disposition": "https://patents.google.com/patent/US11023821B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11023821B2/en",
+    "build_date": "2026-06-29T08:29:01.274276+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

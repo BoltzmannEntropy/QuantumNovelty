@@ -113,6 +113,77 @@ def _load_template(mode: str) -> str:
     return p.read_text(encoding="utf-8")
 
 
+def _load_prior_art(arg: str | None) -> list[str]:
+    """Parse --prior-art into a list of reference strings.
+
+    Accepts: a path to a .json file (list of strings, or list of objects with a
+    'publication_number'/'reference'/'id' field), a path to a text file (one
+    reference per line), or a literal comma/semicolon-separated string.
+    """
+    if not arg:
+        return []
+    p = Path(arg)
+    refs: list[str] = []
+    if p.is_file():
+        raw = p.read_text(encoding="utf-8", errors="ignore")
+        if p.suffix.lower() == ".json":
+            try:
+                data = json.loads(raw)
+            except json.JSONDecodeError:
+                data = []
+            for item in (data if isinstance(data, list) else []):
+                if isinstance(item, str):
+                    refs.append(item)
+                elif isinstance(item, dict):
+                    for k in ("publication_number", "reference", "id",
+                              "patent", "cite"):
+                        if item.get(k):
+                            refs.append(str(item[k]))
+                            break
+        else:
+            refs = [ln.strip() for ln in raw.splitlines()]
+    else:
+        refs = re.split(r"[;,\n]+", arg)
+    # dedupe, drop empties / comment lines
+    seen: set[str] = set()
+    out: list[str] = []
+    for r in refs:
+        r = (r or "").strip()
+        if not r or r.startswith("#") or r in seen:
+            continue
+        seen.add(r)
+        out.append(r)
+    return out
+
+
+def _build_prior_art_block(refs: list[str]) -> str:
+    """Render the 'Prior art of record' prompt block.
+
+    When refs are supplied the examiners may ground §102/§103 ONLY in them;
+    when none are supplied they must NOT fabricate references from memory.
+    """
+    if refs:
+        listed = "\n".join(f"{i}. {r}" for i, r in enumerate(refs, 1))
+        return (
+            "## Prior art of record\n\n"
+            "The following references constitute the PRIOR ART OF RECORD for "
+            "this examination. Ground every § 102 and § 103 rejection ONLY in "
+            "these references. Do NOT cite any reference that is not on this "
+            "list, and do NOT invent or recall references from memory. If a "
+            "claim is not anticipated or rendered obvious by these references, "
+            "it is allowable over the prior art of record.\n\n"
+            f"{listed}")
+    return (
+        "## Prior art of record\n\n"
+        "No external prior-art set was supplied for this examination. You "
+        "therefore may NOT cite specific anticipating or obviousness "
+        "references from memory — doing so fabricates the record. Absent any "
+        "reference of record, treat the claims as novel under § 102 and "
+        "non-obvious under § 103, and confine rejections to § 112 / § 101 "
+        "defects that are evident from the document itself. State explicitly "
+        "that no prior art was placed of record.")
+
+
 def _check_panel_completeness(text: str) -> list[str]:
     """Return the list of required examiner voices missing from output."""
     return [v for v in REQUIRED_VOICES if v not in text]
@@ -123,7 +194,7 @@ def _check_panel_completeness(text: str) -> list[str]:
 # ---------------------------------------------------------------------------
 
 _DISPO_RE = re.compile(
-    r"Disposition[:\s*]+([A-Za-z][A-Za-z \-]*?)(?:[\.\n]|$)", re.IGNORECASE)
+    r"Disposition[:\s*`]+([A-Za-z][A-Za-z \-]*?)\s*(?:[.\n`]|$)", re.IGNORECASE)
 # Per-claim rejection rows in the examiner tables, e.g.:
 #   | 1 | § 102(a)(1) | anticipated by Smith (US1234) |
 #   | 11, 12 | § 112(b) | indefinite |
@@ -273,9 +344,13 @@ def extract_office_action(panel_text: str, total_claims: int | None) -> dict:
     dispo = None
     spe_idx = panel_text.find("Voice 6")
     tail = panel_text[spe_idx:] if spe_idx != -1 else panel_text
-    m = _DISPO_RE.search(tail)
-    if m:
-        dispo = _normalize_disposition(m.group(1))
+    # Take the LAST "Disposition: X" whose value is a CANONICAL disposition.
+    # (A naive first-match grabs the section heading "...synthesis + disposition"
+    # and captures the following prose, e.g. "reconciliation".)
+    for m in _DISPO_RE.finditer(tail):
+        cand = _normalize_disposition(m.group(1))
+        if cand in _DISPOSITIONS:
+            dispo = cand
     if dispo not in _DISPOSITIONS:
         spe_vote = (votes.get("Supervisory Patent Examiner") or {})
         dispo = spe_vote.get("disposition", dispo)
@@ -318,6 +393,11 @@ def main() -> int:
                     choices=sorted(_FILING_STANDARD_BLOCKS),
                     help="application-review standard: uspto (§112/MPEP), "
                          "epo (Art. 84/EPC), pct, or multi")
+    ap.add_argument("--prior-art", default=None,
+                    help="prior art of record to ground §102/§103 in: a .json "
+                         "list, a text file (one ref/line), or a comma-list of "
+                         "reference identifiers. Without it the panel may not "
+                         "cite §102/§103 references from memory (anti-fabrication).")
     args = ap.parse_args()
 
     args.outdir.mkdir(parents=True, exist_ok=True)
@@ -343,11 +423,13 @@ def main() -> int:
     class _SafeDict(dict):
         def __missing__(self, key):
             return "{" + key + "}"
+    prior_art_refs = _load_prior_art(args.prior_art)
     prompt = template.format_map(_SafeDict({
         "patent": patent.to_markdown(),
         "status_line": patent.status_line,
         "n_claims": patent.n_claims(),
         "art_unit_block": art_unit_block,
+        "prior_art_block": _build_prior_art_block(prior_art_refs),
         "filing_standard": args.filing_standard,
         "filing_standard_block": _FILING_STANDARD_BLOCKS[args.filing_standard],
     }))

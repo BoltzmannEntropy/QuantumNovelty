@@ -1,0 +1,3 @@
+[OA text not available for US11080614B2]
+Source limitation: USPTO OA Text APIs are not accessible from automated environments.
+Manual retrieval: https://patentcenter.uspto.gov/ → search US11080614B2

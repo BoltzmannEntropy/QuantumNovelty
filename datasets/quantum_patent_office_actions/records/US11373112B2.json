@@ -1,0 +1,80 @@
+{
+  "application_number": null,
+  "publication_number": "US11373112B2",
+  "title": "US11373112B2 - Quantum computer based method for analyzing cyber data and spectra while performing optimization based on the analysis",
+  "assignee": "US Department of Navy",
+  "filing_date": "2020-01-24",
+  "publication_date": "2022-06-28",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/60"
+  ],
+  "claims_text": "What is claimed is: 1. A method for analyzing cyber data and spectra while performing optimization based on the analysis, comprising the steps of: providing analysis data which corresponds to at least one of spectra data related to spectra activity and cyber data related to a network activity; searching, by a quantum computing module having a plurality of quantum qubit circuits and internal memory, the analysis data; determining, by the quantum computing module, at least one optimal spectrum allocation using results from the step of searching; based on the at least one optimal spectrum allocation from the step of determining, resolving, by the quantum computing module, optimal order parameters and an optimized Hamiltonian for the plurality of quantum qubit circuits of the quantum computing module; and programming at least one of the plurality of quantum qubit circuits of the quantum computing module based on the optimal order parameters and optimized Hamiltonian from the step of resolving. 2. The method of claim 1 , wherein the step of providing includes sending the analysis data to the internal memory of the quantum computing module. 3. The method of claim 2 , additionally comprising the step of sampling by an analog to digital converter the at least one of spectra data related to spectra activity and cyber data related to a network activity. 4. The method of claim 3 , wherein the step of sampling generates the analysis data. 5. The method of claim 3 , wherein the at least one of spectra data related to spectra activity and cyber data related to a network activity sampled by the analog to digital converter is stored in a discrete quantum memory. 6. The method of claim 1 , additionally comprising the step of sampling by an analog to digital converter the at least one of spectra data related to spectra activity and cyber data related to a network activity. 7. The method of claim 6 , wherein the step of sampling generates the analysis data. 8. The method of claim 6 , wherein the at least one of spectra data related to spectra activity and cyber data related to a network activity sampled by the analog to digital converter is stored in a discrete quantum memory. 9. The method of claim 1 , wherein the step of determining includes applying an optimization algorithm along with a network performance function. 10. The method of claim 1 , wherein the step of resolving employs a quantum master equation in connection with the optimized Hamiltonian. 11. The method of claim 1 , wherein at least a portion of information determined or resolved during the steps of determining or resolving is stored in the internal memory of the quantum computing module. 12. A method for analyzing cyber data and spectra while performing optimization based on the analysis, comprising the steps of: providing analysis data which corresponds to at least one of spectra data related to spectra activity and cyber data related to a network activity; searching, by a quantum computing module having a plurality of quantum qubit circuits and internal memory, the analysis data; determining, by the quantum computing module, at least one optimal spectrum allocation using results from the step of searching, wherein the step of determining includes applying an optimization algorithm along with a network performance function; based on the at least one optimal spectrum allocation from the step of determining, resolving, by the quantum computing module, optimal order parameters and an optimized Hamiltonian for the plurality of quantum qubit circuits of the quantum computing module; wherein the step of resolving employs a quantum master equation in connection with the optimized Hamiltonian; and programming at least one of the plurality of quantum qubit circuits of the quantum computing module based on the optimal order parameters and optimized Hamiltonian from the step of resolving. 13. The method of claim 12 , wherein the step of providing includes sending the analysis data to the internal memory of the quantum computing module. 14. The method of claim 13 , additionally comprising the step of sampling by an analog to digital converter the at least one of spectra data related to spectra activity and cyber data related to a network activity. 15. The method of claim 14 , wherein the step of sampling generates the analysis data. 16. The method of claim 14 , wherein the at least one of spectra data related to spectra activity and cyber data related to a network activity sampled by the analog to digital converter is stored in a discrete quantum memory. 17. The method of claim 12 , additionally comprising the step of sampling by an analog to digital converter the at least one of spectra data related to spectra activity and cyber data related to a network activity. 18. The method of claim 17 , wherein the step of sampling generates the analysis data. 19. The method of claim 17 , wherein the at least one of spectra data related to spectra activity and cyber data related to a network activity sampled by the analog to digital converter is stored in a discrete quantum memory. 20. A method for analyzing cyber data and spectra while performing optimization based on the analysis, comprising the steps of: sampling by an analog to digital converter at least one of spectra data related to spectra activity and cyber data related to a network activity that is stored in a discrete quantum memory, wherein the step of sampling provides analysis data which corresponds to the at least one of spectra data related to spectra activity and cyber data related to a network activity; searching, by a quantum computing module having a plurality of quantum qubit circuits and internal memory, the analysis data; determining, by the quantum computing module, at least one optimal spectrum allocation using results from the step of searching, wherein the step of determining includes applying an optimization algorithm along with a network performance function; based on the at least one optimal spectrum allocation from the step of determining, resolving, by the quantum computing module, optimal order parameters and an optimized Hamiltonian for the plurality of quantum qubit circuits of the quantum computing module; wherein the step of resolving employs a quantum master equation in connection with the optimized Hamiltonian; programming at least one of the plurality of quantum qubit circuits of the quantum computing module based on the optimal order parameters and optimized Hamiltonian from the step of resolving; and wherein at least a portion of information determined or resolved during the steps of determining or resolving is stored in the internal memory of the quantum computing module.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "WO2019168544A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11373112B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11915325B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20240005195A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN117254855B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US7876248B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9218567B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20160034423A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20160338075A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9755133B1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11373112B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11373112B2/en",
+    "assignee": "https://patents.google.com/patent/US11373112B2/en",
+    "filing_date": "https://patents.google.com/patent/US11373112B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11373112B2/en",
+    "claims_text": "https://patents.google.com/patent/US11373112B2/en",
+    "disposition": "https://patents.google.com/patent/US11373112B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11373112B2/en",
+    "build_date": "2026-06-29T08:28:45.395726+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

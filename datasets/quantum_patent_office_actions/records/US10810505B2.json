@@ -1,0 +1,43 @@
+{
+  "application_number": null,
+  "publication_number": "US10810505B2",
+  "title": "US10810505B2 - Removal of wirebonds in quantum hardware",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2020-01-09",
+  "publication_date": "2020-10-20",
+  "cpc_codes": [
+    "G06N10/00"
+  ],
+  "claims_text": "What is claimed is: 1. A computer usable program product comprising a computer-readable storage device, and program instructions stored on the storage device, the stored program instructions comprising: program instructions to deposit a first layer on a portion of a first surface of a quantum hardware, the portion of the first surface comprising a set of wirebonds; program instruction to bond the set of wirebonds mechanically to the first layer; and program instructions to remove the first layer and the set of wirebonds from the first surface of the quantum hardware. 2. The computer usable program product of claim 1 , wherein the stored program instructions are stored in a computer readable storage device in a data processing system, and wherein the stored program instructions are transferred over a network from a remote data processing system. 3. The computer usable program product of claim 1 , wherein the stored program instructions are stored in a computer readable storage device in a server data processing system, and wherein the stored program instructions are downloaded over a network to a remote data processing system for use in a computer readable storage device associated with the remote data processing system. 4. The computer usable program product of claim 1 , wherein the first layer comprises an inert polymer in solution. 5. The computer usable program product of claim 1 , wherein the portion covers the entirety of the first surface. 6. The computer usable program product of claim 1 , the stored program instructions further comprising: program instructions to secure, prior to depositing the first layer, the quantum hardware in place on a vacuum device. 7. The computer usable program product of claim 1 , the stored program instructions further comprising: program instructions to seal a second surface of the quantum hardware, the second surface being opposite the first surface. 8. The computer usable program product of claim 7 , the program instructions to seal the second surface further comprising: program instructions to deposit a second layer on a portion of the second surface of the quantum hardware. 9. The computer usable program product of claim 8 , wherein the second layer is a thin film configured to seal the second surface from the first layer. 10. The computer usable program product of claim 1 , the program instructions to bond the set of wirebonds further comprising: program instructions to cure the first layer to mechanically bond the set of wirebonds to the first layer. 11. The computer usable program product of claim 10 , wherein the first layer is cured at room temperature. 12. A computer system comprising a processor, a computer-readable memory, and a computer-readable storage device, and program instructions stored on the storage device for execution by the processor via the memory, the stored program instructions comprising: program instructions to deposit a first layer on a portion of a first surface of a quantum hardware, the portion of the first surface comprising a set of wirebonds; program instruction to bond the set of wirebonds mechanically to the first layer; and program instructions to remove the first layer and the set of wirebonds from the first surface of the quantum hardware. 13. The computer system of claim 12 , wherein the first layer comprises an inert polymer in solution. 14. The computer system of claim 12 , wherein the portion covers the entirety of the first surface. 15. The computer system of claim 12 , the stored program instructions further comprising: program instructions to secure, prior to depositing the first layer, the quantum hardware in place on a vacuum device. 16. The computer system of claim 12 , the stored program instructions further comprising: program instructions to seal a second surface of the quantum hardware, the second surface being opposite the first surface. 17. The computer system of claim 16 , the program instructions to seal the second surface further comprising: program instructions to deposit a second layer on a portion of the second surface of the quantum hardware. 18. The computer system of claim 17 , wherein the second layer is a thin film configured to seal the second surface from the first layer. 19. The computer system of claim 12 , the program instructions to bond the set of wirebonds further comprising: program instructions to cure the first layer to mechanically bond the set of wirebonds to the first layer. 20. The computer system of claim 12 , wherein the first layer is cured at room temperature.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20170110437A1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US10810505B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US10810505B2/en",
+    "assignee": "https://patents.google.com/patent/US10810505B2/en",
+    "filing_date": "https://patents.google.com/patent/US10810505B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US10810505B2/en",
+    "claims_text": "https://patents.google.com/patent/US10810505B2/en",
+    "disposition": "https://patents.google.com/patent/US10810505B2/en",
+    "office_action_event": "https://patents.google.com/patent/US10810505B2/en",
+    "build_date": "2026-06-29T08:28:48.548934+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

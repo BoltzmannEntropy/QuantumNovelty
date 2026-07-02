@@ -1,0 +1,86 @@
+{
+  "application_number": null,
+  "publication_number": "US10846608B2",
+  "title": "US10846608B2 - Codes and protocols for distilling T, controlled-S, and toffoli gates",
+  "assignee": "Microsoft Technology Licensing LLC",
+  "filing_date": "2018-05-17",
+  "publication_date": "2020-11-24",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/70",
+    "G06N10/80"
+  ],
+  "claims_text": "What is claimed is: 1. A method for distilling magic states in a quantum computing device, comprising: generating a magic state distillation protocol for creating magic states in the quantum computing device, wherein the magic state distillation protocol includes (a) Reed-Muller codes, or (b) punctured Reed-Muller codes; and configuring the quantum computing device to implement the magic state distillation protocol, wherein the magic state distillation protocol is for Toffoli gates or controlled-controlled-Z (CCZ) gates. 2. The method of claim 1 , wherein the magic state distillation protocol includes punctured higher-order Reed-Muller codes. 3. The method of claim 1 , wherein the magic state distillation protocol uses Reed-Muller stabilizers. 4. The method of claim 1 , wherein the magic state distillation protocol includes punctured Reed-Muller codes, wherein the punctured Reed-Muller codes are selected based on Hamming distances. 5. The method of claim 1 wherein the magic state distillation protocol includes punctured Reed-Muller codes, and wherein the punctured Reed-Muller codes are selected by random puncturing and unpuncturing. 6. The method of claim 1 , wherein the method further comprises: measuring a controlled-Z operator using a transversal T gate to measure stabilizers of a CCZ magic state. 7. The method of claim 6 , wherein the stabilizers of the CCZ magic state achieve a second order error reduction or a fourth order error reduction. 8. The method of claim 1 , further comprising simultaneously measuring stabilizers of CCZ magic states using one or more transversal CCZ gates. 9. A quantum computer system comprising: a classical computer; and a quantum computing device implementing a plurality of quoits, wherein the classical computer is programmed to implement a method for controlling the quantum computing device, the method comprising: generating a magic state distillation protocol for creating magic states in the quantum computing device, wherein the magic state distillation protocol includes (a) Reed-Muller codes, or (b) punctured Reed-Muller codes, and configuring the quantum computing device to implement the magic state distillation protocol, wherein the magic state distillation protocol is for Toffoli gates or controlled-controlled-Z (CCZ) gates. 10. The system of claim 9 , wherein the magic state distillation protocol includes punctured higher-order Reed-Muller codes. 11. The system of claim 9 , wherein the magic state distillation protocol uses Reed-Muller stabilizers. 12. The system of claim 9 , wherein the magic state distillation protocol includes punctured Reed-Muller codes, wherein the punctured Reed-Muller codes are selected based on Hamming distances. 13. The system of claim 9 , wherein the magic state distillation protocol includes punctured Reed-Muller codes, and wherein the punctured Reed-Muller codes are selected by random puncturing and unpuncturing. 14. The system of claim 9 , wherein the method further comprises measuring a controlled-Z operator using a transversal T gate to measure stabilizers of a CCZ magic state. 15. The system of claim 14 , wherein the stabilizers of the CCZ magic state achieve a second order error reduction or a fourth order error reduction. 16. The system of claim 9 , wherein the method further comprises simultaneously measuring stabilizers of CCZ magic states using one or more transversal CCZ gates.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US11809839B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20240152335A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12093785B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12169673B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10404287B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11314537B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20190378032A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10496933B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11764940B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11108641B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11894860B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US10846608B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US10846608B2/en",
+    "assignee": "https://patents.google.com/patent/US10846608B2/en",
+    "filing_date": "https://patents.google.com/patent/US10846608B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US10846608B2/en",
+    "claims_text": "https://patents.google.com/patent/US10846608B2/en",
+    "disposition": "https://patents.google.com/patent/US10846608B2/en",
+    "office_action_event": "https://patents.google.com/patent/US10846608B2/en",
+    "build_date": "2026-06-29T08:29:12.397790+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

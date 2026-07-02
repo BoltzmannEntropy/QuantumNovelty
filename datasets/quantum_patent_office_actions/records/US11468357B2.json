@@ -1,0 +1,84 @@
+{
+  "application_number": null,
+  "publication_number": "US11468357B2",
+  "title": "US11468357B2 - Hybrid quantum-classical computer for packing bits into qubits for quantum optimization algorithms",
+  "assignee": "Zapata Computing Inc",
+  "filing_date": "2019-11-21",
+  "publication_date": "2022-10-11",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/60"
+  ],
+  "claims_text": "What is claimed is: 1. A method for reducing the number of qubits with which an operator is represented on a quantum computer, the method comprising: (1) receiving, as input, at a classical computer, an N-qubit operator; (2) decomposing, at the classical computer, the N-qubit operator as a linear combination of products of Majorana operators on 2N Majorana modes; (3) forming, at the classical computer, a second operator, representable on M qubits, based on a linear transformation of the Majorana operators of the N-qubit operator, wherein the linear transformation is from R{circumflex over ( )}(2N) to R{circumflex over ( )}(2M), wherein M&lt;N. 2. The method of claim 1 , further comprising: (4) at the quantum computer, generating marginal expectation values from the packed operator; and (5) at the classical computer, using the marginal expectation values to generate approximate marginals by approximating an expectation value of the operator. 3. The method of claim 2 , further comprising: (6) generating bit string samples based on the approximate marginals. 4. The method of claim 2 , wherein the input operator comprises an Ising Hamiltonian. 5. The method of claim 4 , further comprising: (6) generating bit string samples based on the approximate marginals. 6. The method of claim 5 , wherein generating the bit string samples comprises generating the bit string samples by generating samples and then rounding. 7. The method of claim 5 , wherein generating the bit string samples comprises generating the bit string samples using direct rounding. 8. The method of claim 4 , wherein forming the second operator based on the linear transformation comprises performing a packing of 2-planes. 9. The method of claim 8 , wherein performing the packing of 2-planes comprises performing skew-symmetric conference matrices. 10. The method of claim 8 , wherein performing the packing of 2-planes comprises performing numerically-generated semidefinite programming packings. 11. The method of claim 1 , wherein the input operator comprises a fermionic Hamiltonian. 12. The method of claim 1 , wherein the input operator comprises an ising Hamiltonian. 13. The method of claim 1 , wherein the linear transformation comprises a stochastic transformation. 14. The method of claim 13 , wherein the stochastic transformation comprises a Johnson-Lindenstrauss transformation. 15. The method of claim 1 , wherein the linear transformation comprises an explicit transformation. 16. The method of claim 15 , wherein the explicit transformation comprises Hadamard codes. 17. The method of claim 15 , wherein the explicit transformation comprises symmetric conference matrices. 18. A system comprising: a classical computer including a processor, a non-transitory computer-readable medium, and computer program instructions stored in the non-transitory computer-readable medium; a quantum computer comprising a plurality of qubits; wherein the computer program instructions, when executed by the processor, perform a method for reducing the number of qubits with which an operator is represented on the quantum computer, the method comprising: (1) receiving, as input, at a classical computer, an N-qubit operator; (2) decomposing, at the classical computer, the N-qubit operator as a linear combination of products of Majorana operators on 2N Majorana modes; (3) forming, at the classical computer, a second operator, representable on M qubits, based on a linear transformation of the Majorana operators of the N-qubit operator, wherein the linear transformation is from R{circumflex over ( )}(2N) to R{circumflex over ( )}(2M), wherein M&lt;N. 19. The system of claim 18 , wherein the method further comprises: (4) at the quantum computer, generating marginal expectation values from the packed operator; and (5) at the classical computer, using the marginal expectation values to generate approximate marginals by approximating an expectation value of the operator. 20. The system of claim 19 , wherein the method further comprises: (6) generating bit string samples based on the approximate marginals. 21. The system of claim 19 , wherein the input operator comprises an Ising Hamiltonian. 22. The system of claim 21 , wherein the method further comprises: (6) generating bit string samples based on the approximate marginals. 23. The system of claim 22 , wherein generating the bit string samples comprises generating the bit string samples by generating samples and then rounding. 24. The system of claim 22 , wherein generating the bit string samples comprises generating the bit string samples using direct rounding. 25. The system of claim 21 , wherein forming the second operator based on the linear transformation comprises performing a packing of 2-planes. 26. The system of claim 25 , wherein performing the packing of 2-planes comprises performing skew-symmetric conference matrices. 27. The system of claim 25 , wherein performing the packing of 2-planes comprises performing numerically-generated semidefinite programming packings. 28. The system of claim 18 , wherein the input operator comprises a fermionic Hamiltonian. 29. The system of claim 18 , wherein the input operator comprises an ising Hamiltonian. 30. The system of claim 18 , wherein the linear transformation comprises a stochastic transformation. 31. The system of claim 30 , wherein the stochastic transformation comprises a Johnson-Lindenstrauss transformation. 32. The system of claim 18 , wherein the linear transformation comprises an explicit transformation. 33. The system of claim 32 , wherein the explicit transformation comprises Hadamard codes. 34. The system of claim 32 , wherein the explicit transformation comprises symmetric conference matrices.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20220382709A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11593707B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230112525A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11663513B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12177197B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2019173651A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2019178009A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12079688B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11126062B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2020106955A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "JP7125825B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11468357B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11468357B2/en",
+    "assignee": "https://patents.google.com/patent/US11468357B2/en",
+    "filing_date": "https://patents.google.com/patent/US11468357B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11468357B2/en",
+    "claims_text": "https://patents.google.com/patent/US11468357B2/en",
+    "disposition": "https://patents.google.com/patent/US11468357B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11468357B2/en",
+    "build_date": "2026-06-29T08:28:39.916017+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

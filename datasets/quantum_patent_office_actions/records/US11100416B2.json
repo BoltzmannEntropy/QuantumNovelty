@@ -1,0 +1,89 @@
+{
+  "application_number": null,
+  "publication_number": "US11100416B2",
+  "title": "US11100416B2 - Systems and methods for degeneracy mitigation in a quantum processor",
+  "assignee": "D Wave Systems Inc",
+  "filing_date": "2016-10-27",
+  "publication_date": "2021-08-24",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/70",
+    "G06N10/60"
+  ],
+  "claims_text": "The invention claimed is: 1. A method for mitigating degeneracy in a hybrid computing system that comprises a quantum processor and a digital processor, the quantum processor and the digital processor communicatively coupled to one another, the quantum processor comprising a plurality of devices and operated as a sample generator providing samples, the method comprising: sending a problem to the quantum processor; iteratively repeating until an exit criterion is met: drawing a plurality of samples by the quantum processor; returning the plurality of samples to the digital processor; initializing a sample counter; until the sample counter reaches a determined sample limit: initializing a device counter; until the device counter reaches a first determined device limit: determining if a device indexed by the device counter is floppy; and incrementing the device counter; incrementing the sample counter; initializing the device counter; until the device counter reaches a second determined device limit: calculating a normalized floppiness metric for the device indexed by the device counter; adding an offset to advance the device in annealing; and incrementing the device counter. 2. The method of claim 1 , further comprising: determining whether an exit condition has been met. 3. The method of claim 2 wherein determining whether an exit condition has been met includes at least one of completing a determined number of iterations, reaching a predetermined upper bound on allowed computation time, or determining the change in the energy of a solution to the problem between successive iterations is below a determined threshold. 4. The method of claim 1 wherein mitigating degeneracy in a hybrid computing system that comprises a quantum processor includes mitigating degeneracy in a hybrid computing system that comprises a superconducting quantum processor. 5. The method of claim 4 wherein determining if a device indexed by the device counter is floppy includes determining if a superconducting qubit indexed by the device counter is floppy. 6. The method of claim 5 wherein determining if a superconducting qubit indexed by the device counter is floppy includes determining a change in the energy of a solution to the problem is below a determined threshold when the state of the superconducting qubit is flipped. 7. The method of claim 5 wherein determining if a superconducting qubit indexed by the device counter is floppy includes determining a prevalence of zero net bias from neighboring devices. 8. The method of claim 1 wherein calculating a normalized floppiness metric for the device indexed by the device counter includes summing the number of times the device is determined to be floppy and dividing by the determined sample limit. 9. The method of claim 1 wherein the first determined device limit is the same as the second determined device limit. 10. The method of claim 1 wherein drawing a plurality of samples by the quantum processor includes drawing at least one thousand samples by the quantum processor. 11. The method of claim 1 wherein determining if a device indexed by the device counter is floppy includes determining if a domain of qubits indexed by the device counter is floppy, the domain of qubits comprising a plurality of coupled qubits. 12. A hybrid computing system, comprising: at least one quantum processor comprising: a plurality of devices; and a readout subsystem; at least one digital processor-based device communicatively coupled to the at least one quantum processor; and at least one non-transitory computer-readable storage medium that stores processor-executable instructions to mitigate degeneracy, which when executed causes at least one processor-based device to: send a problem to the quantum processor; iteratively repeat until an exit criterion is met: draw a plurality of samples by the quantum processor; return the plurality of samples via the readout system to the digital processor; initialize a sample counter; until the sample counter reaches a determined sample limit: initialize a device counter; until the device counter reaches a first determined device limit: determine if a device indexed by the device counter is floppy; and increment the device counter; increment the sample counter; initialize the device counter; until the device counter reaches a second determined device limit: calculate a normalized floppiness metric for the device indexed by the device counter; add an offset to advance the device in annealing; and increment the device counter. 13. The hybrid computing system of claim 12 wherein the quantum processor is a superconducting quantum processor, and the plurality of devices comprise a plurality of superconducting qubits, the quantum processor further comprising a plurality of coupling devices, wherein each coupling device provides controllable communicative coupling between a respective pair of superconducting qubits in the plurality of superconducting qubits. 14. The hybrid computing system of claim 13 wherein the at least one processor device determines if a superconducting qubit indexed by the device counter is floppy based at least in part on whether a change in the energy of a solution to the problem is below a determined threshold when the state of the superconducting qubit is flipped. 15. The hybrid computing system of claim 13 wherein the at least one processor device determines if a superconducting qubit indexed by the device counter is floppy based at least in part on a prevalence of zero net bias from neighboring devices. 16. The hybrid computing system of claim 12 wherein the normalized floppiness metric is the number of times the device is determined to be floppy divided by the determined sample limit. 17. The hybrid computing system of claim 12 wherein the first determined device limit is the same as the second determined device limit. 18. The hybrid computing system of claim 12 wherein the plurality of samples includes at least one thousand samples. 19. The hybrid computing system of claim 12 wherein the exit criterion includes at least one of completing a determined number of iterations, reaching a predetermined upper bound on allowed computation time, or determining the change in the energy of a solution to the problem between successive iterations is below a determined threshold. 20. The hybrid computing system of claim 12 wherein the device is a domain of qubits comprising a plurality of coupled qubits, and in order to determine if a device indexed by the device counter is floppy the at least one processor determines if a domain of qubits indexed by the device counter is floppy.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20220123048A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11373112B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11422958B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11526463B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11809839B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12020116B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12034404B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12118197B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12206385B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12367412B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12369501B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12376501B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11100416B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11100416B2/en",
+    "assignee": "https://patents.google.com/patent/US11100416B2/en",
+    "filing_date": "https://patents.google.com/patent/US11100416B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11100416B2/en",
+    "claims_text": "https://patents.google.com/patent/US11100416B2/en",
+    "disposition": "https://patents.google.com/patent/US11100416B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11100416B2/en",
+    "build_date": "2026-06-29T08:30:54.361461+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

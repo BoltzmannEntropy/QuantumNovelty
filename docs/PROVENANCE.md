@@ -42,9 +42,9 @@ upstream source and the nature of the adaptation.
 - Added the book_acquirer hook: literature queries that fail to resolve
   through CrossRef/arXiv/S2 are forwarded to Anna's Archive with OCR.
 - Replaced the LLM-call subprocess pattern with a unified `skills/common/llm.py`
-  that supports Claude Code CLI (default), codex, codex-acp, codex-mcp, and
-  anthropic-api as one interface, with the nested-CLI isolation playbook
-  enforced on every backend.
+  that supports Claude Code CLI (default), codex, codex-acp, codex-mcp,
+  Kimi/Moonshot, and anthropic-api as one interface, with backend provenance
+  recorded through the same `_backend_used.json` marker.
 
 ## Our own contribution — `skills/novelty_audit/`
 

@@ -4,18 +4,19 @@
 
 <br/>
 
-<code>v1.0.0</code> &nbsp;Claude Code CLI · Quantum Papers &amp; Patents · 152 tests
+<code>v1.0.0</code> &nbsp;Claude Code CLI · Quantum Papers &amp; Patents · 203 tests
 
 <b>Shlomo Kashani</b> · <a href="https://qneura.ai/apps.html">QNeura.ai</a>
 
 <h2>Review any quantum paper <em>like a referee</em> · Examine or draft any quantum patent <em>like a USPTO examiner</em> + Agentic Audit-and-Falsify Pipeline</h2>
 
-Twenty agent skills that write and review quantum-computing papers, examine quantum patents, and draft quantum-patent filing packages —<br/>
+Twenty-five agent skills that scout quantum novelty, write and review quantum-computing papers, examine quantum patents, and draft quantum-patent filing packages —<br/>
 a 5-voice reviewer panel, a 6-voice USPTO examiner panel (§§101/102/103/112 → an Office Action),<br/>
 USPTO §112(b) / EPO Art. 84 claim-compliance review, full-application formalities checks,<br/>
+an SS-like scout that downloads arXiv PDFs into a run-local KB, exact-quote substantiation,<br/>
 an 11-fallacy quantum-CS taxonomy, strict-domination novelty audits,<br/>
 and an exact token + USD cost ledger on every LLM call.<br/>
-Runs on the <b>Claude Code CLI</b> by default; Codex available for cross-vendor falsifiability.
+Runs on the <b>Claude Code CLI</b> by default; Codex and Kimi/Moonshot are available for cross-vendor falsifiability.
 
 <p>
 <a href="#installation"><b>Get Started</b></a> ·
@@ -27,7 +28,7 @@ Claude Code CLI · MIT licensed · Sister project: <a href="https://github.com/B
 
 </div>
 
-> **Paper Audit | 5-Voice Review Panel | Patent Examination (USPTO Office Action) | Quantum Patent Drafting | Claim Compliance | Full Application Review | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
+> **Quantum Scout | Local Quantum KB | Paper Audit | 5-Voice Review Panel | Patent Prior Art | Patent Examination (USPTO Office Action) | Quantum Patent Drafting | Claim Compliance | Full Application Review | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
 
 A framework for **exploring genuine novelty** in quantum-computing research **and patents**. Built on the shoulders of **AutoResearchClaw (ARC)** and [**academic-research-skills (ARS)**](https://github.com/imbad0202/academic-research-skills), with one new contribution of our own: an **audit-and-falsify layer** that refuses to let an LLM-driven discovery loop declare victory until the win has been compared against the strongest known baseline at **strict Pareto-domination tolerances**, and every numerical claim in the resulting paper has been **re-derived from on-disk JSON artifacts**. The same machinery turns on patents: a `patent-audit` pipeline runs a **simulated USPTO examiner panel** that examines every claim under **35 U.S.C. §§ 101/102/103/112** and issues an **Office Action** (with a deterministic disposition + rejections-by-statute gate and a styled PDF report). The patent workflow is meant for patent examiners who need claim-by-claim statutory triage, patent attorneys who need disclosure intake / prosecution prep / validity-risk analysis, and inventors who want a structured pre-filing pressure test; it includes claim-compliance review for USPTO **35 U.S.C. § 112(b)** and EPO **Art. 84 EPC**, full-application review for specification adequacy / formalities / required sections under USPTO, EPO, or PCT standards, and a `patent-draft` workflow that turns a quantum invention disclosure into a draft filing package. It is an audit and drafting aid, not legal advice. Tested on five real papers — four peer-reviewed (PRX Quantum / npj Quantum Information / Quantum) plus Microsoft Quantum's tetron preprint — with the full review PDFs and per-call cost receipts shipped in `examples/`.
 
@@ -60,7 +61,7 @@ I built this because I wanted to publish the *workflow* that survived contact wi
 
 ## What it is
 
-QuantumNovelty is a Python + bash skill catalog plus a workflow chain that composes those skills into pipelines. Each skill is a single-purpose agent (one prompt template + one Python driver) that does one named thing — surface literature, predict amplitudes, run an ablation, audit a Pareto front, write a manuscript section, examine a patent claim set, or draft a quantum-patent filing package. The chain composes them.
+QuantumNovelty is a Python + bash skill catalog plus a workflow chain that composes those skills into pipelines. Each skill is a single-purpose agent (one prompt template + one Python driver) that does one named thing — scout quantum novelty, surface literature, predict amplitudes, run an ablation, audit a narrow legacy Pareto front, write a manuscript section, examine a patent claim set, or draft a quantum-patent filing package. The chain composes them.
 
 Concretely:
 
@@ -70,10 +71,14 @@ QuantumNovelty/
 │   ├── common/                # Shared infra: LLM backends, Anna's Archive,
 │   │   ├── llm.py             # prompt helpers. NOT a skill itself.
 │   │   ├── annas_archive.py
+│   │   ├── quantum_kb.py      # file-backed lexical/vector-ish local KB
 │   │   └── prompts.py
 │   ├── novelty_audit/         # ← THE ONE WE ADDED (see "Our contribution").
 │   ├── audit_falsify/         # Strict-domination Pareto comparator + claim audit
-│   ├── pareto_explorer/       # LLM-in-loop Pareto-front discovery
+│   ├── quantum_scout/         # Broad quantum novelty scout and recommendations
+│   ├── quantum_kb/            # Local KB create/ingest/index/search/substantiate
+│   ├── pareto_explorer/       # DEPRECATED narrow ansatz/Pareto discovery
+│   ├── patent_prior_art/      # Real patent prior-art search for §102/§103 grounding
 │   ├── ablation_designer/     # Design controlled ablations vs random/LLM mutator
 │   ├── cross_llm_prediction/  # Falsifiable amplitude-prediction rubric
 │   ├── literature_surfacer/   # Multi-source literature pull (CrossRef + arXiv + S2)
@@ -118,7 +123,7 @@ The combination of (1)–(6) is what we mean by "audit-and-falsify". It is not i
 
 ## All skills — the full catalog
 
-Twenty skills under `skills/`. Every one has its own `SKILL.md` with the
+Twenty-five skills under `skills/`. Every one has its own `SKILL.md` with the
 full contract; the table below is the at-a-glance summary so you can find
 what you need without grepping.
 
@@ -130,14 +135,19 @@ what you need without grepping.
 | **`argument_structure`** | (single) | `--paper PATH` (optional `--journal SLUG`) | `argument_structure.{md,json}` | Premises → claims → conclusion map, claim–proof gap, Claim/Mechanism/Evidence balance, narrative debts, sequencing. |
 | **`disclosure_audit`** | (single, 16-point checklist) | `--paper PATH` (optional `--journal SLUG`) | `disclosure_audit.md`, `disclosure_findings.json` | Funding / COI / author contributions / data + code availability / ethics / AI-use / rights, severity-grouped. |
 | **`revision_planner`** | (single) | `--paper PATH` `--run-dir DIR` (a paper-audit outdir) | `anchored_revision_plan.md`, `_source_numbered.md` | Anchor every revision item to ¶NNN paragraph IDs + verbatim judge quotes + a concrete proposed edit. |
+| **`evidence_ledger`** | 2: `ledger` / `audit` | `--paper PATH` then `--ledger PATH --run-dir DIR` | `ledger.{json,md}`, `ledger_audit.{json,md}` | Zero-LLM reviewer-hallucination guard: permitted citations, numbers, headings, and quotes are registered before review and audited after review. |
+| **`requirements_judge`** | `review` | `--paper PATH` (optional `--journal SLUG`) | `requirements_report.{json,md}` with allowed/forbidden claims | LLM-as-judge claim-vs-evidence audit. Produces a binding allowed/forbidden-claims manifest and conservative reject fallback if parsing fails. |
 | **`deep_research`** | 7: `full` / `quick` / `systematic-review` / `socratic` / `fact-check` / `lit-review` / `review` | `--mode MODE` `--topic STR` (optional `--paper PATH` to ground in actual text) | mode-specific markdown + `_backend_used.json` | Surface literature, fact-check claims, draft the Related Work section, run a research-rigour assessment on a paper. |
+| **`quantum_kb`** | 10 commands: `bootstrap` / `create` / `ingest` / `index` / `search` / `substantiate` / `review` / `perspective` / `list` / `status` | `--kb-root DIR` optional; command-specific `--kb`, `--source`, `--query`, `--claim`, `--paper`, `--question` | `quantum-kb/<kb>/index/*`, `claim_evidence.{json,md}`, `evidence_for_prompt.txt`, `citations.md`, `grounded_review.md`, `01_quantum_perspective.md`, `quote_fidelity.json`, `emma_parity_report.json` | Local quantum KB and RAG: offline indexing, exact quote evidence with citations, Emma-like claim-grounded review, and Emma Perspectives-parity perspective workflow. |
+| **`quantum_scout`** | (single) | `--topic STR` (optional repeatable `--source-file`, `--kb`, `--kb-root`, `--arxiv-max-downloads`, `--pdf-kb-only`, `--no-live-literature`, `--no-llm`) | `scout_report.{md,json}`, `scout_references.{json,bib}`, `claim_ledger.{md,json}`, `substantiation/`, `global_literature/`, `arxiv_corpus/`, `source_kb/`, `scout_manifest.json` | SS-like quantum novelty scout: topic -> literature/arXiv PDFs -> optional run-local KB -> exact quote substantiation -> candidate ideas and claim ledger. |
 | **`quantum_paper`** | 10: `full` / `plan` / `outline-only` / `revision` / `revision-coach` / `abstract-only` / `lit-review` / `format-convert` / `citation-check` / `disclosure` | `--mode MODE` plus `--topic` or `--draft` per mode | venue-formatted LaTeX or markdown | Author a quantum-computing paper, plan it, revise from reviewer comments, switch venues, write the disclosure block. |
 | **`quantum_reviewer`** | 6: `full` (EIC + R1 + R2 + R3 + DA) / `quick` / `guided` / `methodology-focus` / `re-review` / `calibration` | `--mode MODE` `--draft PATH` (optional `--journal SLUG`) | `review_panel.md` (or quick / methodology variants) + verdict | Get a 5-voice reviewer panel on a paper — yours or someone else's. |
 | **`patent_drafter`** | `guided` | `--disclosure PATH` or `--topic STR` (optional `--filing-standard {uspto,epo,pct,multi}`) | `filing_package.md`, `package_manifest.json`, `_backend_used.json` | Draft a quantum-patent filing package from invention disclosure: claims, spec, abstract, drawing plan, claim-compliance review, full-application review, and filing handoff checklist. |
+| **`patent_prior_art`** | (single) | `--topic STR` (optional `--claims FILE`, `--max N`, `--no-llm`) | `prior_art.json`, `prior_art_refs.json`, `prior_art.md` | Real patent prior-art search for §102/§103 grounding. Generates patent-search queries, uses keyless Google Patents/DDGS search, and filters genuine on-topic references for `patent_reviewer --prior-art`. |
 | **`patent_reviewer`** | `full` / `quick` | `--patent URL_OR_NUMBER_OR_FILE` (optional `--art-unit`, `--filing-standard`) | `office_action.md`, `_office_action.json`, `_patent_extracted.md` | Simulated USPTO examining unit plus attorney workflow: Office Action, claim-compliance review, full-application review, and validity/prosecution triage. |
 | **`logical_fallacies`** | (single) | `--draft PATH` (optional `--severity-threshold {low,medium,high,critical}`) | `fallacy_report.md`, `fallacy_findings.json` | Detect standard fallacies plus 11 quantum-CS-specific ones (cherry-picked-baseline, ad-hoc-precision-floor, simulator-laundering, mapping-by-convenience, pareto-cherry-picked-axes, cross-llm-theatre, …). |
 | **`cross_llm_prediction`** | (single) | `--hamiltonian-id ID` `--geometry-sweep STR` `--llms LIST` (must be ≥2 different vendors) `--k N` | per-LLM predictions JSON + overlap-vs-truth table | Build a falsifiable amplitude-prediction rubric across two vendors with predictions persisted before truth. |
-| **`pareto_explorer`** | built-in / `--evaluator-cmd` / `--plan-only` | `--hamiltonian ID` `--baseline LIST` (built-in registry: TFIM/Heisenberg 2-10q, H2_2q; or bring your own evaluator) | `archive.json` (strict-domination Pareto archive at calibrated ε) with REAL energies — bundled numpy statevector sim + SPSA | LLM-in-loop ansatz discovery with real numbers out of the box. |
+| **`pareto_explorer`** | DEPRECATED legacy narrow path: built-in / `--evaluator-cmd` / `--plan-only` | `--hamiltonian ID` `--baseline LIST` (built-in registry: TFIM/Heisenberg 2-10q, H2_2q; or bring your own evaluator) | `archive.json` (strict-domination Pareto archive at calibrated epsilon) with real energies | Reproduce fixed-Hamiltonian ansatz/Pareto experiments only. Use `quantum_scout` / `--pipeline scout` for broad quantum novelty discovery. |
 | **`ablation_designer`** | (single, axis-specific) | `--axis NAME` from {`llm-mutator-onoff`, `commutation-hint-onoff`, `pareto-seeding-onoff`, `cross-vendor`} (optional `--results-file PATH`) | `ablation_plan.md`, `ablation_results.json`, `interpretation.md` | Design or interpret the four standard ablations that distinguish "the LLM was load-bearing" from "random would have worked". |
 | **`literature_surfacer`** | (single) | `--topic STR` (optional `--n INT`, `--sources LIST`, `--hamiltonian-id`) | `synthesis.md`, `cards/`, `baseline_catalog.json` | Pull literature live from CrossRef + arXiv + Semantic Scholar (+ Serper Google Scholar if `SERPER_KEY`) and emit the Pareto-shaped baseline catalog `novelty_audit` consumes. |
 | **`book_acquirer`** | (single) | `--queries-file PATH` or `--queries "q1;q2"` `--target-dir DIR` | downloaded PDFs in `target-dir`, `acquire_report.json` | Download books/theses from Anna's Archive that aren't on arXiv (requires `ANNAS_ARCHIVE_KEY`). |
@@ -166,6 +176,7 @@ $ bash chain/run.sh --list-stages
 
 pipeline                  default-on stages                                             optional
 --------------------------------------------------------------------------------------------------------------
+scout                     literature, arxiv-corpus, source-kb, quote-substantiation, ideas  pdf-kb-only, no-arxiv-corpus, no-live-literature, no-llm
 paper-audit               research, reviewer, fallacies, cqe                            novelty-audit, cross-llm
 patent-audit              prior-art, examiner, fallacies, cqe                           disclosure-audit
 full                      literature, discovery, audit, draft, cross-llm, review, ...   -
@@ -203,6 +214,53 @@ This runs the four default-on stages in order:
 | cqe        | `process_summary`      | `cqe_scores.json` + `process_summary.md` — 6-dim Stage-6 composite |
 
 Each stage is **idempotent** — re-running with the same `--outdir` skips completed stages unless `--force` is passed. The resolved configuration (which stages ran, which `--skip-X` / `--with-X` flags were honored, decision log) is written to `_chain_config.json` in the outdir and surfaced in the final PIPELINE_REPORT.pdf.
+
+**Scout quantum novelty from any quantum-computing topic** (default discovery path):
+
+```
+bash chain/run.sh \
+  --pipeline scout \
+  --topic "Using AI for designing superconducting quantum chips" \
+  --source-file notes-or-seed-paper.pdf \
+  --llm codex \
+  --outdir runs/scout_demo
+```
+
+The QN scout is implemented as `skills/quantum_scout/`, not as a hidden chain
+branch. The chain maps `--pipeline scout` to that skill, which composes
+`literature_surfacer` and `quantum_kb`. It writes `scout_report.md`,
+`scout_references.{json,bib}`, `claim_ledger.{md,json}`,
+`global_literature/`, bounded `arxiv_corpus/`, optional run-local `source_kb/`, exact quote evidence in
+`substantiation/`, and `scout_manifest.json`.
+
+Use this for new avenue discovery across quantum algorithms, QEC/fault
+tolerance, hardware/control, QML, compilation, verification, networks,
+sensing, simulation, cryptography, and benchmarking. `pareto-discover` is now
+treated as a deprecated narrow ansatz/VQE reproduction path.
+
+Offline deterministic smoke path:
+
+```
+bash chain/run.sh \
+  --pipeline scout \
+  --topic "VQE ansatz novelty audit" \
+  --source-file notes.md \
+  --no-scout-arxiv-corpus \
+  --no-scout-live-literature \
+  --no-llm \
+  --outdir /tmp/qn_scout_smoke
+```
+
+PDF/KB-only mode, analogous to the limited SS scout acquisition path:
+
+```
+bash chain/run.sh \
+  --pipeline scout \
+  --topic "quantum error correction decoders" \
+  --scout-pdf-kb-only \
+  --scout-arxiv-max-downloads 20 \
+  --outdir runs/qec_pdf_kb
+```
 
 **Examine a quantum patent** (for examiner-style review, attorney intake, prosecution prep, or validity-risk triage):
 
@@ -323,9 +381,9 @@ The ARC flags currently surface the option-table for parity; the stages they bin
 
 ## Backends — Claude Code CLI is the default, with options
 
-QuantumNovelty does **not** call the Anthropic API. The default LLM backend is the **Claude Code CLI** (`claude --print`), running under your user's existing Claude Code subscription. This is a deliberate choice: it makes the framework usable without provisioning an API key, it routes through subscription billing (not metered API), and it inherits any tools you've configured for your Claude Code session.
+QuantumNovelty does **not** call the Anthropic API unless you explicitly request an API backend. The default LLM backend is the **Claude Code CLI** (`claude --print`), running under your user's existing Claude Code subscription. This is a deliberate choice: it makes the framework usable without provisioning an API key, it routes through subscription billing (not metered API), and it inherits any tools you've configured for your Claude Code session. QN also supports Codex and Kimi/Moonshot as explicit alternatives.
 
-All four supported backends share the same Python interface (`skills/common/llm.py::call_llm(prompt, backend, ...)`). You pick which one with `--llm`:
+All supported backends share the same Python interface (`skills/common/llm.py::call_llm(prompt, backend, ...)`). You pick which one with `--llm`:
 
 | Backend | Invocation | When to use |
 |---|---|---|
@@ -333,8 +391,37 @@ All four supported backends share the same Python interface (`skills/common/llm.
 | `codex` | subprocess: `codex exec --skip-git-repo-check -` reading prompt from stdin | When you want a different vendor for cross-LLM falsifiability checks. The `cross_llm_prediction` skill uses this in its codex arm. |
 | `codex-acp` | [Agent Client Protocol](https://github.com/zed-industries/agent-client-protocol) via `acpx` — a single persistent codex session across multiple skill invocations. The session carries context built up by earlier stages. | Long pipelines where you want the LLM to remember context across stages without re-stuffing prompts. |
 | `codex-mcp` | Codex as an MCP (Model Context Protocol) server. QuantumNovelty exposes its skills as MCP tools, codex consumes them. | When you want the human to drive an interactive review session from Codex while QuantumNovelty serves the skill catalog. |
+| `kimi` / `kimi-*` / `moonshot*` | Direct HTTP POST to Moonshot's Anthropic-compatible Messages API using `kikm.sh` / `KIMI_ENV_FILE`; sends `thinking: enabled`. | When you want QN reviewer, scout, deep-research, or any skill using `skills/common/llm.py` to run on Kimi instead of Claude/Codex. |
+| `anthropic-api` | Direct HTTP POST to Anthropic's Messages API with `ANTHROPIC_API_KEY`. | CI or special cases where the Claude Code CLI is unavailable. This is opt-in only and never a fallback. |
 
-All four enforce the **nested-CLI isolation playbook** (scrubbed env including `ANTHROPIC_*` so the subscription path is used; neutral cwd to avoid the "tool_use ids must be unique" 400 from nested Claude Code sessions; `--no-session-persistence` to avoid session-state collisions). This is non-optional — every backend goes through the same isolation wrapper.
+The subprocess backends enforce the **nested-CLI isolation playbook** (scrubbed env including `ANTHROPIC_*` so the subscription path is used; neutral cwd to avoid the "tool_use ids must be unique" 400 from nested Claude Code sessions; `--no-session-persistence` to avoid session-state collisions). The Kimi backend is deliberately separate: QN reads `kikm.sh` itself and calls Moonshot directly because `kimi-k2.7-code` requires the `thinking` request field.
+
+### Kimi / Moonshot backend
+
+Use `--llm kimi` anywhere a QN skill accepts `--llm`:
+
+```bash
+export KIMI_ENV_FILE=/Volumes/SSD4tb/DP27/Dropbox/DSS/kikm.sh
+
+skills/quantum_reviewer/run.sh \
+  --mode full \
+  --draft paper.pdf \
+  --outdir runs/kimi_review \
+  --llm kimi
+```
+
+QN searches for `kikm.sh` automatically from the current directory and from the QN module path, but setting `KIMI_ENV_FILE` is clearer for reproducible runs. The file should export `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN` or `ANTHROPIC_API_KEY`, and optionally `ANTHROPIC_MODEL`. The default model is `kimi-k2.7-code`. You can override with `QN_KIMI_MODEL`, or pass an explicit model id as `--llm kimi-k2.7-code`.
+
+Optional Kimi knobs:
+
+| Env var | Default | Effect |
+|---|---|---|
+| `KIMI_ENV_FILE` | auto-search for `kikm.sh` | Credentials/config file for Moonshot's Anthropic-compatible endpoint. |
+| `QN_KIMI_MODEL` | `ANTHROPIC_MODEL` from `kikm.sh`, else `kimi-k2.7-code` | Model used when `--llm kimi` is selected. |
+| `QN_KIMI_MAX_TOKENS` / `KIMI_MAX_TOKENS` | `16384` | `max_tokens` in the Messages request. |
+| `QN_KIMI_THINKING_BUDGET` / `KIMI_THINKING_BUDGET` | `4096` | Thinking budget sent as `thinking: {type: enabled, budget_tokens: ...}`. |
+
+Every Kimi call still writes `_backend_used.json` with `backend_requested`, `backend_actually_used: "kimi"`, `model_id`, elapsed time, and token usage if Moonshot returns it. QN never prints or persists the auth token.
 
 ### Claude Code CLI integration (the default — no API key needed)
 
@@ -578,7 +665,7 @@ If you specifically need the API (e.g., for a CI run where Claude Code isn't ins
 
 Explicit non-features:
 
-- **No RAG.** QuantumNovelty does not run a vector database, does not embed documents, does not maintain a knowledge base. Literature is surfaced fresh per query through CrossRef/arXiv/Semantic Scholar, and book content (when needed) is downloaded via Anna's Archive and OCR'd inline. If you want RAG, build it as a sibling project; QuantumNovelty refuses to take on the indexing-maintenance complexity. (This is a deliberate departure from upstream ARC, which has a RAG layer.)
+- **No server/database RAG dependency.** QuantumNovelty now has a file-backed `quantum_kb` for exact quote retrieval, Emma-like perspectives, and scout substantiation, but it still does not require a vector database service or persistent daemon. Literature can still be surfaced fresh per query through CrossRef/arXiv/Semantic Scholar, and book content (when needed) is downloaded via Anna's Archive and OCR'd inline.
 - **No dependency on any private codebase.** QuantumNovelty is a *peer of ARC* — a framework. The Apple-Silicon simulator and the in-development paper that motivated QN live in a separate repository that will be released once the paper is published; QN does not depend on either.
 - **No LaTeX template provided.** The example paper uses `revtex4-2`; you can use whatever template your venue requires. The framework only cares about the audit pipeline, not the typesetting.
 - **No GUI.** All workflows are CLI-driven. The chain produces structured JSON + markdown reports; consume them however you like.
@@ -1531,7 +1618,24 @@ A single table you can grep when picking flags.
 
 ---
 
-## Quick tour — exploring novelty for a quantum Hamiltonian
+## Quick tour — broad quantum scouting first
+
+```bash
+chain/run.sh --pipeline scout \
+  --topic "novel directions for quantum error-correction decoders under biased noise" \
+  --scout-arxiv-max-downloads 10 \
+  --llm codex \
+  --outdir runs/qec_decoder_scout
+```
+
+This produces recommended avenues, literature status, arXiv/PDF corpus
+metadata, exact quote evidence when KB sources are available, a claim ledger,
+references, and a manifest.
+
+## Legacy tour — narrow ansatz/Pareto reproduction
+
+The old `pareto-discover` path is retained for reproducing fixed-Hamiltonian
+VQE/ansatz experiments. It is not the general QN discovery path.
 
 ```bash
 # 1. Surface what's published.
@@ -1539,7 +1643,7 @@ chain/run.sh --pipeline literature \
   --topic "VQE for H2O at 8 qubits with active-space (4e,4o)" \
   --outdir runs/h2o_lit
 
-# 2. Discover an ansatz; build a Pareto archive over (error, params, CNOT).
+# 2. Legacy: discover an ansatz; build a Pareto archive over (error, params, CNOT).
 chain/run.sh --pipeline pareto-discover \
   --hamiltonian H2O_4e_4o_8q \
   --baseline UCCSD-1-Trotter,UCCSD-K5-pruned,HEA-5L \
@@ -1578,8 +1682,9 @@ Each `chain/run.sh --pipeline X` step writes a self-contained directory containi
 | Skill | Purpose | Inputs | Outputs |
 |---|---|---|---|
 | `literature_surfacer` | Multi-source literature pull + LLM card extraction | `--topic`, `--n` | `cards/*.json`, `synthesis.md`, `baseline_catalog.json` |
+| `quantum_scout` | SS-like topic scout + arXiv/source-KB substantiation | `--topic`, optional `--source-file`, `--kb`, `--scout-pdf-kb-only` | `scout_report.md`, `claim_ledger.md`, `scout_references.bib`, `arxiv_corpus/`, `substantiation/` |
 | `book_acquirer` | Anna's Archive download + OCR + index | `--query`, `--target-dir` | downloaded PDFs, OCR'd `.txt`, source manifest |
-| `pareto_explorer` | LLM-in-loop Pareto-front discovery on (Hamiltonian, baselines) | `--hamiltonian`, `--baseline`, `--generations`, `--samples` | `archive.json`, per-generation `circuit.py`, `eval.json` |
+| `pareto_explorer` | DEPRECATED narrow ansatz/Pareto reproduction | `--hamiltonian`, `--baseline`, `--generations`, `--samples` | `archive.json`, per-generation `circuit.py`, `eval.json` |
 | `ablation_designer` | Design controlled ablations (LLM mutator vs random, hint-load-bearing tests) | `--axis`, `--seeds`, `--proposals-per-seed` | `ablation_results.json`, `interpretation.md` |
 | `cross_llm_prediction` | Falsifiable amplitude-prediction rubric, multiple vendors | `--hamiltonian`, `--geometry-sweep`, `--llms` | per-LLM prediction JSON + overlap-vs-truth table |
 | `audit_falsify` | Strict-domination comparator + ratio recompute + Wilson CIs + audit script | `--archive`, `--draft.tex` | `audit_report.md`, `audit_claims.py`, pass/fail per claim |

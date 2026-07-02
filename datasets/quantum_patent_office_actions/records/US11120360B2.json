@@ -1,0 +1,90 @@
+{
+  "application_number": null,
+  "publication_number": "US11120360B2",
+  "title": "US11120360B2 - Optical holographic addressing of atomic quantum bits",
+  "assignee": "Massachusetts Institute of Technology",
+  "filing_date": "2020-10-02",
+  "publication_date": "2021-09-14",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/40",
+    "G06N10/60"
+  ],
+  "claims_text": "The invention claimed is: 1. A method of addressing an array of atomic quantum bits (qubits), the method comprising: illuminating a first multiplexed hologram in an array of multiplexed holograms with a laser beam, the laser beam diffracting off the first multiplexed hologram to produce a first spatial-mode distribution representing a first layer in a quantum circuit to be executed by the array of atomic qubits; and illuminating the array of atomic qubits with the first spatial-mode distribution, the first spatial-mode distribution at least one of initializing, manipulating, or measuring a first state of the array of atomic qubits. 2. The method of claim 1 , further comprising: illuminating a second multiplexed hologram in the array of multiplexed holograms with the laser beam, the laser beam diffracting off the second multiplexed hologram to produce a second spatial-mode distribution representing a second layer in the quantum circuit; and illuminating the array of atomic qubits with the second spatial-mode distribution, the second spatial-mode distribution at least one of initializing, manipulating, or measuring a second state of the array of atomic qubits. 3. The method of claim 2 , wherein illuminating the first multiplexed hologram occurs before illuminating the second multiplexed hologram. 4. The method of claim 2 , wherein illuminating the first multiplexed hologram and illuminating the second multiplexed hologram occur simultaneously. 5. The method of claim 2 , wherein illuminating the first multiplexed hologram comprises directing the laser beam onto a spatial light modulator at a first angle and illuminating the second multiplexed hologram comprises directing the laser beam onto the spatial light modulator at a second angle different than the first angle. 6. The method of claim 2 , further comprising: switching between illuminating the first multiplexed hologram and illuminating the second multiplexed hologram in less than 1 microsecond. 7. The method of claim 6 , wherein the array of multiplexed holograms is a first array of multiplexed holograms, and further comprising: displaying the first array of multiplexed holograms in a spatial light modulator; and actuating the spatial light modulator to display a second array of multiplexed holograms at a frame rate of less than 1 kHz. 8. The method of claim 2 , wherein the laser beam is a first laser beam at a first frequency, and further comprising: illuminating the array of atomic qubits with a second laser beam at a second frequency different than the first frequency while illuminating the array of atomic qubits with the first spatial-mode distribution. 9. The method of claim 1 , wherein the laser beam is a first laser beam, and further comprising: illuminating the first multiplexed hologram with a second laser beam to produce a second spatial-mode distribution; and illuminating the array of atomic qubits with the second spatial-mode distribution. 10. A quantum processor comprising: a coherent light source to emit a coherent optical beam; a spatial light modulator (SLM) to display holograms encoding respective spatial-mode distributions, the spatial-mode distributions representing respective quantum operations; an optical beam director, in optical communication with the light source and the SLM, to illuminate the holograms with the coherent optical beam, thereby producing the respective spatial-mode distributions; and an array of atomic qubits, in optical communication with the SLM, to carry out the quantum operations in response to being illuminated by the respective spatial-mode distributions. 11. The quantum processor of claim 10 , wherein the coherent light source is configured to emit the coherent optical beam as a pulsed coherent optical beam and the optical beam director is configured to illuminate different holograms with different pulses of the pulsed coherent optical beam to produce a sequence of the spatial-mode distributions representing layers of a quantum circuit. 12. The quantum processor of claim 10 , wherein the SLM comprises at least one of a liquid-crystal SLM, a static phase mask, a static amplitude mask, or a patterned spinning disk. 13. The quantum processor of claim 10 , wherein the holograms are angularly multiplexed Fourier-domain representations of the respective spatial-mode distributions. 14. The quantum processor of claim 10 , wherein the holograms are spatially multiplexed real-space-domain representations of the respective spatial-mode distributions. 15. The quantum processor of claim 10 , wherein each spatial-mode distribution encodes a corresponding layer of a quantum circuit. 16. The quantum processor of claim 10 , wherein the optical beam director is configured to illuminate different holograms with different portions of the coherent optical beam simultaneously to illuminate the array of atomic qubits with a superposition of the spatial-mode distributions. 17. The quantum processor of claim 10 , wherein the optical beam director comprises at least one of an optical multi-channel switch, an optical modulator array, an optical beam deflector, or a series of free-space optics and optical modulators configured to switch the coherent optical beam among spatial modes in a discrete set of spatial modes. 18. The quantum processor of claim 10 , wherein the optical beam director is configured to switch the laser beam among the holograms at a rate faster than a frame rate of the SLM. 19. The quantum processor of claim 10 , wherein the optical beam director is configured to illuminate multiple holograms simultaneously so as to illuminate the array of atomic qubits with a coherent superposition of the respective spatial-mode distributions. 20. The quantum processor of claim 10 , where the array of atomic qubits is a three-dimensional array of atomic qubits. 21. A quantum processor comprising: a coherent light source to emit a coherent optical beam; a phase-only spatial light modulator (SLM) to display sets of holograms encoding Fourier-domain representations of respective spatial-mode distributions, the spatial-mode distributions representing respective quantum operations, the SLM being configured between sets of holograms at rate of up to 1 kHz; an optical beam director, in optical communication with the light source and the SLM, to illuminate the sets of holograms with the coherent optical beam, thereby producing the respective spatial-mode distributions, the optical beam director being configured to switch the coherent optical beam between holograms in the sets of holograms at rate greater than 1 kHz; and an array of atomic qubits, in a Fourier plane of the SLM, to carry out the quantum operations in response to being illuminated by the respective spatial-mode distributions.",
+  "office_action": {
+    "date": null,
+    "type": "notice-of-allowance",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US11575860B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11580435B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11586968B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230196154A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230317309A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11797873B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11875227B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11995512B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2024136946A3",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12462174B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12499382B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12619899B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11120360B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11120360B2/en",
+    "assignee": "https://patents.google.com/patent/US11120360B2/en",
+    "filing_date": "https://patents.google.com/patent/US11120360B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11120360B2/en",
+    "claims_text": "https://patents.google.com/patent/US11120360B2/en",
+    "disposition": "https://patents.google.com/patent/US11120360B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11120360B2/en",
+    "build_date": "2026-06-29T08:30:43.206282+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

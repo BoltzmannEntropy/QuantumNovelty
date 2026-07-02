@@ -1,0 +1,79 @@
+{
+  "application_number": null,
+  "publication_number": "US11586969B2",
+  "title": "US11586969B2 - Quantum circuit optimization using windowed quantum arithmetic",
+  "assignee": "Google LLC",
+  "filing_date": "2020-03-27",
+  "publication_date": "2023-02-21",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/40",
+    "G06N10/60",
+    "G06N10/70"
+  ],
+  "claims_text": "What is claimed is: 1. A method for performing a product addition operation on a target quantum register of qubits and a source quantum register of qubits, the method comprising: determining multiple entries of a lookup table, comprising, for each index in a first set of indices, wherein the first set of indices comprises index values between zero and a maximum index value that is a function of a predetermined window size, multiplying the index value by a scalar for the product addition operation; for each index in a second set of indices, wherein the second set of indices comprises index values between zero and a maximum index value that is a function of the source quantum register, wherein the index values are stepped by the predetermined window size: determining multiple address values, comprising extracting source register values corresponding to indices between i) the index in the second set of indices, and ii) the index in the second set of indices plus the predetermined window size; and adjusting values of the target quantum register based on the determined multiple entries of the lookup table and the determined multiple address values. 2. The method of claim 1 , wherein the maximum index value that is a function of the predetermined window size is equal to 2 to the power of the predetermined window size. 3. The method of claim 1 , wherein the maximum index value that is a function of the source quantum register is equal to a length of the source register. 4. The method of claim 1 , wherein the predetermined window size comprises ln n, where n represents a number of logical qubits in the target quantum register. 5. The method of claim 1 , wherein adjusting values of the target quantum register based on the determined multiple entries of the lookup table and the determined multiple address values comprises adding the determined multiple entries into the target quantum register. 6. The method of claim 1 , wherein the product addition operation performs x+=ky, where x represents a variable storing a first value in the target quantum register, y represents a corresponding variable storing a second value in the source quantum register, k represents a classical constant scalar value for the product addition operation. 7. The method of claim 6 , wherein the target quantum register comprises a fixed width 2s complement register. 8. The method of claim 6 , wherein the first value comprises a classical integer or a superposition of classical integers. 9. The method of claim 6 , wherein the second value comprises a classical integer or a superposition of classical integers. 10. A method for performing a modular product addition operation using a target quantum register of qubits and a source quantum register of qubits, the method comprising: for each index in a first set of indices, wherein the first set of indices comprises index values between zero and a maximum index value that is a function of the source quantum register, wherein the index values are stepped by a predetermined window size: determining multiple address values, comprising extracting source register values corresponding to indices between i) the index in the first set of indices, and ii) the index in the first set of indices plus the predetermined window size; determining multiple corresponding table entries, comprising, for each index in a second set of indices, wherein the second set of indices comprises index values between zero and a maximum table index that is a function of the predetermined window size: determining a table entry comprising a product of i) a scalar in the product addition operation, ii) 2 to the power of the index in the first set of indices, and iii) the index in the second set of indices, and applying a modulus operation to the determined table entry; and adjusting values of the target quantum register based on the determined multiple table entries and the determined multiple address values. 11. The method of claim 10 , wherein the maximum index value that is a function of the source quantum register is equal to a length of the source quantum register. 12. The method of claim 10 , wherein the maximum table index that is a function of the predetermined window size is equal to 2 to the power of the predetermined window size. 13. The method of claim 10 , wherein the modular product addition operation performs x+=ky (mod N), where represents a variable storing a first value in the target quantum register, y represents a corresponding variable storing a second value in the source quantum register, k represents a classical constant scalar value for the modular product addition operation, and N represent a classical constant modulo for the modular product addition operation. 14. The method of claim 13 , wherein values of x, y and k are positive and less than N. 15. The method of claim 13 , wherein the first value comprises a classical integer or a superposition of classical integers. 16. The method of claim 13 , wherein the second value comprises a classical integer or a superposition of classical integers. 17. The method of claim 10 , wherein the predetermined window size comprises ln n, where n represents a number of logical qubits in the target quantum register. 18. The method of claim 10 , wherein adjusting values of the target quantum register based on the determined multiple table entries and the determined multiple address values comprises adding the determined multiple table entries into the target quantum register. 19. The method of claim 10 , further comprising performing a series of modular product addition operations to perform a modular multiplication operation. 20. A method for multiplying values of a target quantum register of qubits by an odd integer, the method comprising: determining multiple lookup table entries, comprising, for each index in a first set of indices, wherein the first set of indices comprises index values between zero and a maximum table index that is a function of a predetermined window size: determining a product of the index in the first set of indices and the odd integer; for each index in a second set of indices, wherein the second set of indices comprises index values from a maximum index value that is a function of the target quantum register to zero, wherein the index values are stepped by a predetermined window size: extracting multiple values of the target quantum register between the index in the second set of indices to the index in the second set of indices plus the predetermined window size; and adjusting multiple values of the target quantum register based on the determined multiple lookup table entries and the extracted multiple values of the target quantum register, wherein the multiple values of the target quantum register comprise values between the index in the second set of indices plus the predetermined window size and an end of the target quantum register. 21. The method of claim 20 , wherein the maximum table index that is a function of the predetermined window size is equal to 2 to the power of the predetermined window size. 22. The method of claim 20 , wherein the maximum index value that is a function of the target quantum register is equal to a length of the target quantum register. 23. The method of claim 20 , wherein multiplying values of a target quantum register of qubits by an odd integer comprises performing x*=k, where x represents a variable storing a first value in the target quantum register and k represents the odd integer. 24. The method of claim 23 , wherein the first value comprises a classical integer or a superposition of classical integers. 25. The method of claim 20 , wherein the predetermined window size comprises ln n, where n represents a number of logical qubits in the target quantum register. 26. The method of claim 20 , wherein adjusting multiple values of the target quantum register based on the determined multiple lookup table entries and the extracted multiple values of the targe",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US20230401474A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11086665B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN113632111A",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12580664B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11093850B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12493808B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11625639B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11777505B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11146339B1",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11586969B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11586969B2/en",
+    "assignee": "https://patents.google.com/patent/US11586969B2/en",
+    "filing_date": "https://patents.google.com/patent/US11586969B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11586969B2/en",
+    "claims_text": "https://patents.google.com/patent/US11586969B2/en",
+    "disposition": "https://patents.google.com/patent/US11586969B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11586969B2/en",
+    "build_date": "2026-06-29T08:28:58.580931+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

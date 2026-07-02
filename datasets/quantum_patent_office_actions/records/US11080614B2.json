@@ -1,0 +1,89 @@
+{
+  "application_number": null,
+  "publication_number": "US11080614B2",
+  "title": "US11080614B2 - Systems and methods for quantum coherence preservation of qubits",
+  "assignee": "Anametric Inc",
+  "filing_date": "2017-12-05",
+  "publication_date": "2021-08-03",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/70",
+    "G06N10/20"
+  ],
+  "claims_text": "What is claimed is: 1. A quantum circuit, comprising: a first Bell state oscillator (BSO), including: a first Bell state generator, comprising a first Hadamard gate and a first CNOT gate, the first Hadamard gate having an input and an output and the first CNOT gate having an input and an output; a second Bell state generator, comprising a second Hadamard gate and a second CNOT gate, the second Hadamard gate having an input and an output and the second CNOT gate having an input and an output, wherein the input of the second Hadamard gate is coupled to the output of the first Hadamard gate of the first Bell state generator and the input of the second CNOT gate is coupled to the output of the first CNOT gate of the first Bell state generator; a third Bell state generator, comprising a third Hadamard gate and a third CNOT gate, the third Hadamard gate having an input and an output and the third CNOT gate having an input and an output, wherein the input of the third Hadamard gate is coupled to the output of the second Hadamard gate of the second Bell state generator and the input of the third CNOT gate is coupled to the output of the second CNOT gate of the second Bell state generator; and a fourth Bell state generator, comprising a fourth Hadamard gate and a fourth CNOT gate, the fourth Hadamard gate having an input and an output and the fourth CNOT gate having an input and an output, wherein the input of the fourth Hadamard gate is coupled to the output of the third Hadamard gate of the third Bell state generator and the input of the fourth CNOT gate is coupled to the output of the third CNOT gate of the third Bell state generator, and wherein the input of the first Hadamard gate of the first Bell state generator is coupled to the output of the fourth Hadamard gate of the fourth Bell state generator and the input of the first CNOT gate of the first Bell state generator is coupled to the output of the fourth CNOT gate of the fourth Bell state generator. 2. The quantum circuit of claim 1 , further comprising a Fredkin gate disposed between the fourth Bell state generator and the first Bell state generator, wherein the Fredkin gate has a first input coupled to the output of the fourth Hadamard gate of the fourth Bell state generator, a second input coupled to the output of the fourth CNOT gate of the fourth Bell state generator, a first output coupled to the input of the input of the first Hadamard gate of the first Bell state generator, and a second output coupled to the input of the first CNOT gate of the first Bell state generator. 3. The quantum circuit of claim 1 , wherein the first BSO comprises a first phase rotation gate and a second phase rotation gate that is an inverse of the first phase rotation gate. 4. The quantum circuit of claim 3 , wherein the first phase rotation gate is disposed between the first Bell state generator and the second Bell state generator and the second phase rotation gate is disposed between the third Bell state generator and the fourth Bell state generator. 5. The quantum circuit of claim 4 , wherein the first phase rotation gate includes an input coupled to the output of the first Hadamard gate of the first Bell state generator of the first BSO and an output coupled to the input of the second Hadamard gate of the second Bell state generator of the first BSO and the second phase rotation gate includes an input coupled to the output of the third Hadamard gate of the third Bell state generator of the first BSO and an output coupled to the input of the fourth Hadamard gate of the fourth Bell state generator of the first BSO. 6. The quantum circuit of claim 5 , wherein the first phase rotation gate and the second phase rotation gate are Pauli-rotation structures. 7. The quantum circuit of claim 6 , wherein an angle of rotation is an input parameter to each Pauli-rotation structure. 8. The quantum circuit of claim 6 , wherein the first phase rotation gate and the second phase rotation gate are Controlled-PHASE (CPHASE) gates. 9. The quantum circuit of claim 6 , wherein the first phase rotation gate and the second phase rotation gate are Fredkin gates. 10. The quantum circuit of claim 1 , wherein the quantum circuit comprises a second Bell state oscillator (BSO), including: a first Bell state generator, comprising a first Hadamard gate and a first CNOT gate, the first Hadamard gate having an input and an output and the first CNOT gate having an input and an output; a second Bell state generator, comprising a second Hadamard gate and a second CNOT gate, the second Hadamard gate having an input and an output and the second CNOT gate having an input and an output, wherein the input of the second Hadamard gate is coupled to the output of the first Hadamard gate of the first Bell state generator and the input of the second CNOT gate is coupled to the output of the first CNOT gate of the first Bell state generator; a third Bell state generator, comprising a third Hadamard gate and a third CNOT gate, the third Hadamard gate having an input and an output and the third CNOT gate having an input and an output, wherein the input of the third Hadamard gate is coupled to the output of the second Hadamard gate of the second Bell state generator and the input of the third CNOT gate is coupled to the output of the second CNOT gate of the second Bell state generator; and a fourth Bell state generator, comprising a fourth Hadamard gate and a fourth CNOT gate, the fourth Hadamard gate having an input and an output and the fourth CNOT gate having an input and an output, wherein the input of the fourth Hadamard gate is coupled to the output of the third Hadamard gate of the third Bell state generator and the input of the fourth CNOT gate is coupled to the output of the third CNOT gate of the third Bell state generator, and wherein the input of the first Hadamard gate of the first Bell state generator is coupled to the output of the fourth Hadamard gate of the fourth Bell state generator and the input of the first CNOT gate of the first Bell state generator is coupled to the output of the fourth CNOT gate of the fourth Bell state generator. 11. The quantum circuit of claim 10 , further comprising a quantum coupling circuit coupling the first BSO to the second BSO and adapted to entangle a first qubit of the first BSO with a second qubit of the second BSO. 12. The quantum circuit of claim 11 , wherein the quantum coupling circuit includes: a first CNOT gate, the first CNOT gate including an input coupled to the output of the first CNOT gate of the first Bell state generator of the second BSO and a control coupled to the output of the first CNOT gate of the first CNOT gate of the first Bell state generator of the first BSO; a second CNOT gate, the second CNOT gate including an input coupled to the output of the first CNOT gate of the first Bell state generator of the first BSO and a control coupled to an output of the first CNOT gate of the quantum coupling circuit; and a third CNOT gate, the third CNOT gate including an input coupled to the output of the first CNOT gate of the quantum coupling circuit and a control coupled to an output of the second CNOT gate of the quantum coupling circuit, wherein an output of the third CNOT gate of the quantum coupling circuit is coupled to the second CNOT gate of the second Bell state generator of the second BSO and an the output of the second CNOT gate of the quantum coupling circuit is coupled to the second CNOT gate of the second Bell state generator of the first BSO. 13. The quantum circuit of claim 11 , wherein the first BSO comprises a first phase rotation gate and a second phase rotation gate that is an inverse of the first phase rotation gate, and the second BSO comprises a first phase rotation gate and a second phase rotation gate that is an inverse of the first phase rotation gate. 14. The quantum circuit of claim 13 , wherein: the first phase rotation gate of the first BSO is disposed between the fir",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "WO2018222311A2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10614371B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN109217939B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "EP3844689A4",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN112313678B",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "WO2020056324A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "JP7250922B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11069790B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10505524B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11544612B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10984335B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "CN110380824A",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11080614B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11080614B2/en",
+    "assignee": "https://patents.google.com/patent/US11080614B2/en",
+    "filing_date": "https://patents.google.com/patent/US11080614B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11080614B2/en",
+    "claims_text": "https://patents.google.com/patent/US11080614B2/en",
+    "disposition": "https://patents.google.com/patent/US11080614B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11080614B2/en",
+    "build_date": "2026-06-29T08:30:45.580051+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

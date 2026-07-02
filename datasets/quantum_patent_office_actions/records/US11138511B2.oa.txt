@@ -1,0 +1,3 @@
+[OA text not available for US11138511B2]
+Source limitation: USPTO OA Text APIs are not accessible from automated environments.
+Manual retrieval: https://patentcenter.uspto.gov/ → search US11138511B2

@@ -1,0 +1,76 @@
+{
+  "application_number": null,
+  "publication_number": "US11501199B2",
+  "title": "US11501199B2 - Probability index optimization for multi-shot simulation in quantum computing",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2018-11-05",
+  "publication_date": "2022-11-15",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/80"
+  ],
+  "claims_text": "What is claimed is: 1. A computer-implemented method for reducing a measure time of a measure process in a multi-shot simulation performed by a quantum computing simulation system, the method comprising: calculating probabilities of qubits being a 0 or a 1 for the measure process from probability amplitudes before the measure process; creating, for each node of the quantum computing simulation system, an index of probability by incrementally summing respective different ones of the probabilities into respective sums; generating a random number for each of the multi-shots, the random number for sampling a probability distribution of the probabilities; and selecting the index of probability which is larger than the random number by comparing the random number generated for a given one of the multi-shots to the index of probability created for the given one of the multi-shots, wherein the quantum computing simulation system comprises a master node and local slave nodes, and wherein the creating and generating steps are performed by the master node, and the calculating and selecting steps are performed by the local slave nodes. 2. The computer-implemented method of claim 1 , wherein a measure gate of the quantum computing simulation system performs the measure process, and the method is configured to begin responsive a satisfaction of a set of conditions, the set of conditions including that the measure gate is in a non-middle position. 3. The computer-implemented method of claim 1 , further comprising calculating a state probability, as an output of the measure process, using the index of probability which is larger than the random number. 4. The computer-implemented method of claim 1 , wherein the quantum computing simulation system comprises a plurality of nodes including a master node and multiple local nodes, wherein the index of probability of each of the plurality of nodes is different with respect to each other. 5. The computer-implemented method of claim 4 , wherein each of the multiple local nodes calculates a respective one of the respective sums from the respective index of probability corresponding thereto as the value that is compared to the random number. 6. The computer-implemented method of claim 4 , wherein the master nodes generates the random number for each of the multi-shots and sends the random number for each of the multi-shots to each of the local nodes for comparison to the index of probability thereof. 7. The computer-implemented method of claim 4 , further comprising sending an index number and a shot number to the master node from only whichever of the local nodes has the index of probability larger than the random number. 8. The computer-implemented method of claim 1 , wherein said selecting step compares the random number generated for the given one of the multi-shots to a given one of the respective sums forming the index of probability created for the given one of the multi-shots. 9. A computer program product for reducing a measure time of a measure process in a multi-shot simulation performed by a quantum computing simulation system, the computer program product comprising a non-transitory computer readable storage medium having program instructions embodied therewith, the program instructions executable by a computer to cause the computer to perform a method comprising: calculating probabilities of qubits being a 0 or a 1 for the measure process from probability amplitudes before the measure process; creating, for each node of the quantum computing simulation system, an index of probability by incrementally summing respective different ones of the probabilities into respective sums; generating a random number for each of the multi-shots, the random number for sampling a probability distribution of the probabilities; and selecting the index of probability which is larger than the random number by comparing the random number generated for a given one of the multi-shots to the index of probability created for the given one of the multi-shots, wherein the quantum computing simulation system comprises a master node and local slave nodes, and wherein the creating and generating steps are performed by the master node, and the calculating and selecting steps are performed by the local slave nodes. 10. The computer program product of claim 9 , wherein a measure gate of the quantum computing simulation system performs the measure process, and the method is configured to begin responsive a satisfaction of a set of conditions, the set of conditions including that the measure gate is in a non-middle position. 11. The computer program product of claim 9 , wherein the method further comprises calculating a state probability, as an output of the measure process, using the index of probability which is larger than the random number. 12. The computer program product of claim 9 , wherein the quantum computing simulation system comprises a plurality of nodes including a master node and multiple local nodes, wherein the index of probability of each of the plurality of nodes is different with respect to each other. 13. The computer program product of claim 12 , wherein each of the multiple local nodes calculates a respective one of the respective sums from the respective index of probability corresponding thereto as the value that is compared to the random number. 14. The computer program product of claim 12 , wherein the master nodes generates the random number for each of the multi-shots and sends the random number for each of the multi-shots to each of the local nodes for comparison to the index of probability thereof. 15. The computer program product of claim 12 , wherein the method further comprises sending an index number and a shot number to the master node from only whichever of the local nodes has the index of probability larger than the random number. 16. The computer program product of claim 9 , wherein said selecting step compares the random number generated for the given one of the multi-shots to a given one of the respective sums forming the index of probability created for the given one of the multi-shots. 17. A quantum computing simulation system for reducing a measure time of a measure process in a multi-shot simulation, the system comprising: a set of local nodes for calculating probabilities of qubits being a 0 or a 1 for the measure process from probability amplitudes before the measure process; a master node for creating, for each of the nodes from among the master and local nodes, an index of probability by incrementally summing respective different ones of the probabilities into respective sums, and generating a random number for each of the multi-shots, the random number for sampling a probability distribution of the probabilities; and wherein the local nodes select the index of probability which is larger than the random number by comparing the random number generated for a given one of the multi-shots to the index of probability created for the given one of the multi-shots. 18. The quantum computing simulation system of claim 17 , wherein only whichever of the local nodes has the index of probability larger than the random number sends an index number and a shot number to the master node.",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US12536457B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230409940A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20090015447A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US9064067B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20150234956A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20180114138A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20190156239A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US10650324B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11501199B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US11501199B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US11501199B2/en",
+    "assignee": "https://patents.google.com/patent/US11501199B2/en",
+    "filing_date": "https://patents.google.com/patent/US11501199B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US11501199B2/en",
+    "claims_text": "https://patents.google.com/patent/US11501199B2/en",
+    "disposition": "https://patents.google.com/patent/US11501199B2/en",
+    "office_action_event": "https://patents.google.com/patent/US11501199B2/en",
+    "build_date": "2026-06-29T08:30:59.594219+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}

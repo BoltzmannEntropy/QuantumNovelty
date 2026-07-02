@@ -1,0 +1,86 @@
+{
+  "application_number": null,
+  "publication_number": "US10614371B2",
+  "title": "US10614371B2 - Debugging quantum circuits by circuit rewriting",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2017-09-29",
+  "publication_date": "2020-04-07",
+  "cpc_codes": [
+    "G06N10/00",
+    "G06N10/20",
+    "G06N10/70",
+    "G06N10/80"
+  ],
+  "claims_text": "What is claimed is: 1. A system, comprising: a memory that stores computer executable components; a processor that executes computer executable components stored in the memory, wherein the computer executable components comprise: a circuit rewriting component that rewrites a source quantum circuit of a quantum computer into instrumented circuits based on instrumentation instruction information associated with software code of a source quantum circuit representation that represents to the source quantum circuit, wherein the rewrite comprises removal of dead code of the software code corresponding to one or more qubits whose state is causally connected to the instrumentation instruction information, by propagating one or more influences of the instrumentation instruction information forwards or backwards through the source quantum circuit; and an execution component that executes the instrumented circuits to produce measurement data. 2. The system of claim 1 , wherein the circuit rewriting component applies circuit rewriting rules based on the instrumentation instruction information. 3. The system of claim 1 , wherein the circuit rewriting component employs one or more analysis parameters received via an application programming interface. 4. The system of claim 1 , wherein the instrumentation instruction information comprises a breakpoint inserted between two quantum circuit instructions in the software code. 5. The system of claim 1 , wherein the instrumentation instruction information comprises a beginning breakpoint inserted before a quantum code segment in the software code and an ending breakpoint inserted after the quantum code segment. 6. The system of claim 1 further comprising a statistical estimation component that evaluates the measurement data to infer information corresponding to one or more internal states or processes of the quantum computer. 7. The system of claim 6 , wherein the statistical estimation component employs state tomography and reconstruction to evaluate the measurement data. 8. The system of claim 6 , wherein the statistical estimation component employs process tomography and reconstruction to evaluate the measurement data. 9. A computer-implemented method, comprising: automatically rewriting, by a system operatively coupled to a processor, a source quantum circuit into instrumented circuits based on instrumentation instruction information that instruments software code of a source circuit representation that represents the source quantum circuit, wherein the source quantum circuit is associated with a quantum computer, wherein the automatically rewriting the source quantum circuit into the instrumented circuits comprises removing one or more gates by propagating one or more influences of the instrumentation instruction information forwards or backwards through the source quantum circuit relative to a breakpoint; executing, by the system, the instrumented circuits to obtain measurement data corresponding to different locations in the source quantum circuit; and outputting, by the system, the measurement data. 10. The computer-implemented method of claim 9 , further comprising statistically evaluating the measurement data via state tomography. 11. The computer-implemented method of claim 9 , further comprising statistically evaluating the measurement data via process tomography. 12. The computer-implemented method of claim 9 , wherein the breakpoint is inserted in the software code and comprises a partition of one or more qubits. 13. The computer-implemented method of claim 9 , further comprising receiving information identifying a beginning breakpoint and an ending breakpoint, in which the beginning breakpoint is inserted before a quantum code segment in the software code and the ending breakpoint is inserted after the quantum code segment. 14. The computer-implemented method of claim 9 , wherein the automatically rewriting the source quantum circuit into the instrumented circuits comprises removing dead code from the software code to generate at least one of the instrumented circuits. 15. A computer program product facilitating debugging quantum computer software, the computer program product comprising a non-transitory computer readable storage medium having program instructions embodied therewith, the program instructions executable by a processor to cause the processor to: automatically rewrite a source quantum circuit into instrumented circuits based on instrumentation instruction information inserted into software code of a source quantum circuit representation that represents the source quantum circuit, wherein the rewrite comprises removal of dead code of the software code corresponding to one or more qubits whose state is causally connected to the instrumentation instruction information, by propagating one or more influences of the instrumentation instruction information forwards or backwards through the source quantum circuit; execute the instrumented circuits to obtain measurement data corresponding to different state data of qubits within the source quantum circuit; and process the measurement data to output generated information corresponding to one or more internal states or processes of a quantum computer associated with the source quantum circuit. 16. The computer program product of claim 15 , wherein the program instructions are further executable by the processor to cause the processor to: input the instrumentation instruction information via an application programming interface. 17. The computer program product of claim 15 , wherein the program instructions are further executable by the processor to cause the processor to: input one or more analysis parameters via an application programming interface. 18. The computer program product of claim 15 , wherein the program instructions are further executable by the processor to cause the processor to: output the measurement data or the generated information as graphical data via an application programming interface. 19. A computer-implemented method, comprising: rewriting, by a system operatively coupled to a processor, a source quantum circuit into instrumented circuits based on instrumentation instruction information inserted into software code of a source quantum circuit representation that represents the source quantum circuit, wherein the rewriting the source quantum circuit into the instrumented circuits comprises removing dead code of the software code corresponding to one or more qubits whose state is causally connected to the instrumentation instruction information, by propagating one or more influences of the instrumentation instruction information forwards or backwards through the source quantum circuit; executing, by the system, the instrumented circuits to obtain measurement data corresponding to different state data of qubits within the source quantum circuit; and processing, by the system, the measurement data to output generated information corresponding to one or more internal states or processes of a quantum computer associated with the source quantum circuit. 20. The computer-implemented method of claim 19 , wherein the processing the measurement data comprises performing process tomography and reconstruction. 21. The computer-implemented method of claim 19 , wherein the processing the measurement data comprises performing state tomography and reconstruction. 22. A system, comprising: a memory that stores computer executable components; a processor that executes computer executable components stored in the memory, wherein the computer executable components comprise: a circuit rewriting component that rewrites a source quantum circuit into instrumented circuits based on instrumentation instruction information inserted into software code of a source quantum circuit representation that represents the source quantum circuit, wherein the rewrite comprises removal of one or more gates by propagating one or more influences of the instrumentation ",
+  "office_action": {
+    "date": null,
+    "type": "non-final",
+    "rejected_claims": null,
+    "section_101_rejected": null,
+    "section_102_rejected": null,
+    "section_103_rejected": null,
+    "section_112_rejected": null,
+    "cited_prior_art": [
+      {
+        "publication_number": "US11170137B1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20220198309A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11605033B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11605016B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US20230206102A1",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11704715B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11907092B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US12217090B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11366741B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11442891B2",
+        "source": "google_patents_examiner_cited"
+      },
+      {
+        "publication_number": "US11861456B2",
+        "source": "google_patents_examiner_cited"
+      }
+    ],
+    "full_text": null,
+    "text_excerpt": null,
+    "source_url": "https://patents.google.com/patent/US10614371B2/en",
+    "access_note": "OA full text not programmatically accessible. USPTO OA Text API (data.uspto.gov), bulkdata.uspto.gov, PEDS (ped.uspto.gov), and Patent Center retrieval APIs are all blocked from this environment (DNS failures / SPA WAF). Retrieve manually at: https://patentcenter.uspto.gov/"
+  },
+  "disposition": "granted",
+  "provenance": {
+    "title": "https://patents.google.com/patent/US10614371B2/en",
+    "assignee": "https://patents.google.com/patent/US10614371B2/en",
+    "filing_date": "https://patents.google.com/patent/US10614371B2/en",
+    "cpc_codes": "https://patents.google.com/patent/US10614371B2/en",
+    "claims_text": "https://patents.google.com/patent/US10614371B2/en",
+    "disposition": "https://patents.google.com/patent/US10614371B2/en",
+    "office_action_event": "https://patents.google.com/patent/US10614371B2/en",
+    "build_date": "2026-06-29T08:28:51.770581+00:00",
+    "source": "google_patents_html_scrape"
+  }
+}
