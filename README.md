@@ -262,6 +262,51 @@ bash chain/run.sh \
   --outdir runs/qec_pdf_kb
 ```
 
+### RAG, BGE-M3, and KBs
+
+There are two retrieval layers, and they serve different jobs:
+
+| Layer | Where | Retrieval backend | Use it for |
+|---|---|---|---|
+| **QN native KB/RAG** | `skills/quantum_kb` and `skills/quantum_scout` | BM25 sparse postings + deterministic hashed vectors + quantum query expansion + metadata boosts | Portable local runs, exact quote packets, claim substantiation, grounded reviews, Emma-style perspective reports, and no-server/offline tests. |
+| **ScienceSkills BGE-M3 RAG** | `artifacts/code/ScienceSkills/agents/workflows/ai_scientific_paper_workflow_chain` | Regiment quote search with BGE-M3 by default | Heavy deep-research scouting, PDF KB construction, per-idea substantiation KBs, and cached HuggingFace-backed retrieval. |
+
+QN native KB example:
+
+```bash
+skills/quantum_kb/run.sh create --kb quantum_papers --name "Quantum Papers" --default
+skills/quantum_kb/run.sh ingest --kb quantum_papers --source papers/
+skills/quantum_kb/run.sh index --kb quantum_papers --purge
+skills/quantum_kb/run.sh substantiate \
+  --kb quantum_papers \
+  --claim "A VQE novelty claim must compare against current ansatz baselines."
+```
+
+ScienceSkills BGE-M3 PDF KB example:
+
+```bash
+cd artifacts/code/ScienceSkills/agents/workflows/ai_scientific_paper_workflow_chain
+./run.sh --pipeline scout \
+  --topic "AI-assisted superconducting chip design" \
+  --scout-pdf-kb-only \
+  --scout-pdf-kb-index-backend bge-m3
+```
+
+ScienceSkills per-idea BGE-M3 substantiation KBs:
+
+```bash
+./run.sh --pipeline scout \
+  --topic "AI-assisted superconducting chip design" \
+  --scout-idea-kb \
+  --scout-idea-kb-index-backend bge-m3
+```
+
+`bin/science_env.sh` keeps ScienceSkills BGE-M3 retrieval cache-first by
+default. Set `SCIENCESKILLS_HF_ONLINE=1` only when intentionally refreshing
+HuggingFace model caches. `HF_HOME`, `HF_HUB_CACHE`, and
+`SCIENCESKILLS_BGE_DEVICE=cpu|mps|cuda|auto` control model placement and
+device selection.
+
 **Examine a quantum patent** (for examiner-style review, attorney intake, prosecution prep, or validity-risk triage):
 
 ```
