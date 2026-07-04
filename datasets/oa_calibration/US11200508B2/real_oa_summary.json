@@ -1,0 +1,77 @@
+{
+  "publication_number": "US11200508B2",
+  "app_number": "15/911,964",
+  "title": "Modular control in a quantum computing system",
+  "assignee": "Rigetti & Co LLC",
+  "filing_date": "2018-03-05",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US20220366288A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20230153679A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11962354B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12443874B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12615140B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11797641B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "EP4036708A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10044638B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US9870273B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "EP3718026B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11521103B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "WO2019117955A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11477015B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11100417B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11551127B1",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/15911964/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/15911964",
+  "google_patents_url": "https://patents.google.com/patent/US11200508B2/en"
+}

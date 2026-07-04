@@ -1,0 +1,65 @@
+{
+  "publication_number": "US11080614B2",
+  "app_number": "15/832,285",
+  "title": "Systems and methods for quantum coherence preservation",
+  "assignee": "Anametric Inc",
+  "filing_date": "2017-12-05",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "WO2018222311A2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10614371B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "CN109217939B",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US9825608B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20200272930A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10924095B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10938346B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11025228B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10615789B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10707812B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20200272930A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10977570B2",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/15832285/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/15832285",
+  "google_patents_url": "https://patents.google.com/patent/US11080614B2/en"
+}

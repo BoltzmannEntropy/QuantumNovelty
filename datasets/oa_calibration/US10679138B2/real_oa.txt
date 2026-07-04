@@ -1,0 +1,18 @@
+[OA text not yet acquired for US10679138B2]
+
+Application Number: 15/632,109
+Filing Date: 2017-06-23
+Source limitation: USPTO OA text not accessible via automated routes (see real_oa_summary.json for route audit).
+
+To retrieve real OA text:
+  Option A (with ODP API key from account.uspto.gov):
+    curl -H 'X-API-KEY: <key>' \
+      'https://api.uspto.gov/api/v1/patent/applications/15632109/documents' \
+    | jq '.documentBag[] | select(.documentCode | test("CTNF|CTFR"))'
+
+  Option B (browser, no code):
+    1. Open https://patentcenter.uspto.gov/applications/15632109
+    2. Click "Documents" / "IFW" tab
+    3. Download first CTNF or CTFR document listed
+
+Place downloaded PDF as: US10679138B2/real_oa.pdf

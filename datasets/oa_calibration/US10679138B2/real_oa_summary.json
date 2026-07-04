@@ -1,0 +1,57 @@
+{
+  "publication_number": "US10679138B2",
+  "app_number": "15/632,109",
+  "title": "Topological qubit fusion",
+  "assignee": "Microsoft Technology Licensing LLC",
+  "filing_date": "2017-06-23",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US9721209B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "JP2015154416A",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11004008B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US9748976B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US9450491B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10229366B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10692009B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11152925B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10528886B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11025271B2",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/15632109/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/15632109",
+  "google_patents_url": "https://patents.google.com/patent/US10679138B2/en"
+}

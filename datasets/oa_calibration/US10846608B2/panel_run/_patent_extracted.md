@@ -1,0 +1,1578 @@
+# Patent US10846608B2 — Codes and protocols for distilling T, controlled-S, and toffoli gates
+
+## Bibliographic data
+
+- **Publication number:** US10846608B2
+- **Kind code:** B2
+- **Status:** GRANTED PATENT (kind code B2) — already issued. The panel acts as a post-grant reviewer / IPR petitioner assessing validity of the issued claims.
+- **Title:** Codes and protocols for distilling T, controlled-S, and toffoli gates
+- **Inventor(s):** Jeongwan Haah, Matthew Hastings
+- **Assignee/Applicant:** Microsoft Technology Licensing LLC
+- **Dates:** publication/issue: 2018-05-17; earliest priority: 2017-09-08; latest event: 2024-04-18
+- **Claim count (parsed):** 16
+- **Source:** https://patents.google.com/patent/US10846608B2/en
+
+## Abstract
+
+Abstract
+
+This application concerns quantum computing and quantum circuits. For example, among the embodiments disclosed herein are codes and protocols to distill T, controlled-S, and Toffoli (or CCZ) gates for use in croantum circuits. Examples of the disclosed codes use lower overhead for a given target accuracy relative to other distillation techniques. In some embodiments, a magic state distillation protocol is generated for creating magic states in the quantum computing device, wherein the magic state distillation protocol includes (a) Reed-Muller codes, or (b) punctured Reed-Muller codes. The quantum computing device can then configured to implement the magic state distillation protocol.
+
+## Claims
+
+_(Examine each claim individually. Claim numbers below are as filed/published.)_
+
+Claims ( 16 )
+
+What is claimed is:
+
+1. A method for distilling magic states in a quantum computing device, comprising:
+generating a magic state distillation protocol for creating magic states in the quantum computing device, wherein the magic state distillation protocol includes (a) Reed-Muller codes, or (b) punctured Reed-Muller codes; and
+configuring the quantum computing device to implement the magic state distillation protocol,
+wherein the magic state distillation protocol is for Toffoli gates or controlled-controlled-Z (CCZ) gates.
+
+2. The method of claim 1 , wherein the magic state distillation protocol includes punctured higher-order Reed-Muller codes.
+
+3. The method of claim 1 , wherein the magic state distillation protocol uses Reed-Muller stabilizers.
+
+4. The method of claim 1 , wherein the magic state distillation protocol includes punctured Reed-Muller codes, wherein the punctured Reed-Muller codes are selected based on Hamming distances.
+
+5. The method of claim 1 wherein the magic state distillation protocol includes punctured Reed-Muller codes, and wherein the punctured Reed-Muller codes are selected by random puncturing and unpuncturing.
+
+6. The method of claim 1 , wherein the method further comprises: measuring a controlled-Z operator using a transversal T gate to measure stabilizers of a CCZ magic state.
+
+7. The method of claim 6 , wherein the stabilizers of the CCZ magic state achieve a second order error reduction or a fourth order error reduction.
+
+8. The method of claim 1 , further comprising simultaneously measuring stabilizers of CCZ magic states using one or more transversal CCZ gates.
+
+9. A quantum computer system comprising:
+a classical computer; and
+a quantum computing device implementing a plurality of quoits,
+wherein the classical computer is programmed to implement a method for controlling the quantum computing device, the method comprising:
+generating a magic state distillation protocol for creating magic states in the quantum computing device, wherein the magic state distillation protocol includes (a) Reed-Muller codes, or (b) punctured Reed-Muller codes, and
+configuring the quantum computing device to implement the magic state distillation protocol,
+wherein the magic state distillation protocol is for Toffoli gates or controlled-controlled-Z (CCZ) gates.
+
+10. The system of claim 9 , wherein the magic state distillation protocol includes punctured higher-order Reed-Muller codes.
+
+11. The system of claim 9 , wherein the magic state distillation protocol uses Reed-Muller stabilizers.
+
+12. The system of claim 9 , wherein the magic state distillation protocol includes punctured Reed-Muller codes, wherein the punctured Reed-Muller codes are selected based on Hamming distances.
+
+13. The system of claim 9 , wherein the magic state distillation protocol includes punctured Reed-Muller codes, and wherein the punctured Reed-Muller codes are selected by random puncturing and unpuncturing.
+
+14. The system of claim 9 , wherein the method further comprises measuring a controlled-Z operator using a transversal T gate to measure stabilizers of a CCZ magic state.
+
+15. The system of claim 14 , wherein the stabilizers of the CCZ magic state achieve a second order error reduction or a fourth order error reduction.
+
+16. The system of claim 9 , wherein the method further comprises simultaneously measuring stabilizers of CCZ magic states using one or more transversal CCZ gates.
+
+## Written description / specification
+
+Description
+
+CROSS-REFERENCE TO RELATED APPLICATIONS
+This application claims the benefit of U.S. Provisional Application No. 62/555,800, filed on Sep. 8, 2017, and entitled “CODES AND PROTOCOLS FOR DISTILLING T, CONTROLLED-S, AND TOFFOLI GATES,” which is hereby incorporated herein by reference in its entirety.
+
+FIELD
+Thus application concerns quantum computing and quantum circuits. For example, among the embodiments disclosed herein are codes and protocols to distill T, controlled-S, and Toffoli (or CCZ) gates for use in quantum circuits.
+SUMMARY
+Many schemes for quantum computation rely on first implementing a set of operations called the Clifford operations. These operations do not suffice for universal quantum computation, and so these schemes then implement additional operations, such as T-gates (rotation by angle pi/8), Toffoli gates (a reversible version of the AND gate), controlled-S gates (a controlled phase gate with pure imaginary phase) or other non-Clifford operations. The implementation of these additional operations is equivalent to being able to produce a certain resource, called a magic state: using a magic state, one can produce one of these operations and vice-versa. These additional operations are typically implemented with limited accuracy in the physical hardware, and so it is desirable to use some method to increase this accuracy. A typical method, called distillation, uses several low quality magic states to produce a smaller number of high quality magic states.
+In this disclosure, improved codes are described for the distillation of these slates for T gates, controlled-S gates, and Toffoli gates. Examples of these codes use lower overhead for a given target accuracy relative to other distillation techniques.
+In certain embodiments, a Reed-Muller magic state distillation protocol is generated for creating magic states in the quantum computing device, and the quantum computing device is configured to implement the Reed-Muller magic state distillation protocol. In particular implementations, the Reed-Muller magic state distillation protocol is for Toffoli gates or controlled-controlled-Z (CCZ) gates. In some implementations, logical vectors implemented by the protocol allow 10 CCZ magic states for 512 qubit code with eighth order error reduction. In certain implementations, the protocol uses R-M stabilizers as shown and described herein.
+In some embodiments, a magic state distillation protocol for T gates, controlled-S gates, or CCZ gates is generated using a randomized construction process, and the quantum computing device is configured to implement the magic state distillation protocol. In certain implementations, the magic state distillation protocol has an asymptotic distillation efficiency γ→1.
+In particular embodiments, a magic state distillation protocol for T gates, controlled-S gates, or CCZ gates is generated, wherein the magic state distillation protocol includes triorthogonal codes for reducing circuit depth, and the quantum computing device is configured to implement the magic state distillation protocol.
+In certain embodiments, a controlled-Z operator using a transversal T gate are measured to measure stabilizers of a CCZ magic state. In certain implementations, the stabilizers of the CCZ magic state achieve a second order error reduction. Further, the stabilizers of the CCZ magic state achieve a fourth order error reduction.
+In some embodiments, stabilizers of CCZ magic states using one or more transversal CCZ gates are simultaneously measured. In certain implementations, the stabilizers of the CCZ magic state achieve a fourth order error reduction.
+In particular embodiments, a magic state distillation protocol for T gates is generated, wherein the magic state distillation protocol includes punctured Reed-Muller codes, and the quantum computing device is configured to implement the magic state distillation protocol. In particular implementations, the punctured Reed-Muller codes comprise any of the Reed-Muller codes as disclosed herein. In further implementations, the punctured Reed-Muller codes are punctured higher-order (above first-order) Reed-Muller codes as disclosed herein. In certain implementations, the punctured Reed-Muller codes are selected based on Hamming distances.
+In some embodiments, a magic state distillation protocol is generated using only k+n X total qubits, and the quantum computing device is configured to implement the magic state distillation protocol. In particular implementations, the magic state distillation protocol is based on a triorthogonal code.
+Any features or aspects of the disclosed embodiments can be used in various combinations and subcombinations with one another. For example, one or more method acts or features from one embodiment can be used with one or more method acts or features from another embodiment and vice versa. The foregoing and other objects, features, and advantages of the invention will become more apparent from the following detailed description, which proceeds with reference to the accompanying figures.
+
+BRIEF DESCRIPTION OF THE DRAWINGS
+FIG. 1 illustrates a generalized example of a suitable computing environment in which several of the described embodiments can be implemented.
+FIG. 2 illustrates an example of a possible network topology (e.g., a client-server network) for implementing a system according to the disclosed technology.
+FIG. 3 illustrates another example of a possible network topology (e.g., a distributed computing environment) for implementing a system according to the disclosed technology.
+FIG. 4 illustrates an exemplary system for implementing embodiments of the disclosed technology.
+FIG. 5 is a flowchart of an example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+FIG. 6 is another flowchart of an example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+FIG. 7 is another flowchart of an example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+FIG. 8 is another flowchart of an example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+FIG. 9 is another flowchart of example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+FIG. 10 is another flowchart of an example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+FIG. 11 is yet another flowchart of an example method for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology.
+
+DETAILED DESCRIPTION
+I. General Considerations
+Disclosed herein are representative embodiments of methods, apparatus, and systems for magic state distillation in quantum computing devices, including quantum computing circuit architectures for performing such distillation.
+Any of the disclosed example embodiments can be performed by a system comprising a classical processor and memory and/or at least in part by a quantum computing device (quantum computer) itself. The disclosed methods, apparatus, and systems should not be construed as limiting in any way. Instead, the present disclosure is directed toward all novel and nonobvious features and aspects of the various disclosed embodiments, alone or in various combinations and subcombinations with one another. Furthermore, any features or aspects of the disclosed embodiments can be used in various combinations and subcombinations with one another. For example, one or more method acts or features from one embodiment can be used with one or more method acts or features from another embodiment and vice versa. The disclosed methods, apparatus, and systems are not limited to any specific aspect or feature or combination thereof, nor do the disclosed embodiments require that any one or more specific advantages be present or problems be solved.
+Although the operations of some of the disclosed methods are described in a particular, sequential order for convenient presentation, it should be understood that this manner of description encompasses rearrangement, unless a particular ordering is required by specific language set forth below. For example, operations described sequentially may in some cases be rearranged or performed concurrently. Further, some of the methods described herein can be altered by changing the ordering of the method acts described, by splitting, repeating, or omitting certain method acts, etc. Moreover, for the sake of simplicity, the attached figures may not show the various ways in which the disclosed methods can be used in conjunction with other methods. Additionally, the description sometimes uses terms like “evaluate”, “determine”, or “choose” to describe the disclosed technology. Such terms are high-level abstractions of the actual operations that are performed. The actual operations that correspond to these terms may vary depending on the particular implementation and are readily discernible by one of ordinary skill in the art.
+As used in this application and in the claims, the singular forms “a,” “an,” and “the” include the plural forms unless the context clearly dictates otherwise. Additionally, the term “includes” means “comprises.” Further, as used herein, the term “and/or” means any one item or combination of any items in the phrase.
+II. Overview of Disclosed Technology
+Magic state distillation is an approach to implementing a universal quantum computer. See, e.g., E. Knill, “Fault-tolerant postselected quantum computation: Schemes,” (2004), quant-ph/0402171v1; E. Knill, “Fault-tolerant postselected quantum computation: Threshold analysis,” (2004), quantph/0404104v1; Sergei Bravyi and Alexei Kitaev, “Universal quantum computation with ideal Clifford gates and noisy ancillas,” Phys. Rev. A 71, 022316 (2005), quant-ph/0403025. This approach begins by implementing the Clifford group to high accuracy using either stabilizer codes (e.g., Daniel Gottesman, “A class of quantum error-correcting codes saturating the quantum hamming bound,” Phys. Rev. A 54, 1862 (1996), quant-ph/9604038; A. R. Calderbank, E. M Rains, P. W. Shor, and N. J. A. Sloane, “Quantum error correction and orthogonal geometry,” Phys. Rev. Lett. 78, 405-408 (1997), a t-ph/9605005) or using Majorana fermions. See Torsten Karzig, Christina Knapp, Roman M Lutchyn, Parsa Bonderson, Matthew B Hastings, Chetan Nayak, Jason Alicea, Karsten Flensberg, Stephan Plugge, Yuval Oreg, et al., “Scalable designs for quasiparticle-poisoning-protected topological quantum comnputation with majorana zero modes,” Physical Review B 95, 235305 (2017). Then, to obtain universality, some non-Clifford operation is necessary, such as the π/4-rotation (T-gate) or the Toffoli gate (or CCZ which is equivalent to Toffoli up to conjugation by Cliffords). These non-Clifford operations are implemented using a resource, called a magic state, which is injected into a circuit that uses only Clifford operations.
+Since these magic states can produce non-Clifford operations, they cannot themselves be produced by Clifford operations. Instead, in distillation, the Clifford operations are used to distill a small number of high accuracy magic states from a larger number of low quality magic state. There are many distillation protocols for the magic state for T gates (see, e.g., E. Knill, “Fault-tolerant postselected quantum computation: Schemes,” (2004), quant-ph/0402171v1; Sergei Bravyi and Alexei Kitaev, “Universal quantum computation with ideal Clifford gates and noisy ancillas,” Phys. Rev. A 71, 022316 (2005), quant-ph/0403025; Adam M. Meier, Bryan Eastin, and Emanuel Knill, “Magic-state distillation with the four-qubit code,” Quant. Inf. Comp. 13, 195 (2013), 1204.4221; Sergey Bravyi and Jeongwan Haah, “Magic-state distillation with low overhead,” Physical Review A 86, 052329 (2012); Cody Jones, “Multilevel distillation of magic states for quantum computing,” Phys. Rev. A 87, 042305 (2013), 1210.3388v2; Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1), as well as some protocols (see, e.g., Bryan Eastin, “Distilling one-qubit magic states into toffoli states,” Physical Review A 87, 032321 (2013), 1212.4872; Cody Jones, “Low-overhead constructions for the fault-tolerant toffoli gate,” Physical Review A 87, 022328 (2013), 1212.5069) to distill magic states for Toffoli gates from T-gates.
+In such distillation architectures, the resources (e.g., space, number of Clifford operations, and number of noisy non-Clifford operations) required to distill magic states far exceed the resources required to implement most quantum algorithms using these magic states. Hence, improvements in distillation efficiency can greatly impact the total resource cost.
+This disclosure presents a variety of improvements in magic state distillation. One exemplary theme in this disclosure is exploring various protocols to distill magic states for Toffoli, controlled-S, as well as T-gates. Several approaches to this are presented. In some embodiments, a generalization of triorthogonal codes is used to allow this distillation. See Sergey Bravyi and Jeongwan Haah, “Magic-state distillation with low overhead,” Physical Review A 86, 052329 (2012). In section IV, a randomized construction of such codes is given which achieves distillation efficiency γ→1; this approach is of interest because not only is the distance of the code fairly large (of order square-root number of qubits) but also the least weight stabilizer has comparable weight. In section V, another approach based on Reed-Muller codes is disclosed. In addition to theoretical asymptotic results here, a particularly striking code is disclosed which distills 512 T-gates into 10 CCZ magic states while obtaining eight order reduction in error. In particular, a 512 T-gate to 10 Toffoli gate code with distance 8 is disclosed as well as triorthogonal codes with parameters [[887, 137, 5]], [[912, 112, 6]], [[937, 87, 7]] with very low prefactors in front of the leading order error terms in those codes.
+Also presented herein are approaches to distilling Toffoli states which are not based on a single triorthogonal (or generalized triorthogonal code) but rather on implementing a protocol using a sequence of checks. As in Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1, inner codes are used to measure various stabilizers of the magic state. Two different methods of doing this are presented, one based on hyperbolic inner codes in section VI and one based on normal inner code in section VII (hyperbolic and normal codes were called even and odd inner codes, respectively, in a version of Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1).
+In addition to these results for distilling Toffoli states, other results useful specifically for distilling T-gates are presented. In particular, in VE punctured Reed-Muller codes are studied and some protocols are disclosed with a better ratio of input T-gates to output T-gates than any other known protocol for certain orders of error reduction. Another result in III D is a method of reducing the space required for any protocol based on triorthogonal codes at the cost of increased depth.
+Matrices S=diag(1,i), and T=diag(1,e iπ/4 ) are used.
+III. Triorthogonal Matrices: Definitions and Generalizations
+A. Definitions
+Codes with n bits are considered, so that code words are vectors in 2 n . Given a vector {right arrow over (u)}, let |{right arrow over (u)}| denote the Hamming weight (the number of nonzero entries of {right arrow over (u)}). Given a vector {right arrow over (u)}, let {right arrow over (u)} i denote the i-th entry of {right arrow over (u)}. Given two vectors {right arrow over (u)}, {right arrow over (v)}, let {right arrow over (u)}∧{right arrow over (v)} denote the entry wise product of {right arrow over (u)} and {right arrow over (v)}, i.e., ({right arrow over (u)}∧{right arrow over (v)}) i ={right arrow over (u)} i {right arrow over (v)} i . Let {right arrow over (u)}·{right arrow over (v)} denote the inner product, so that {right arrow over (u)}·{right arrow over (v)}=Σ i {right arrow over (u)} i {right arrow over (v)} i , where the sum is taken modulo 2.
+Here, a code refers to a linear subspace of 2 n . Given two codes , , let ∧ denote the subspace spanned by vectors {right arrow over (u)}∧{right arrow over (v)} for {right arrow over (u)}∈ and {right arrow over (v)}∈ . Given a code , let ⊥ denote the dual code, e.g. for any vector {right arrow over (v)}, {right arrow over (v)}∈ ⊥ if and only if {right arrow over (v)}·{right arrow over (u)}=0 for all {right arrow over (u)}∈ . Given two codes, , , let span( , ) denote the span of and .
+Following Bravyi and Haah (see Sergey Bravyi and Jeongwan Haab, “Magic-state distillation with low overhead,” Physical Review A 86, 052329 (2012), a binary matrix G of size m-by-n is called triorthogonal if
+∑ j = 1 n ⁢ ⁢ G a , j ⁢ G b , j = 0 ⁢ ⁢ mod ⁢ ⁢ 2 , ( III ⁢ .1 )
+for all pairs 1≤a<b≤m, and
+
+∑ j = 1 n ⁢ ⁢ G a , j ⁢ G b , j ⁢ G c , j = 0 ⁢ ⁢ mod ⁢ ⁢ 2 , ( III ⁢ .2 )
+for all triples of rows 1≤a<b<c≤m.
+
+Further, it will be assumed that the first k T rows of G have odd weight, specifically Σ j=1 n G a,j =1 mod 2 for 1≤a≤k T and the remaining rows have even weight, specifically, Σ j=1 n G a,j =0 mod 2 for k T +1≤a≤n. (The notation k 1 instead of k T was used in Sergey Bravyi and Jeongwan Haah, “Magic-state distillation with low overhead,” Physical Review A 86, 052329 (2012).) Let
+
+k 0 =m−k T .  (III.3)
+
+Let 0 denote the span of the even weight rows of G. Let T denote the span of the odd weight rows of G. Let denote the span of all the rows of G.
+
+The distance of a triorthogonal matrix G is defined to be the minimum weight of a vector {right arrow over (u)} such that {right arrow over (u)}∈ 0 ⊥ but {right arrow over (u)} T ⊥ . The distance of a subspace is defined to be the minimum weight of a nonzero vector in that subspace. Clearly, the distance of G is at least the distance of 0 ⊥ .
+B. Triorthogonal Spaces and Punctured Triorthogonal Matrices
+Here, a “triorthogonal subspace” is a subspace such that for any {right arrow over (u)},{right arrow over (v)},{right arrow over (w)}∈ ,|{right arrow over (u)}∧v∧{right arrow over (w)}|=0 mod 2. Given a triorthogonal matrix G, the vector space 0 is a triorthogonal space. Thus, any k 0 -by-n matrix whose rows span 0 is a triorthogonal matrix. However, if k T ≠0, then the span of the rows of G is not a triorthogonal space.
+In this regard, note the following. Let C be an arbitrary triorthogonal matrix of the form
+G = ( G T G 0 ) , ( III ⁢ .4 )
+where G T is k T -by-n (and contains the odd weight rows of G) and G 0 is k 0 -by-n (and contains the even weight rows of G). Consider the matrix
+
+G ~ = ( I G T 0 G 0 ) , ( III ⁢ .5 )
+where I denotes a k T -by-k T identity matrix and 0 denotes the zero matrix of size k 0 -by-k T . This matrix {tilde over (G)} is a triorthogonal matrix with all rows having even weight, and its rows span defines a triorthogonal space . Thus, from a triorthogonal matrix, one can construct a triorthogonal space by adding k T additional coordinates to the vector and padding the matrix by I.
+
+A converse direction is now shown based on the idea of puncturing a code. Given any subspace of dimension m, there exists a matrix {tilde over (G)} whose rows form a basis of (after possibly permuting the coordinates of the space) such that
+G ~ = ( I m ⁢ ⁢ P ) = ( I k T 0 P T 0 I k 0 P 0 ) ,
+for some matrix P, where I m is an m-by-m identity matrix. Such a matrix in the reduced row echelon form is unique once an ordering of coordinate is fixed, and can be computed by Gauss elimination from any spanning set for . Choose any k T such that 0≤k T ≤m. Let P T be the first k T rows of P and let P 0 be the remaining rows of P. Let G T =(0 P T ), where 0 is the k T -by-k 0 zero matrix, and let G 0 =(I k 0 P 0 ), where I k 0 the k 0 -by-k 0 identity matrix. Then, the matrix
+
+( G T G 0 ) = ( 0 P T I k 0 P 0 )
+is a triorthogonal matrix. Here, it is said that this matrix is obtained by “puncturing” the previous code on the given coordinates. By the uniqueness of the reduced row echelon form, the matrices G T and G 0 are determined by , k T , and the ordering of the coordinates.
+
+This idea of puncturing is related to the following protocol for distillation (see also, Austin G. Fowler, Matteo Mariantoni, John M. Martinis, and Andrew N. Cleland, “Surface codes: Towards practical large-scale quantum computation.” Phys. Rev. A 86, 032324 (2012), 1208.0928v2). k T =1 is considered for the moment, but a generalization to a larger k T can also be made. Observe that on a Bell pair |ϕ =|00 +|11 (global normalization factors are ignored), the action of T on the first qubit is the same as T on the second: T 1 |ϕ =T 2 |ϕ . Once one has T 2 |ϕ , suppose one measures out the second qubit onto |+ . The state on the first qubit is then the magic state T 1 |+ = + 2 |T 2 |ϕ . If the second qubit of this Bell pair is a logical qubit of a code, where the logical T can be fault-tolerantly implemented, then the above observation enables fault-tolerant creation of the magic state. This scheme is different front preparing encoded |{tilde over (+)} , applying T , and inverse-encoding, in that the Clifford depth is smaller. (Note also that the projection onto |{tilde over (+)} on the second qubit can be achieved by individual physical qubit measurements.) The Bell pair is the eigenstate of XX and ZZ, or X X and Z Z if the second qubit is encoded in a code where X and Z are logical operators of the code. Therefore, the Bell pair where the second qubit is encoded in a triorthogonal code is the state stabilized by X(v) for any v in a (pre-puncture) triorthogonal space , and by Z(v′) for any v′ in ⊥ .
+C. Generalized Triorthogonal Matrices: T-to-CCZ Distillation
+Here, the definition of triorthogonal matrices is generalized. This definition has some similarity to the “synthillation” protocols of Earl T Campbell and Mark Howard, “Unified framework for magic state distillation and multiqubit gate synthesis with reduced resource cost,” Physical Review A 95, 022316 (2017), 1606.01904v3. The definition here is a special case in that only codes that distill T-gates, controlled-S gates, and CCZ gates are considered, rather than arbitrary diagonal matrices at the third level of the Clifford hierarchy. On the other hand, codes of arbitrary distance are presented, rather than just distance 2.
+Definition 1. A (k T +2k CS +3k CCZ )-by-n, binary matrix G is generalized triorthogonal if it can be written up to permutations of rows as
+G = [ G T G CS G CCZ G 0 ] ( III ⁢ .6 )
+where G T has k T rows, G CS has k CS pairs of rows, and G CCZ has k CCZ triples of rows such that
+
+∑
+
+i
+=
+1
+
+n
+
+⁢
+
+G
+
+a
+,
+i
+
+⁢
+
+G
+
+b
+,
+i
+
+⁢
+
+G
+
+c
+,
+i
+
+⁢
+
+⁢
+mod
+⁢
+
+⁢
+2
+
+=
+
+{
+
+1
+
+⁢
+
+if
+⁢
+
+⁢
+a
+
+=
+
+b
+=
+
+c
+=
+1
+
+,
+…
+⁢
+
+,
+
+k
+T
+
+,
+
+1
+
+⁢
+
+if
+⁢
+
+⁢
+
+{
+
+⁢
+
+a
+=
+
+b
+=
+
+k
+T
+
++
+
+2
+⁢
+i
+
+-
+1
+
+,
+
+⁢
+
+c
+=
+
+k
+T
+
++
+
+2
+⁢
+i
+
+⁢
+for
+⁢
+
+⁢
+i
+
+=
+1
+
+,
+…
+⁢
+
+,
+
+k
+CS
+
+,
+
+1
+
+⁢
+
+if
+⁢
+
+⁢
+
+{
+
+⁢
+
+a
+=
+
+k
+T
+
++
+
+2
+⁢
+
+k
+CS
+
++
+
+3
+⁢
+i
+
+-
+2
+
+,
+
+⁢
+
+b
+=
+
+k
+T
+
++
+
+2
+⁢
+
+k
+CS
+
++
+
+3
+⁢
+i
+
+-
+1
+
+,
+
+⁢
+
+c
+=
+
+k
+T
+
++
+
+2
+⁢
+
+k
+CS
+
++
+
+3
+⁢
+i
+
+⁢
+for
+⁢
+
+⁢
+i
+
+=
+1
+
+,
+…
+⁢
+
+,
+
+k
+CCZ
+
+,
+
+⁢
+
+0
+
+otherwise
+.
+
+(
+
+III
+⁢
+.7
+
+)
+
+Such a generalized triorthogonal matrix can be used to distill n T-gates into k T T-gates, k CS controlled-S gates, and k CCZ CCZ gates, where the CCZ gate is a controlled-controlled-Z gate which is conjugate to the Toffoli gate by Clifford operations.
+In this paragraph, a quantum code on n qubits is defined. Take X-type stabilizers of the quantum code which correspond to rows of G 0 (for each row of G 0 , there is a generator of the stabilizer group which is a product of Pauli X on all qubits for which there is a 1 entry in that row of G 0 ). For each row of G T , G CS and G CCZ there is one logical qubit, with logical X-type operators corresponding to the row. The corresponding Z-type logical operators can be determined by the requirement that they commute with the X-type stabilizers and by the commutation relations for logical X and Z operators. Finally, the Z-type stabilizers of the code are the maximal set of operators that commutes with all logical operators and X-type stabilizers. It can be shown, by generalizing the arguments of Sergey Bravyi and Jeongwan Haah, “Magic-state distillation with low overhead,” Physical Review A 86, 052329 (2012), that applying a T-gate to every qubit will apply T-gates to the logical qubits corresponding to rows of k T and will apply controlled-S gates to each pair of logical qubits corresponding to a pair of rows of G CS , and will apply CCZ gates to each triple of logical qubits corresponding to a triple of rows of G CCZ , up to an overall Clifford operation on the logical qubits. Input errors are detected up to an order given by the distance of the code, where the distance of a generalized triorthogonal matrix G is defined to be the minimum weight of a vector {right arrow over (u)} such that {right arrow over (u)}∈ 0 ⊥ and such that {right arrow over (u)} span( T , CS , CCZ ) ⊥ , with CS , CCZ being the row spans of G CS ,G CCZ respectively.
+D. Space-Time Tradeoff for Triorthogonal Codes
+Here, a way of reducing the space required in any protocol based on a triorthogonal code at the cost of increasing circuit depth is discussed. Consider a code with a total of k logical qubits (k=k T +2k CS +3k CCZ ), a total of n X X-type stabilizer generators, and n Z Z-type stabilizer generators. The number n X is equal to the number of rows of G 0 . The usual protocol to prepare magic states is to first initialize the logical qubits in the |+ state, encode, then apply transversal T, measure stabilizers, and, if no error is found, finally decode yielding the desired magic states. It is possible to implement this protocol using only k+n X total qubits as follows.
+The idea is to work on the unencoded state, but one can instead spread potential errors so that one can detect them. Recall that encoding is done by preparing a total of n X ancilla qubits in the |+ state (call these the X ancilla qubits), a total of n Z ancilla qubits in the |0 state (call these the Z ancilla qubits), and applying a Clifford. Call this Clifford U. Then, an equivalent protocol is: prepare a total of n X ancilla qubits in the |+ slate, a total of n Z ancilla qubits in the |0 state, and apply Π j=1 n U † exp(iπZ j /8)U, then measure whether all the X ancilla qubits are still in the |+ state. (There is no need to check the Z ancilla qubits since the error model has Z errors only after twirling.)
+The operator U † exp(iπZ j /8)U is equal to exp(iP j /8) where P j =U † Z j U, which is a product of Pauli Z operators. Let P j ={tilde over (P)} j Q j where {tilde over (P)} j is a product of Pauli Z operators on some set of logical qubits (which are not embedded in a code space!) and X ancilla qubits, and Q j is product of Pauli Z on some set of Z ancilla qubits. Since the Z ancilla qubits remain in the |0 state throughout the protocol, an equivalent protocol involving only k+n X total qubits is: prepare a total of n X ancilla qubits in the |+ state, and apply Π j=1 n exp(i{tilde over (P)} j /8), then measure whether all the X ancilla qubits are still in the |+ state. Note that although the product over j ranges from 1 to n, there are only k+n X <n physical qubits.
+This operator exp(iπ{tilde over (P)} j /8) can be applied by a sequence comprising a Clifford, a T gate, and the inverse of the Clifford. Indeed, one can apply up to k+n X of these operators in parallel by finding a Clifford which conjugates each of the k+n X different choices of {tilde over (P)} j to Pauli Z operators on different choices of the k+n X physical qubits. Hence, one can obtain a protocol using k+n X total qubits, that requires
+⌈ n k + n X ⌉
+rounds of Cliffords and T-gates. While the T-depth of the circuit is larger than the original protocol, the total circuit depth may or may not increase: if the Cliffords are implemented by elementary CNOT gates, then the circuit depth depends upon the depth required to implement the various encoding and decoding operations. Other tradeoffs are possible by varying the number of Z ancillas that are kept: keeping all Z ancillas is the original protocol with minimal depth and maximal space, while reducing the number will increase depth at the cost of space.
+
+A Z error on a T gate will propagate due to the Cliffords. Specifically, a Clifford U (j) that maps exp(iπZ j /8) to exp(iπ{tilde over (P)} j /8), will map an error Z j to {tilde over (P)} j , but the error {tilde over (P)} j will not further be affected by the other exp(iπ{tilde over (P)} j /8) since they commute. The accumulated error will flip some X ancilla qubits as well as the logical qubits that would be flipped in the usual protocol. The association from the errors in T gates to the logical and X ancilla ubits is identical to the usual protocol. Hence, in the present space-time tradeoff, the output error probability and the success probability are identical to the usual protocol, whenever the error model is such that only T gates suffer from Z errors.
+For example, for the 512 qubit protocol below to distill CCZ magic states based on RM(2,9), the number of physical qubits required is
+3 × 10 + n X = 30 + 1 + 9 + ( 9 2 ) = 76.
+For protocols based on a punctured RM(3, 10) below,
+
+n X ≤ 1 + 10 + ( 10 2 ) + ( 10 3 ) = 176.
+leading in both cases to a large reduction in space required.
+
+IV. Randomized Constructon of Triorthogonal and Generalized Triorthogonal Matrix
+In this section, a randomized algorithm is disclosed that either returns a triorthogonal or generalized triorthogonal matrix with the desired n, k T , k CS , k CCZ , k 0 , or returns failure. For notational simplicity, one can begin with the case of k CS =k CCZ =0 (a triorthogonal matrix). It will then be explained at the end how to construct generalized triorthogonal matrices by a straightforward generalization of this algorithm.
+A. Randomized Construction of Triorthogonal Matrices
+The matrix is constructed as follows. The rows of the matrix are constructed iteratively, choosing each row uniformly at random subject to constraints given by previous rows. More precisely, when choosing the j-th row of the matrix, the row is uniformly chosen at random subject to constraint III.1 for b=j and for all a<j, and subject to the constraint III.2 for c=j and for all a<b<j, and subject to the constraint that the row has either even or odd weight depending on whether it is one of the first k T rows of G or not. If it is not possible to satisfy all these constraints, then the construction is terminated and declared a failure. Otherwise, the algorithm is continued. If the constraints are satisfied for all rows of G, the resulting matrix is returned; in this case, the algorithm “succeeds”.
+Note that the constraints that enter into choosing the j-th row are linear constraints on the entries of the row. Eq. III.1 gives j−1 constraints while Eq. (III.2) gives (j−1)(j−2)/2 constraints (the constraints need not be independent). One can express these constraints as follows: let {right arrow over (g)} a denote the a-th row vector of G. Then, let M j be a (j−1+(j−1)(j−2)/2+1)-by-n matrix, with the first j−1 rows of M j being equal to the first j−1 rows of G. The next (j−1)(j−2)/2 rows of M j are vectors {right arrow over (g)} a ∧{right arrow over (g)} b for a<b<j. The last row of M j is the all 1s vector, i.e., (1, 1, . . . , 1). This vector is denoted {right arrow over (1)}. The constraints on {right arrow over (g)} j can then be written as
+
+M j {right arrow over (g)} j =(0,0, . . . ,0,1),  (IV.1)
+
+for 1≤ j≤k T and
+
+M j {right arrow over (g)} j =0  (IV.2)
+
+for k T <j≤m. If {right arrow over (1)} is in the span of the first j−1+(j−1)(j−2)/2 rows of M j , then the constraints have no solution; otherwise, the constraints have a solution. Let j denote the row span of M j ; then, for k T <j, the constraint (IV.2) is equivalent to requiring that
+
+g
+→
+
+j
+
+∈
+
+ℳ
+
+1
+j
+
+.
+
+The probability that the algorithm succeeds is new analyzed, returning a matrix G. The distance of 0 ⊥ is also analyzed. The goal is to show a lower bound on the probability that the distance is at least d, for some d. The analysis of the distance is based on the first moment method: the probability that a given vector {right arrow over (u)} is in 0 ⊥ is estimated. This probability is then summed over all choices of {right arrow over (u)} such that 0<|{right arrow over (u)}|<d and bound the result.
+Let {right arrow over (u)} be a given vector with {right arrow over (u)}≠0 and {right arrow over (u)}≠{right arrow over (1)}. Let one first compute the probability that {right arrow over (u)}∈ 0 ⊥ and {right arrow over (u)} m conditioned on the algorithm succeeding. Since {right arrow over (u)} m , then {right arrow over (u)} j for all j≤m. Hence,
+Pr ⁡ [ u → · g → j = 1 | success ⁢ ⁢ and ⁢ ⁢ u → ∉ ℳ j ] = 1 2 , ( IV ⁢ .3 )
+since the constraint {right arrow over (u)}·{right arrow over (g)} j =0 is independent of the constraint {right arrow over (g)} j ∈ j . Note that success of the algorithm depends only on the choices of the odd weight rows, and the even weight rows are chosen after the odd weight rows so that the choice of {right arrow over (g)} j does not affect success. So,
+
+Pr
+⁡
+
+[
+
+u
+→
+
+∈
+
+𝒢
+0
+⊥
+
+⁢
+
+⁢
+and
+⁢
+
+⁢
+
+u
+→
+
+∉
+
+ℳ
+m
+
+|
+success
+
+]
+
+≤
+
+∏
+
+j
+=
+
+k
+T
+
++
+1
+
+m
+
+⁢
+
+⁢
+
+1
+2
+
+=
+
+2
+
+-
+
+k
+0
+
+.
+
+(
+
+IV
+⁢
+.4
+
+)
+
+Now consider the probability that the algorithm succeeds and {right arrow over (u)}∈ m . As a warm-up, consider the probability that the algorithm succeeds and that some vector with small Hamming weight is in . Here, big-O notation is used from here on, considering the asymptotics of large n.
+Lemma 1. Consider any fixed {right arrow over (u)}≠0. Then, the probability that the algorithm succeeds and that {right arrow over (u)} is in is bounded by:
+
+Pr
+⁡
+
+[
+
+success
+⁢
+
+⁢
+and
+⁢
+
+⁢
+
+u
+→
+
+∈
+𝒢
+
+]
+
+≤
+
+∑
+
+k
+=
+1
+
+m
+
+⁢
+
+2
+
+-
+n
+
+-
+
+(
+
+k
+-
+1
+
+)
+
+-
+
+(
+
+l
+⁡
+
+(
+
+k
+-
+1
+
+)
+
+/
+2
+
++
+1
+
+)
+
+.
+
+(
+
+IV
+⁢
+.5
+
+)
+
+Further, if m=o(n), then
+
+Pr [success and ∃ {right arrow over (v)}∈ s.t.|{right arrow over (v)}|≠ 0 and (| {right arrow over (v)}|≤n/ 2− o ( n ) or | {right arrow over (v)}|≥n/ 2+ o ( n ))]= o (1).  (IV.6)
+
+(The above equation is to be interpreted as meaning that for some function ƒ(n) which is o(n) the probability that there exists a nonzero {right arrow over (v)}∈ with |v{right arrow over (v)}|≤n/2−ƒ(n) or |{right arrow over (v)}|≥n/2+ƒ(n) is o(1)).
+
+Proof. Suppose {right arrow over (u)} is in . Then, {right arrow over (u)}=Σ i=1 m b i {right arrow over (g)} i . Each of the 2 m −1 possible nonzero choices of the vector b are considered and bound the probability that {right arrow over (u)}=Σ i=1 m b i {right arrow over (g)} i for the given choice. For a given choice of b, let k be the largest i such that b i ≠0. The vector {right arrow over (g)} k is chosen randomly subject to k(k−1)/2+1 constraints. Hence, for given {right arrow over (g)} 1 , . . . , {right arrow over (g)} k−1 and given b, {right arrow over (u)}, the probability that {right arrow over (g)} k ={right arrow over (u)}+Σ i=1 m−1 b i {right arrow over (g)} i is bounded by 2 −n−(k(k−1)/2+1) . There are 2 k−1 possible choices of b 1 , . . . , b k−1 . Summing over these choices and summing over k, Eq. (IV.5) follows.
+
+By a first moment bound, the probability that there is a nonzero vector of weight at most w in is bounded by
+( ∑ j = 1 w ⁢ ( n j ) ) ⁢ ( ∑ k = 1 m ⁢ 2 - n - ( k - 1 ) - ( l ⁡ ( k - 1 ) / 2 + 1 ) ) .
+Similarly, the probability that there is a vector with weight at least n−w in is bounded by
+
+( ∑ j = 0 w ⁢ ( n j ) ) ⁢ ( ∑ k = 1 m ⁢ 2 - n - ( k - 1 ) - ( l ⁡ ( k - 1 ) / 2 + 1 ) ) .
+From this, the lemma follows.
+
+Lemma 2. Let m≤θ√{square root over (n)} for 0<θ<1/√{square root over (2)}. Let 0<ρ<½ be a constant. Then, the probability that the algorithm succeeds and that the distance of m , is smaller ρn is
+
+2 S(ρ)n−n/2+θ 2 n+o(n) +o   (1),
+
+where S(ρ) is the binary entropy function −ρ log 2 (ρ)−(1−ρ) log 2 (1−ρ).
+
+Let ρ(θ) be the supremum of all ρ such that the above expression tends to zero as n→∞. For all θ<1/√{square root over (2)}, one has ρ(θ)>0 with ρ(θ)→0 as θ→1/√{square root over (2)}.
+Proof. One can say that G has good distance if all nonzero vectors {right arrow over (u)} have have n/2−o(n)≤|{right arrow over (u)}|≤n/2+o(n). By lemma IV.5 the probability that the algorithm succeeds and that G does not have good distance is o(1).
+Let {right arrow over (u)}⊕0,{right arrow over (1)}. One can now bound the probability that the algorithm succeeds and that G has good distance and that {right arrow over (u)}∈cM m .
+If {right arrow over (u)}∈ m , then for some m-by-m upper triangular matrix A ij and for some c∈{0, 1}, one has
+u → = ∑ i , j ⁢ ⁢ s . t . ⁢ i ≤ j ⁢ A ij ⁢ g → i ⋀ g → j + c ⁢ ⁢ 1 → . ( IV ⁢ .7 )
+Consider each of the 2 m(m−1)/2 −1 possible nonzero choices of the matrix A and each of the two choices of c and bound the probability that Eq. (IV.7) holds for the given choice.
+
+Suppose c=0 (the case c=1 follows from this case by considering the vector {right arrow over (u)}+{right arrow over (1)}). For a given choice of b, let k be the largest i such that b ik ≠0 for some i≤k. Let {right arrow over (g)} 1 , . . . , {right arrow over (g)} k−1 be given; one can compute the probability that {right arrow over (g)} k is such that Eq. (IV.7) holds. Let
+v → = u → + ∑ i , j ⁢ ⁢ s . t . ⁢ i ≤ j < k ⁢ A ij ⁢ g → i ⋀ g → j .
+⁢ Let ( IV ⁢ .8 ) w → = ∑ i ⁢ ⁢ s . t . ⁢ i < k ⁢ A ik ⁢ g → i ⋀ A kk ⁢ 1. → ( IV ⁢ .9 )
+Then, Eq. (IV.7) implies that
+
+{right arrow over (v)}={right arrow over (w)}∧{right arrow over (g)} k .  (IV.10)
+
+Assuming G has good distance, n/2−o(n)≤|w|. Eq. (IV.10) gives then at least n/2−o(n) linear constraints on {right arrow over (g)} k . The vector {right arrow over (g)} k is chosen randomly subject to k(k−1)/2−1 linear constraints. Hence, the probability that Eq. (IV.10) holds is at most
+
+2 −n/2+o(n)+k(k−1)/2 .
+
+Summing over all choices of A ij , the probability that the algorithm succeeds and that G has good distance and that {right arrow over (u)}∈cM m is bounded by
+
+2 −n/2+o(n)+m(m−1) .
+
+The number of vectors {right arrow over (u)} with |{right arrow over (u)}|≤ρn is (for ρ≤½)
+
+∑ 1 ≤ j ≤ ρ ⁢ n ⁢ ⁢ ( n j ) = 2 S ⁡ ( ρ ) ⁢ n + o ⁡ ( n ) . ( IV ⁢ .11 )
+Hence, by a first moment argument, the probability that the algorithm succeeds and that G has good distance and that m has distance smaller than ρn for ρ≤½ is
+
+2 S(ρ)n−n/2+m(m−1)+o(n) .
+
+Finally,
+Lemma 3. Let m≤θ√{square root over (n)} for 0<θ<1/√{square root over (2)}. Then, the algorithm succeeds with probability 1−o(1).
+Proof. Suppose the algorithm fails on step k. Then, the first k−1 steps of the algorithm succeed and the vector {right arrow over (1)} must be in k−1 ∧ k−1 . However, the probability that this happens is o(1), as follows using the same proof as in lemma 2. There is one minor modifications to the proof: Eq. (IV.7) is replaced by
+1 → = ∑ i , j ⁢ ⁢ s . t . ⁢ i ≤ j < k - 1 ⁢ A ij ⁢ g → i ⋀ g → j . ( IV ⁢ .12 )
+Also, there is no need to sum over vectors {right arrow over (u)} as instead consideration is given to the probability that a fixed vector is in k−1 ∧ k−1 . Otherwise, the proof is the same.
+
+Hence,
+Theorem 1. We can choose m=(1−o(1))·√{square root over (n/2)}, and choose k 0 =└c√{square root over (n)}┘ or any c<1/√{square root over (2)}, so that k T =m−k 0 , and with high probability the algorithm succeeds and G has distance d at least
+
+2
+⁢
+c
+⁢
+
+n
+
+log
+⁢
+
+⁢
+n
+
+Proof. By lemma 2, the distance of m is Φ(n). By lemma 3, the algorithm succeeds with high probability. By Eq. IV.4 and a first moment bound, using the fact that the number of vector with weight at most
+2 ⁢ c ⁢ n log ⁢ ⁢ n
+is 2 c√{square root over (n)}+o(1) , the theorem follows.
+
+Now that in this regime, the distillation efficiency defined as γ=log(n/k T )/log(d) converges to 1 as n→∞.
+B. Randomized Construction of Generalized Triorthogonal Matrices
+The randomized construction of triorthogonal matrices above immediately generalizes to a randomized construction of generalized triorthogonal matrices. In the previous randomized construction, each vector {right arrow over (g)} j was chosen at random subject to certain linear constraints. Note that Eqs. (IV.2,IV.1) have the same left-hand side but different right-hand side. These constraints were homogeneous for row vectors in G 0 (see Eq. (IV.2) which has the zero vector on the right-hand side) and inhomogeneous for row vectors in G T (see Eq. (IV.1) has one nonzero entry on the right-hand side). For a generalized triorthogonal matrix, one can follow the same randomized algorithm as before except that the constraints on the vectors {right arrow over (g)} j are modified. The vectors will still be subject to linear constraints that M j {right arrow over (g)} j is equal to some fixed vector, with M j as before. However, the fixed vector is changed in the generalized algorithm to obey the definition of a generalized triorthogonal matrix. This modifies the success probability of the algorithm, but one may verify that the algorithm continues to succeed with high probability in the regime considered before.
+V. Reed-Muller Code Based Distillation
+In Bryan Eastin, “Distilling one-qubit magic states into toffoli states,” Physical Review A 87, 032321 (2013), 1212.4872, and Cody Jones, “Low-overhead constructions for the fault-tolerant toffoli gate,” Physical. Review A 87, 022328 (2013), 1212.5069, a construction was presented to distill a single Toffoli gate from 8 T gates, so that any single error in the T gates is detected. More quantitatively, if the input T gates have error probability ϵ 4 , the output Toffoli has error probability ϵ out =28ϵ in 2 +O(ϵ in 3 ).
+In this subsection, alternatives to these constructions using generalized triorthogonal codes based on Reed-Muller codes are presented. The protocols of Bryan Eastin, “Distilling one-qubit magic states into toffoli states,” Physical Review A 87, 032321 (2013), 1212.4872, and Cody Jones, “Low-overhead constructions for the fault-tolerant toffoli gate,” Physical Review A 87, 022328 (2013), 1212.5069, will be similar to the smallest instances.
+A. Review of Classical Reed-Muller Codes
+The space of 2 -valued functions over m binary variables x 1 , . . . , x m is a vector space of dimension 2 m , and every such function can be identified with a polynomial in x 1 , . . . , x m . One can choose a bijection {ƒ: 2 m → 2 }= 2 2m defined by
+
+function ƒ: 2 m → 2 ⇔codeword (ƒ( z )) z∈ 2 m   (V.1)
+
+where the right-hand side is the list of function values. In this bijection, the ordering of elements of 2 m is implicit, but a different ordering is nothing but a different ordering of bits, and hence as a block-code it is immaterial. For example, the degree zero polynomial ƒ(x 1 , . . . , x m )=1 is a constant function, that corresponds to all-1 vector of length 2 m , and a degree 1 polynomial ƒ(x 1 , . . . , x m )=x 1 is a function that corresponds to a vector of length 2 m and weight 2 m−1 . Since the variables x i are binary, one has x i 2 =x i , and every polynomial function is a unique sum of monomials where each variable has exponent 0 or 1.
+
+For an integer r≥0 the Reed-Muller code RM(r,m)⊆ 2 2m is defined to be the set of all polynomials (modulo the ideal (x 1 2 −x 1 ,x 2 2 −x 2 , . . . )) of degree at most r, expressed as the lists of function values,
+
+RM ( r,m )={(ƒ( x )) x∈ 2 m |ƒ∈ 2 [ x 1 , . . . , x m ]/( x i 2 −x i ), deg ƒ≤ r}   (V.2)
+
+By definition, RM(r,m)⊆RM(r+1,m). For example, RM(0,m) is the repetition code of length 2 m . A basis of RM(r,m) comprises monomials that are products of at most r distinct variables. Hence, the number of encoded (classical) bits in RM(r,m) is equal to Σ j=0 r ( j m ). The code distance of RM(r,m) is 2 m−r , which can be proved by induction in m.
+
+A property that is used herein is that whenever a polynomial does not contain x 1 . . . x m (the product of all variables), the corresponding vector of length 2 m has even weight. This allows one to see that the dual of RM(r,m) is again a Reed-Muller code, and direct dimension counting shows that
+
+RM ( r,m ) ⊥ =RM ( m−r− 1, m ).  (V.3)
+
+In Reed-Muller code, it is easy to consider the wedge product of two codes, which appears naturally in the triorthogonality. Namely, given two binary subspaces V and W, one can define the wedge product as
+
+( v∧w ) i =v i w i where v,w∈ 2 n ,  (V.4)
+
+V∧W =span 2 {v∧w:v∈V,w∈W}   (V.5)
+
+By definition, V ∧2 ⊇V. Since a code word of a Reed-Muller code is a list of function values, one can see that
+
+RM ( r,m )∧ RM ( r′,m )= RM ( r+r′,m ).  (V.6)
+
+It follows that RM(r,m) is triorthogonal subspace if 3r<m. (In fact, it is triply even.)
+
+Since a basis of Reed-Muller codes comprises monomials where each variable has exponent 0 or 1, it is often convenient to think of a monomial as a binary m-tuple, that specifies which variable is a factor of the monomial. For example, if m=3, the constant function ƒ=1 can be represented as (0,0,0), the function ƒ=x 1 can be represented as (1,0,0), and the function ƒ=x 2 x 3 can be represented as (0,1,1). This m-tuple is called an indicator vector. (In contrast to what the name suggests, the “sum” of indicator vectors is not defined.) An indicator vector a that defines a monomial corresponds to a code word a ∈ 2 2m . Under the wedge product of two code words, the corresponding two monomials is multiplied. In terms of indicator vector, this amounts to taking bit-wise OR operation which is denoted ∨:
+
+a ∧ b = a∨b .  (V.7)
+
+For example, if m=3,
+
+a =(1,0,1)↔ƒ= x 1 x 3 ↔ a =(00000101)
+
+b =(1,1,0)↔ƒ= x 1 x 2 ↔ b =(00000011)
+
+a∨b =(1,1,1)↔ƒ= x 1 x 2 x 3 ↔ a∨b =(00000001)
+
+B. Triorthogonal Codes for CCZ
+Let m be a multiple of 3. RM(r=m/3−1, m) is considered to build a generalized triorthogonal code on 2 m qubits, with k T =k CS =0 but k CCZ >0. Since 3r=m−3<m, the generating matrix of RM(m/3−1,m) qualifies to be G 0 . The Z-distance of the triorthogonal code is at least the distance of RM(m/3−1,m) ⊥ =RM(2m/3,m), which is 2 m/3 . (In fact, it is exactly this.)
+Triples of G CCZ specified triples of indicator vectors a (i) ,b (i) ,c (i) are chosen. The triorthogonality conditions can be summarized as follows.
+ a ( i )  ≤ m ⁢ / ⁢ 3 + 1 ,
+⁢  b ( i )  ≤ m ⁢ / ⁢ 3 + 1 ,
+⁢  c ( i )  ≤ m ⁢ / ⁢ 3 + 1 ,
+⁢  a ( i ) ⋁ b ( j )  ≤ 2 ⁢ m ⁢ / ⁢ 3 ,
+⁢  b ( i ) ⋁ c ( j )  ≤ 2 ⁢ m ⁢ / ⁢ 3 ,
+⁢  c ( i ) ⋁ a ( j )  ≤ 2 ⁢ m ⁢ / ⁢ 3 ,
+⁢  a ( i ) ⋁ b ( j ) ⋁ c ( ℓ )  ⁢ { = m if ⁢ ⁢ i = j = ℓ , < m otherwise . ( V ⁢ .8 )
+(A similar set of conditions for G CS should be straightforward.) a (i) , b (i) , c (i) is chosen to have weight exactly m/3, so that the first six conditions above are automatically satisfied.
+
+Three constructions of triples obeying these requirements are given. One construction will be analytic, one will be numerical, and one will be a randomized construction using the Lovasz local lemma. It may be useful for the reader to think of a vector a i ∈ 2 m as corresponding to a subset A i of some set S with |S|=m. Then, a triple consists of three disjoint subsets A i , B i , C i of cardinality m/3 each.
+The analytic construction is as follows:
+
+a (u) =( u,ū, 0), b (u) =(0, u,ū ), c (u) =( ū, 0, u )  (V.9)
+
+where a triple is labeled by u∈ 2 m/3 †{0,{right arrow over (1)}}. So, one has 2 m/3 −2 triples. Here, (u,ū,0) denotes the indicator vector of length m formed by concatenating three bit strings of length m/3, and ū is the complement of u so that ū i =1−u i . By construction, one can verify that a (u) ∨b (u) ∨c (u) ={right arrow over (1)} for any u∈ 2 m/3 . The case u=0 and u={right arrow over (1)} are excluded, for the triple to satisfy the other generalized triorthogonality conditions. Suppose that x,y,z are rows of G CCZ and are not all from the same triple. It is desirable to check that |x∨y∨z|<m. Any potential violation to this condition is when x=(u x ,ū x ,0) and y=(0,u y ,ū y ) and z=(ū z , 0, u z ) for some u x ,u y ,u z because there is no way to have {right arrow over (1)}=0∨0∨u∈ 2 m/3 unless u=onev, which cases have been excluded. But then, one must have that u x =u y u z to have |x∨y∨z|=m.
+
+In the particular case m=3, this construction gives k CCZ =0. However, one can instead have k CCZ =1 with the triple of indicator vectors (1,0,0), (0,1,0), (0,0,1), corresponding to polynomials x 1 ,x 2 ,x 3 . The full generalized triorthogonal matrix is
+[ 0 0 0 0 1 1 1 1 0 0 1 1 0 0 1 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 ] ( V ⁢ .10 )
+where the part above the line is G CCZ and that below the line is G 0 . This triorthogonal matrix is maximal in the sense that (G ∧2 ) ⊥ =G 0 . The resulting distillation routine has error probability 28p 2 +O(p 3 ) if input T-states have error probability p.
+
+For m=6, one finds n=64, k CCZ =2 and distance 4, of which the triples in terms of polynomials are {x 1 x 2 ,x 3 x 4 , x 5 x 6 } and {x 2 x 3 ,x 4 x 5 ,x 6 x 1 .}. The m=6 instance was investigated further to see if there could be more logical cubits extending the two triples, but it was found that there does not exist any extra solution to the generalized triorthogonality equations. Instead, G 0 were able to be extended. The resulting generalized triorthogonal matrix, denoting each row by a polynomial, is
+[ x 1 ⁢ x 2 x 3 ⁢ x 4 x 5 ⁢ x 6 x 2 ⁢ x 3 x 4 ⁢ x 5 x 6 ⁢ x 1 1 x 1 x 2 x 3 x 4 x 5 x 6 x 1 ⁢ x 3 ⁢ x 5 + x 3 ⁢ x 5 x 1 ⁢ x 3 ⁢ x 5 x 1 ⁢ x 3 + x 1 ⁢ x 5 x 1 ⁢ x 3 + x 1 ⁢ x 3 ⁢ x 5 ] . ( V ⁢ .11 )
+This triorthogonal matrix is also maximal in the sense that (G ∧2 ) ⊥ =G 0 . The leading term in the output error probability is 2944p 4 . The coefficient was obtained by brute-force weight enumeration and MacWilliams identity.
+
+These two instances of generalized triorthogonal codes give T-to-CCZ protocols similar to those of Bryan Eastin, “Distilling one-qubit magic states into toffoli states,” Physical Review A 87, 032321 (2013). 1212.4872, and Cody Jones, “Low-overhead constructions for the fault-tolerant toffoli gate,” Physical Review A 87, 022328 (2013), 1212.5069, but not identical; the 64T-to-2CCZ protocol here has a different coefficient in the output error probability.
+For m=9, n=512, k CCZ =6 and distance 8 was found. A numerical search was then performed to see if it would be possible to have a larger k CCZ , restricting to the case that triples of G CCZ are associated with triples of indicator vectors of weight m/3. k CCZ =10 was also found, and G 0 further extended to make the resulting triorthogonal matrix maximal in the sense that (G ∧2 ) ⊥ =G 0 .
+G CCZ = [ x 4 ⁢ x 5 ⁢ x 7 , x 2 ⁢ x 6 ⁢ x 8 , x 1 ⁢ x 3 ⁢ x 9 x 4 ⁢ x 5 ⁢ x 9 , x 2 ⁢ x 7 ⁢ x 8 , x 1 ⁢ x 3 ⁢ x 6 x 3 ⁢ x 4 ⁢ x 6 , x 1 ⁢ x 5 ⁢ x 8 , x 2 ⁢ x 7 ⁢ x 9 x 1 ⁢ x 8 ⁢ x 9 , x 3 ⁢ x 4 ⁢ x 7 , x 2 ⁢ x 5 ⁢ x 6 x 2 ⁢ x 5 ⁢ x 9 , x 1 ⁢ x 3 ⁢ x 4 , x 6 ⁢ x 7 ⁢ x 8 x 1 ⁢ x 4 ⁢ x 5 , x 2 ⁢ x 3 ⁢ x 8 , x 6 ⁢ x 7 ⁢ x 9 x 3 ⁢ x 5 ⁢ x 6 , x 1 ⁢ x 2 ⁢ x 7 , x 4 ⁢ x 8 ⁢ x 9 x 1 ⁢ x 3 ⁢ x 8 , x 2 ⁢ x 4 ⁢ x 9 , x 5 ⁢ x 6 ⁢ x 7 x 2 ⁢ x 3 ⁢ x 5 , x 1 ⁢ x 7 ⁢ x 9 , x 4 ⁢ x 6 ⁢ x 8 x 3 ⁢ x 8 ⁢ x 9 , x 1 ⁢ x 5 ⁢ x 7 , x 2 ⁢ x 4 ⁢ x 6 ] ( V ⁢ .12 ) G 0 = [ RM ⁡ ( r = 2 , m = 9 ) x 1 ⁢ x 2 ⁢ x 9 x 1 ⁢ x 2 ⁢ x 8 x 6 ⁢ x 8 ⁢ x 9 x 3 ⁢ x 7 ⁢ x 8 ] ( V ⁢ .13 )
+Here, each line in G CCZ contains a triple of polynomials (actually monomials). The algorithm used was as follows. A version of the algorithm in the constructive proof of the Lovasz local lemma of Robin A Moser and Gabor Tardos, “A constructive proof of the general loviasz local lemma,” Journal of the ACM (JACM) 57, 11 (2010) was used. A subroutine to “initialize a triple” was defined, which, for given i, sets a (i) , b (i) , c (i) to be random indicator vectors of weight m/3 each, subject to the constraint that a (i) ∨b (i) ∨c (i) ={right arrow over (1)} (this is accomplished by choosing a (i) at random of weight m/3, choosing b (i) random of weight m/3 with its 1 entries only in the 0 entries of a (i) , and then c (i) is fixed).
+
+Then the following can be performed:
+1. Pick k CCZ and initialize k CCZ different triples. 2. Check the triorthogonality conditions 3. If a violation of the conditions exists, initialize all triples in the first violation that is found, and go to 2. (If vectors x,y,z are not all in the same triple and x∨y∨z={right arrow over (1)}, then the triples containing x,y,z are found (there are either two or three such triples) and those triples initialized.) If no violation exists, exit the algorithm, reporting success.
+
+This algorithm was run until it reports success or until the algorithm is terminated or otherwise halted. A slight modification of the algorithm was also investigated, in which some random permutation of the triples was performed at various steps (this has an effect similar to randomizing the order in winch the conditions are checked).
+
+C. Lovasz Local Lemma
+The numerics above used an algorithm used in the constructive proof of the Lovasz local lemma. However, the algorithm was attempted to be run in a regime in which the local lemma does not guarantee a solution. However, it is interesting that the local lemma does imply something about the possible scaling of k CCZ for large m.
+Suppose that there are n triple triples. Imagine choosing each triple at random, following the initialization routine of the above algorithm. Label the triples by an integer ranging 1, . . . , n triple . Define a bad event E i,j,k to be the event that for three triples, labelled i,j,k, with 1≤i<j<K≤n triple , there is a violation of the triorthogonality conditions involving one indicator vector from each triple. Such events E i,j,k are termed “three triple events”. Define a bad event E i,j to be the event that for two triples, labelled i,j, with 1≤i<j≤n triple , there is a violation of the triorthogonality conditions involving one indicator vector from one triple and two indicator vectors from the other triple. Such an event E i,j is termed “two triple events”.
+The probability of E i,j,k can be estimated as follows: there are 3 3 =27 different choices of indicator vectors if one chooses one indicator vector from each triple. The vector from the first triple is random. The probability that the vector from the second triple has no overlap with the vector from the first triple is
+( 2 3 ⁢ m 1 3 ⁢ m ) ( m 1 3 ⁢ m ) .
+Conditioned on the vectors from the first two triples having no overlap, the probability that the vector from the third triple has no overlap with either of the other two vectors is
+
+1 ( m 1 3 ⁢ m ) .
+⁢ Thus , Pr ⁡ ( E i , j , k ) ≤ 27 ⁢ ( 2 3 ⁢ m 1 3 ⁢ m ) ( m 1 3 ⁢ m ) ⁢ ( m 1 3 ⁢ m ) ∼ 2 - m ⁡ ( 2 ⁢ H ⁡ ( 1 / 3 ) - 2 / 3 ) , ( V ⁢ .14 )
+where H(p)=−p log 2 (p)−(1−p)log 2 (1−p) is the binary entropy function and the approximate equality is up to subexponential factors. Note H (⅓)≈0.918 and 2H(⅓)−⅔≈1.17.
+
+The probability of E i,j can be estimated as follows: there are 36 ways to choose one indicator vector from i and two from j or two from i and one from j. Suppose one chooses two from i; they have no overlap by construction and the probability that the vector from j has no overlap with them is
+
+1
+
+(
+
+m
+
+1
+3
+
+⁢
+m
+
+)
+
+.
+
+⁢
+Thus
+
+,
+
+E
+
+i
+,
+j
+
+≤
+
+36
+⁢
+
+1
+
+(
+
+m
+
+1
+3
+
+⁢
+m
+
+)
+
+∼
+
+2
+
+-
+m
+
+⁢
+
+⁢
+
+H
+⁡
+
+(
+
+1
+/
+3
+
+)
+
+.
+
+(
+
+V
+⁢
+.15
+
+)
+
+The following statement of the Lovasz local lemma (see Noga Alon and Joel H Spencer, “The probabilistic method” (John Wiley and Sons, 2004)) is used. Define a dependency graph so that two events are adjacent if they are dependent. For event A, let Γ(A) denote the set of neighbors of A in the dependency graph. Then, if one can choose a number x(A) for each event A, 0≤x(A)<1, such that for all A one has
+Pr ⁡ ( A ) ≤ x ⁡ ( A ) ⁢ ∏ B ∈ Γ ⁡ ( A ) ⁢ ⁢ ( 1 - x ⁡ ( B ) ) , ( V ⁢ .16 )
+then there is a nonzero probability that no event occurs.
+
+The neighborhood of any event (either three triple or two triple) includes O(n triple 2 ) three triple events and O(n triple ) two triple events. Let one simply choose x(A)=2Pr(A) for all A. Then, to show Eq. (V.16), it suffices to show that Π B∈Γ(A) (1−x(B))≥½. So, it suffices to show that Σ B∈Γ(A) Pr(B)≤¼. So, n triple 2 2 −m(2H(1/3)−2/3) +n triple 2 −mH(1/3) =O(1). Thus,
+
+n triple ≲2 −m(H(1/3)−1/3)
+
+≲2 0.58 . . . m .  (V.17)
+
+D. Error Probabilities and Quantitative Values
+The generalized triorthogonal matrix has distance d=2 m/3 . The number of error patterns of weight d which do not violate any stabilizer of the code is equal to the number of code words of RM(2m/3,m) with weight d. This is known to equal
+A d = 2 m ⁢ ( 2 m - 2 0 ) ⁢ ( 2 m - 2 1 ) ⁢ ( 2 m - 2 2 ) ⁢ ⁢ … ⁢ ⁢ ( 2 m - 2 μ - 1 ) ⁢ 2 μ ⁢ ( 2 μ - 2 0 ) ⁢ ( 2 μ - 2 1 ) ⁢ ( 2 μ - 2 2 ) ⁢ ⁢ … ⁢ ⁢ ( 2 μ - 2 μ - 1 ) , ( V ⁢ .18 )
+where μ=m−r with in this case r=2m/3 so μ=m/3. For m=3, A d =28. For m=6. A d =10416. For m=9, A d =50434240≈5×10 7 . The leading coefficient in the output error rate is of course at most these numbers, since there could be Z-stabilizers of weight d. Further, in the m=6 and m=9 cases above, G 0 were extended so the number of error patterns of weight d is strictly smaller than A d . Indeed, for the maximal m=6 code, a direct enumeration shows that there are 3248 error patterns that does not violate X-Stabilizers, out of which 304 are Z-stabilizers.
+
+Is it also known that all weights of RM(2m/3,m) between d and 2d are of the form 2d−2 i for some i, so that the next weight after d is equal to 3d/2.
+To give some numbers when using these codes in a distillation protocol, consider the m=9 case with k CCZ =10. Suppose one has an input error probability ϵ in =10 − . Then, the probability that the protocol succeeds (that no stabilizer errors are detected) is lower bounded by (1−ϵ in ) 512 ≈0.599. The average number of output CCZ magic states is then n CCZ ≈5.99. One expects that for m=9 the contribution of errors with weight 3d/2=12 will be negligible compared to the leading contribution. Thus, one can approximate that the output error probability by ϵ out ≈A d ϵ in 8 (1−ϵ in ) 504 ≈3.0×10 −17 , where the factor (1−ϵ in ) 504 represents the requirement that none of the other input T gates have an error. One expects that this is an overestimate because, as mentioned above, not all error patterns of weight d that do not violate a stabilizer will lead to a logical error and also additional stabilizers to G 0 were added. Thus, the ratio ϵ out =ϵ out / n CCZ ≈5.1×10 −18 . 512/ n CCZ ≈85.5 T-gates per output CCZ magic state was used.
+It requires 4 high-quality T-gates to produce a single high-quality CCZ state (see Guang Song and Andreas Klappenecker, “Optimal realizations of simplified toffoli gates,” Quantum Information and Computation 4, 361372 (2004), and Cody Jones, “Low-overhead constructions for the fault-tolerant toffoli gate,” Physical Review A 87, 022328 (2013), 1212.5069), so this protocol's efficiency is comparable (if the goal is to produce CCZ states) to a protocol that uses only 85.5/4≈21.4 input T-gates per output T-gate (and, since one uses 4 T-gates to make a CCZ state, the quality of those output T-gates must be four times better than the needed CCZ quality).
+If one is able to improve the input error rate then the protocol becomes more efficient as the success probability becomes higher, asymptoting at 51.2 T-gates per output CCZ magic state, comparable to a protocol using 12.8 input T-gates to produce an output T-gate. Alternatively, one can also make the protocol more efficient by applying error correction as follows. Choose some integer m≥0. Then, modify the protocol; as usual, one encodes logical qubits in the |+ state into the error correcting code, applies a transversal T-gate, and then measures the stabilizers. However, while usually one would declare failure if any stabilizer errors occur, one can instead apply error correction: if the error syndrome can be caused by at most in errors, then one corrects those errors by applying Pauli Z operators to the appropriate physical qubits. For example, at ϵ in =10 −3 , the probability that there are 0 or 1 input errors is equal to (1−ϵ in ) 512 +512ϵ in (1−ϵ in ) 511 ≈0.906, giving the acceptance probability for m=1. Applying this error correction does reduce the quality of the output states: with m=1, now seven input errors can cause a logical error. The number of such weight seven input error patterns that cause a logical error is at most 8A d , so that the output error per output logical qubit is approximately 8A d ϵ in 7 /10≈5×10 −14 .
+E. Punctured Reed-Muller Codes
+Motivated by the puncturing ideas of III B, puncturing a Reed-Muller code was considered. Instead of using RM(m/3−1,m) as before, now consider RM(m,3m+1). This code is triorthogonal as before, and is maximal in the sense that (G ∧2 ) ⊥ =G 0 . This code was then randomly punctured. The codes found numerically are listed in Tables I,II. Observe that the coefficients A d in the output error probabilities are fairly small given the code lengths.
+It was found that there is a unique d=5 code that can be obtained by puncturing RM(2,7); it is [[125, 3, 5]]. This can be checked as follows: Any three-puncture in RM(r,m>1) is equivalent (e.g., a punctured code from a Reed-Muller code is determined by the isomorphism class under affine transformations of the set of points corresponding to the punctured coordinates in the m-dimensional unit hypercube, since an affine transformation corresponds to an automorphism of Reed-Muller codes. Any three-point set in the unit hypercube is affinely independent.) and one can numerically verify that any four-puncture to RM(2,7) gives d=4.
+The numerical techniques can now be explained.
+The number k of logical qubits in each case in the tables was calculated after the puncture; k is equal to the number of punctures only if the submatrix of the generating matrix of RM on the punctured coordinates is full rank. The Z-distance, which is relevant to the distillation purposes, is computed either by the MacWilliams identity applied to X-stabilizer weight enumerators that are computed by brute force enumeration or by enumerating all Z-logical operators of a given weight. The computed Z-distance is in fact the true code distance since the Z-stabilizer group contains a subgroup associated with the bit strings of the X-stabilizer group. The MacWilliams identity was an effective method especially when the base code was RM(2,7) where there are only 29 X-stabilizers prior to puncture. For this base code, a random search was performed, trying many different random punctures of the code, and good examples that were found selected.
+When the base code was RM(3,10), there are 176 X-stabilizers to begin with, so the brute force enumeration of the X-stabilizer weight enumerator became prohibitive unless many coordinates were punctured. Also, at larger distances (≥5), a guided search became more efficient than a random search among codes. To solve both these problems, an “unpuncturing” strategy was used based, on the following observation. Let G 0 be a matrix whose rows represent X-stabilizers, and suppose G′ is a matrix whose rows represent X-logical operators such that any Z-logical operator of minimal weight d anticommutes with at least one X-logical operator of G′. Then, consider a new X-stabilizer matrix
+( I G ′ 0 G 0 ) .
+This new code does not have any Z-logical operator of weight≤d. The proof is as follows: If the bit string v of a Z-logical operator of weight≤d have nonzero substring on the columns of G 0 , then, by construction, that substring must have weight at least d, but such a substring has odd overlap with some row of G′ which must be cancelled by the substring on the columns of I. This forces the weight to be larger than d. The construction of a new code by adding more stabilizers and qubits, is precisely the inverse of the puncturing procedure (up to permutations of qubits), hence the name “unpuncturing.”
+
+For small distances, e.g., d=3, it is easy to enumerate all Z-logical operators of weight d. One can then select X-logical operators to “catch” those minimal weight Z-logical operators, and
+TABLE I Punctured Reed-Muller codes I. In this table, the base code prior to puncturing is RM(2, 7) = [128, 29, 32]. The decimal integers are short-hand notation for the binary coordinate that indexes bits in the Reed-Muller code; e.g., “3” in the first example means that one has to puncture the bit labelled by 0000011 ∈ F 2 7 . The number of Z-logical operators of weight d is obtained by the MacWilliams identity applied to the X-stabilizer weight enumerators. Since the Z stabilizer group in any case corresponds to a subspace of dual of the pre-puncture Reed-Muller code, the minimal weight of any Z stabilizer is at least 8. Every X-stabilizer has weight a multiple of 8, and every X-logical operator has weight 7 mod 8. Hence, the transversal T becomes T † on every logical qubit. As a distillation protocol, the output error probability is A d p d at the leading order where p is the independent error probability of the input T states. Code parameter [[n, k, d]] and A d = # (Z-logical operators of weight d) Decimal representation of binary coordinates to puncture [[114, 14, 3]], A 3 = 30, n/k = 8.14 3, 10, 19, 20, 64, 66, 72, 96, 99, 104, 110, 114, 115, 124 [[112, 16, 3]], A 3 = 96, n/k = 7 6, 8, 13, 14, 17, 28, 29, 33, 44, 57, 65, 75, 79, 82, 106, 116 [[109, 19, 3]], A 3 = 324, n/k = 5.73 10, 15, 16, 17, 32, 39, 40, 41, 48, 59, 66, 69, 72, 81, 100, 102, 108, 120, 126 [[118, 10, 4]], A 4 = 210, n/k = 11.8 11, 17, 19, 59, 74, 76, 91, 99, 105, 110 [[116, 12, 4]], A 4 = 495, n/k = 9.6 0, 31, 52, 61, 73, 94, 96, 112, 114, 115, 118, 120
+identify the punctured coordinates that gave rise to the chosen X-Logical operators. One X-logical operator X was chosen each time so that the number of the minimal weight Z-logical operators that X anticommutes with is maximized. The codes in Table II were found by this unpuncturing.
+
+A random puncturing was started giving a d=3 code and then successively unpunctured to obtain distance 4, 5 codes. The d=6 and d=7 codes in Table II were obtained by unpuncturing the best rate code with d=5. Note that for the code [[937, 87, 7]], it was prohibitively costly to enumerate all logical operators of weight 7, so an upper bound on the number of Z-logical operators was used. The bound was possible since the X-stabilizer's weight enumerator of [[887, 137, 5]] was computed by brute force, unpuncturing which yielded [[937, 87, 7]]; while in general this X-stabilizer weight enumerator is very costly to compute as explained above, it was possible to compute it for a single code example (it would not be practical to compute this enumerator for all the codes tried in a random search).
+
+TABLE II
+
+Punctured Reed-Muller Codes II, continued from Table I. In this table, the base code prior
+
+to puncturing is RM(3, 10) = [1024, 176, 128]. The bound on A 7 of [[937, 87, 7]] is from the exact weight
+
+enumerator (not shown) of [[887, 137, 5]]; the true value of A 7 is believed to be much smaller based on the
+
+previous examples.
+
+[[863, 161, 3]], A 3 = 3231, n/k = 5.36
+
+3, 4, 7, 10, 15, 39, 42, 44, 45, 49, 59, 66, 68, 70, 72, 74, 91, 103, 104, 109, 119, 120, 122, 123, 130, 161, 164, 170,
+
+183, 186, 200, 208, 214, 233, 236, 237, 248, 270, 278, 288, 294, 295, 296, 304, 307, 321, 323, 338, 341, 347, 353,
+
+356, 359, 360, 365, 374, 377, 404, 411, 414, 425, 443, 447, 455, 465, 470, 474, 477, 480, 482, 492, 493, 502, 507,
+
+509, 511, 513, 517, 525, 528, 539, 543, 550, 555, 567, 577, 581, 598, 599, 600, 602, 603, 608, 609, 612, 616, 620,
+
+621, 628, 638, 646, 652, 659, 660, 669, 678, 681, 687, 714, 728, 738, 739, 741, 743, 744, 745, 748, 750, 758, 768,
+
+786, 791, 794, 795, 806, 822, 843, 844, 845, 853, 855, 864, 865, 884, 889, 891, 892, 902, 907, 913, 916, 921, 939,
+
+942, 943, 944, 945, 951, 953, 961, 965, 971, 978, 980, 984, 985, 992, 1002, 1005, 1012, 1018
+
+[[872, 152, 4]], A 4 = 1514, n/k = 5.74
+
+31, 35, 45, 46, 50, 62, 85, 89, 91, 113, 118, 119, 122, 127, 140, 144, 157, 168, 169, 171, 173, 186, 190, 210, 218, 219,
+
+228, 230, 237, 244, 249, 254, 263, 271, 281, 282, 308, 336, 352, 353, 398, 404, 405, 411, 412, 441, 444, 455, 456, 460,
+
+471, 474, 475, 480, 484, 488, 492, 502, 504, 507, 511, 517, 520, 522, 532, 542, 543, 559, 570, 574, 577, 578, 579, 580,
+
+583, 592, 598, 601, 602, 605, 608, 612, 615, 618, 620, 637, 643, 644, 653, 658, 667, 688, 690, 694, 714, 717, 724, 727,
+
+737, 745, 752, 754, 758, 764, 765, 770, 782, 794, 795, 802, 808, 812, 813, 814, 815, 823, 824, 838, 847, 849, 850, 852,
+
+861, 863, 867, 871, 874, 880, 901, 907, 911, 915, 919, 921, 924, 926, 941, 950, 954, 969, 971, 972, 976, 977, 982, 991,
+
+995, 999, 1008, 1013, 1014, 1023
+
+[[887, 137, 5]], A 5 = 709, n/k = 6.47
+
+11, 21, 30, 37, 39, 53, 68, 74, 78, 82, 98, 105, 107, 120, 130, 136, 148, 149, 152, 161, 162, 163, 181, 194, 209, 210, 211,
+
+233, 234, 243, 244, 267, 269, 274, 277, 281, 284, 298, 317, 324, 325, 329, 341, 361, 362, 375, 389, 399, 400, 405, 412, 415,
+
+423, 425, 449, 480, 487, 495, 507, 511, 522, 538, 542, 557, 563, 578, 579, 584, 593, 600, 609, 610, 619, 622, 623, 635, 638,
+
+639, 640, 643, 644, 651, 653, 655, 657, 661, 671, 672, 678, 680, 692, 714, 727, 737, 775, 777, 792, 796, 806, 817, 826, 827,
+
+831, 833, 834, 837, 851, 852, 854, 857, 866, 868, 871, 875, 880, 890, 891, 896, 897, 898, 916, 924, 936, 938, 941, 958, 964,
+
+965, 966, 973, 975, 983, 984, 990, 996, 997, 1022
+
+[[912, 112, 6]], A 6 = 1191, n/k = 8.14
+
+11, 21, 37, 39, 68, 74, 78, 82, 98, 107, 130, 148, 152, 161, 162, 163, 181, 194, 209, 210, 211, 233, 243, 244, 267, 269, 274,
+
+277, 298, 317, 324, 325, 329, 341, 361, 362, 399, 405, 412, 415, 423, 425, 480, 487, 495, 507, 522, 542, 557, 563, 579, 584,
+
+593, 600, 609, 610, 619, 622, 623, 635, 639, 640, 653, 655, 657, 661, 671, 672, 678, 680, 692, 714, 727, 737, 775, 777, 792,
+
+796, 806, 826, 827, 831, 833, 834, 837, 851, 852, 854, 857, 866, 871, 875, 880, 890, 891, 896, 897, 898, 916, 924, 936, 938,
+
+941, 958, 965, 966, 983, 984, 990, 996, 997, 1022
+
+[[937, 87, 7]], A 7 ≤1887905, n/k = 10.77
+
+21, 37, 39, 68, 74, 82, 98, 130, 148, 152, 162, 163, 194, 209, 210, 211, 233, 244, 267, 269, 274, 317, 324, 325, 329, 341, 361,
+
+362, 399, 405, 412, 415, 423, 480, 487, 495, 507, 522, 542, 557, 563, 584, 593, 600, 609, 610, 623, 635, 639, 640, 657, 661, 671,
+
+672, 692, 714, 727, 737, 777, 792, 796, 826, 827, 831, 833, 834, 837, 851, 852, 854, 857, 871, 875, 880, 890, 891, 896, 897, 898,
+
+924, 936, 958, 966, 984, 996, 997, 1022
+
+VI. T-to-CCZ Protocols Using Hyperbolic Weakly Self-Dual CSS Codes
+In Jeongwan Haah, Matthew B. Hastings, D. Poulin, D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1 weakly self-dual CSS codes on n inner qubits were classified into two types. If is the self-orthogonal subspace of 2 n corresponding to the stabilizers of the code, the distinction criterion is whether contains all-1 vector {right arrow over (1)}. If {right arrow over (1)}∈ , the space of representing logical operators ⊥ / is hyperbolic, and the parameters n inner , k inner , and the code distance must be even numbers. For hyperbolic codes, the binary vector space corresponding to the logical operators is isomorphic to direct sum of hyperbolic planes. Here, only hyperbolic codes are considered. Choose a basis to {≯ (1) , (2) , . . . , k inner ) } of ⊥ / such that the dot product between the basis vectors satisfy
+ℓ ( 2 ⁢ a - 1 ) · ℓ ( 2 ⁢ b - 1 ) = 0 ℓ ( 2 ⁢ a ) · ℓ ( 2 ⁢ b ) = 0 for ⁢ ⁢ a , b = 1 , … ⁢ , k inner ⁢ / ⁢ 2 ℓ ( 2 ⁢ a - 1 ) · ℓ ( 2 ⁢ b ) = { 1 if ⁢ ⁢ a = b , 0 otherwise .
+We call such a basis hyperbolic, and Gram-Schmidt procedure can be used to find a hyperbolic basis. Logical operators can be defined as
+
+{tilde over (X)} 2a−1 =X ( (2a−1) ), {tilde over (Z)} 2a−1 =Z ( (2a) ),
+
+{tilde over (X)} 2a =X ( (2a) ), {tilde over (Z)} 2a =Z ( 2a−1 )), for a= 1, . . . , k inner /2.  (VI.1)
+
+Note that this is different from the magic basis of Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1, where a pair of logical qubits are swapped under the transversal Hadamard.
+
+Next, the action of transversal S gate is investigated. Since SXS † =Y=−iZX, unless n inner is a multiple of 4, the transversal S is not logical. However, there is a simple way to get around this. Instead of applying S on every qubit, exponents t i =±1 can be assigned to each qubit i, which depends on the code, and one can apply ⊗ i S t i . t i can be chosen such that
+∑ i ⁢ v i ⁢ t i = 0 ⁢ ⁢ mod ⁢ ⁢ 4 ⁢ ⁢ for ⁢ ⁢ any ⁢ ⁢ v ∈ { b ( 1 ) , … ⁢ , b ( dim ⁢ ⁢ 𝒮 ) } ⋐ 𝒮 , ( VI ⁢ .2 ) ∑ i ⁢ ℓ i ( a ) ⁢ t i = 0 ⁢ ⁢ mod ⁢ ⁢ 4 ⁢ ⁢ for ⁢ ⁢ any ⁢ ⁢ a = 1 , … ⁢ , k inner , ( VI ⁢ .3 )
+where it is implicit that the elements of 2 are promoted to usual integers by the rule that 2 0 0∈ and 2 1 1∈ , and {b (j) } is a basis of the 2 -vector space .
+
+A solution t i to these conditions always exists, because the Gauss elimination for the system of equations over /4 never encounters division by an even number when applied to a full 2 -rank matrix. Once a valid t i is obtained, then it follows that Σ i v i t i =0 mod 4 for any vector v∈ . Since any vector is a sum of basis vectors, which are orthogonal with one another, this follows from the following identity. For any integer vector y (see, e.g., Harold N. Ward, “Weight polarization and divisibility,” Discrete Mathematics 83, 315326 (1990), and Sergey Bravyi and Jeongwan Haah, “Magic-state distillation with low overhead,” Physical Review A 86, 052329 (2012)),
+∑ i ⁢ y i ⁢ ⁢ mod ⁢ ⁢ 2 = ∑ i ⁢ y i - 2 ⁢ ∑ i < j ⁢ y i ⁢ y j ⁢ ⁢ mod ⁢ ⁢ 4 , ( VI ⁢ .4 ) ∑ i ⁢ y i ⁢ ⁢ mod ⁢ ⁢ 2 = ∑ i ⁢ y i - 2 ⁢ ∑ i < j ⁢ y i ⁢ y j + 4 ⁢ ∑ i < j < k ⁢ y i ⁢ y j ⁢ y k ⁢ ⁢ mod ⁢ ⁢ 8. ( VI ⁢ .5 )
+Likewise, for any vector ∈ ⊥ and any s∈ , Σ i i t i =Σ i ( +s mod 2) i t i mod 4.
+
+It will now be shown that the action of ⊗ i S t i on the logical state |{tilde over (x)} 1 , . . . , {tilde over (x)} k inner is control-Z on hyperbolic pairs of logical qubits:
+( ⊗ i ⁢ S t i ) ⁢  x ~ 1 , … ⁢ , x ~ k inner 〉 = 1  𝒮  ⁢ ∑ s ∈ S ⁢ e ( i ⁢ ⁢ π / 2 ) ⁢ ∑ j ⁢ f j ⁢ t j ⁢  f = s + x 1 ⁢ ℓ` ( 1 ) + … + x k inner ⁢ ℓ ( k inner ) ⁢ mod ⁢ ⁢ 2 〉 = e ( i ⁢ ⁢ π / 2 ) ⁢ ∑ j ⁢ f j ⁢ t j ⁢  f = x 1 ⁢ ℓ ( 1 ) + … + x k inner ⁢ ℓ ( k inner ) ⁢ ⁢ mod ⁢ ⁢ 2 〉 = e ( i ⁢ ⁢ π / 2 ) ⁢ ( ∑ j , a ⁢ ℓ j ( a ) ⁢ t j - 2 ⁢ ∑ a < b ⁢ ℓ j ( a ) ⁢ ℓ j ( b ) ⁢ t j ) ⁢  x 1 ⁢ ℓ ( 1 ) + … + x k inner ⁢ ℓ ( k inner ) ⁢ mod ⁢ ⁢ 2 〉 = ( ∏ j = 1 k inner / 2 ⁢ ⁢ 2 ⁢ j - 1 , 2 ⁢ j ) ⁢  x ~ 1 , … ⁢ , x ~ k 〉 ( VI ⁢ .6 )
+where in the third line (VI.4) was used and in the last line (VI.1) was used.
+
+Therefore, if a control-S gate is used over a hyperbolic code, then a measurement routine was implemented for product of CZ operators. The control-S can be implemented using an identity
+
+C S =( C e iπ/4 ) T ( C X ) T † ( C X ).  (VI.7)
+
+Since a hyperbolic CSS code contains {right arrow over (1)} in the stabilizer group, one knows Σ i t i {right arrow over ( 1 )} i =0 mod 4, and the control-phase factor will either cancel out or become Z on the control. If T gates in this measurement routine are noisy with independent Z errors of probability p, then upon no violation of stabilizers of the hyperbolic code, the measurement routine puts O(p 2 ) error into the measurement ancilla, and O(p d ) error into the state under the measurement where d is the code distance of the hyperbolic code.
+
+A. Quadratic Error Reduction
+The control-Z action on the logical level can be used to implement control-control-Z, whenever the hyperbolic code is encoding one pair of logical qubits. The smallest hyperbolic code that encodes one pair of logical qubits is the 4-qubit code of code distance 2, with stabilizers XXXX and ZZZZ. The choice of logical operators that conforms with the present hyperbolic conditions is
+( X X I I I Z Z I I X X I Z Z I I ) . ( VI ⁢ .8 )
+The exponents t i for S is thus
+
+t =(+−+−).  (VI.9)
+
+Using this choice of t i , the phase factor in (VI.7) cancels out.
+
+Every non-Clifford gates enters the circuit by (VI.7), and hence any single error will be detected. Since the ancilla that controls S inside the hyperbolic code can be contaminated by a pair of T gates acting on the same qubit, there is little reason to consider hyperbolic code of code distance higher than 2, When applied to |+ ⊗3 , the routine described here outputs one CCZ state using 8 T-gates with output error probability 28p 2 +O(p 3 ) where p is the independent error rate of T gates.
+The overall circuit has a few similarities to the quadratic protocol in Cody Jones, “Composite toffoli gate with two-round error detection,” Physical Review A 87, 052334 (2013), 1303.6971, in which the same choice of logical operators are used, but control-(TXT † ) ⊗4 is applied on the code, followed by syndrome measurement and then π/2 rotation along x-axis on the Bloch sphere. In contrast, control-(TXT † X) 1 (XTXT † ) 2 (TXT 554 X) 3 (XTXT † ) 4 , and then syndrome measurement, without any further Clifford correction.
+B. Quartic Error Reduction
+For a higher order error suppression of CCZ states, the hyperbolic codes can be used to check the eigenvalue of the stabilizers of the CCZ state |CCZ =CCZ|+ ⊗3 . The stabilizers are (CZ) 12 X 3 , (CZ) 13 X 2 , and (CZ) 23 X 1 . (These are obtained by conjugating X 1,2,3 , the stabilizers of |+ ⊗3 , of CCZ gate.) As there are three stabilizers, one can use three rounds of checks. By symmetry, it suffices to explain how to measure (CZ) 12 X 3 .
+Suppose one has a hyperbolic weakly self-dual CSS code of parameters [[n inner ,2k,4]]. This is an inner code (see, e.g., Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1). For example, there is a quantum Reed-Muller code of parameters [[2 m ,2 m −2m−2,4]] for any m≥4. There are also Majorana codes which can be interpreted as hyperbolic codes on qubits. See, e.g., Sergey Bravyi, Bernhard Leemhuis, and Barbara M. Terhal, “Majorana fermion codes,” New J. Phys. 12, 083039 (2010), 1004.3791; M. B. Hastings, “Small majorana fermion codes,” 1703.00612; S Vijay and L. Fu, “Quantum error correction for complex and majorana fermion qubits,” 1703.00459 Take k independent output CCZ states from the quadratic protocol in the previous subsection, and separate a single qubit from each of the CCZ states. On these separated qubits, C X is acted on with a common control. The rest 2k qubits are then embedded into the hyperbolic code, with which C (CZ) will applied on the logical qubits, using 2n T gates with independent error probability p. It is desirable that the control qubit is common for all controlled gates. This way, the product of k stabilizers on the k CCZ states are measured.
+One can run this check routine three times for each of the three stabilizers of CCZ states. In total, the number of input T gates is 8k−6n where 8k is from the protocol in the previous subsection, and 3·2n is inside the distance-4 hyperbolic inner code.
+Upon no stabilizer violations of the inner code and outer code measurements, the protocol outputs k CCZ-states. If the inner hyperbolic code does not have any error on T gates while implementing C (CZ), then the output CCZ states' error rate is quadratic in the input CCZ states' error rate. This being quadratic is due to the fact that an outer code of code distance 2 is used. (An outer code is one that specifies which input states to check. See Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1, for detail.) Thus, the output error from this contribution is
+  ( k 2 )
+(28p 2 ) 2 at the leading order.
+
+There could be a pair of errors in the T gate inside the inner code that flips the eigenvalue measurement of (CZ)X. In order for this type of error to be output error there must be an odd number of errors in the input CCZ states. Hence, the contribution to the output error probability is k·28p 2 ·3np 2 at leading order.
+Finally, the inner code may have 4 errors leading to logical errors since the code distance is 4. An upper bound on this contribution to the output error probability is 3·2 3 A 4 p 4 , where A 4 is the number of Z logical operators of the inner code of weight 4. The factor of 2 3 is because one Z error on a qubit of the inner code can occur in one of two places, and the half of all such configurations lead to an accepted output. This is likely an overestimate because a logical error from a check out of three checks can be detected by a later check. In case of the Reed-Muller codes, one can see A 4 ([[16, 6, 4]])=140, A 4 ([[32, 20, 4]])=620, and A 4 ([[64, 50, 4]])=2604.
+Using [[16, 6, 4]], the output error probability has leading term at most 9744p 4 or ϵ out =3.2×10 3 p 4 per output, and the input T count is n T =40 per output CCZ. This particular protocol is worse in terms of input T count, but better in terms of space footprint (<25 qubits), than the protocol by a generalized triorthogonal code above or that of Cody Jones, “Composite toffoli gate with two-round error detection,” Physical Review A 87, 052334 (2013), 1303.6971. Using [[32, 20, 4]] one sees ϵ out ≈(7.7×10 3 )p 4 and n T =27.2. Using Reed-Muller [[64, 50, 4]], one sees ϵ out =(4.3×10 4 )p 4 and n T =23.4. For large m, (encoding rate near 1) the input T count approaches 20 per output CCZ.
+In this case, the acceptance probability has been ignored. Since the input CCZ states can be prepared independently using only 8 T gates, one may assume that the preparation is always successful. Termination of the protocol is due to nontrivial syndrome on the distance 4 code. Since there are 6n T gates, the overall acceptance probability is at least (1−p) 6n .
+In the next section, another family is presented that has even lower asymptotic input T count.
+VII. T-to-CCZ Protocols Using Normal Weakly Self-Dual CSS Codes
+As an extension of Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1., one can turn (three copies of) any normal weakly self-dual code (normal code) into a check routine of stabilizers of CCZ state, as follows.
+Recall that a normal code is a weakly self-dual CSS code, defined by a self-orthogonal binary vector space such that {right arrow over (1)} . In such a code the binary vector space / ⊥ corresponding to the logical operators, has a basis such that any two distinct basis vectors have even overlap (orthogonal) but each of the basis vector has odd weight. Associating each basis vector to a pair of X- and Z-logical operators, a code can be obtained where the transversal Hadamard induces the product of all logical Hadamards.
+Observe that in a normal code the transversal X anti-commutes with every Z logical operator, and hence is equal to, up to a phase factor, the product of all X logical operator. In the standard sign choice of logical operators where every logical X is the tensor product of Pauli X, the transversal X is indeed equal to the product of all X logical operators. Likewise, the transversal Z is equal to the product of all Z logical operators. Then, it follows that control-Z across a pair of identical normal code blocks is equal to the product of control-Z operators over the pairs of logical qubits.
+Therefore, given three copies, labeled A, B, C, of a normal code [[n inner , k inner , d]], if one applies ⊗ i=1 n inner CZ Ai,Bi X Ci , then the action on the code space is equal to ⊗ j=1 k inner Aj,Bj {tilde over (X)} Cj .
+Having a transversal operator that induces the action of the stabilizer (CZ)X of CCZ-state the logical qubits, one can make a controlled version of this. The following identity can be used:
+
+( CCZ ) 123 ( C a X 1 )( C b X 2 )( C c X 3 )( CCZ ) 123 =[ C a ( CZ 23 X 1 )][ C b ( CZ 13 X 2 )][ C c ( CZ 12 X 3 )]  (VII.1)
+
+which is the product of three stabilizers of CCZ-state controlled by three independent ancillas. The transversality of the logical operator (CZ)X implies that if one applies (VII.1) transversally across a triple of normal codes, then the three ancillas will know the eigenvalue of the three stabilizers of CCZ, respectively. The non-Clifford gate CCZ in (VII.1) can be injected using 4 T-gates. See Guang Song and Andreas Klappenecker, “Optimal realizations of simpli ed toffoli gates,” Quantum Information and Computation 4, 361-372 (2004), and Cody Jones, “Low-overhead constructions for the fault-tolerant toffoli gate,” Physical Review A 87, 022328 (2013), 1212.5069.
+
+This method of measuring stabilizers of CCZ state, compared to that in the previous section using hyperbolic codes, has advantage that one does not have to repeat three times for each of three stabilizers, but has disadvantage that one needs roughly a factor of three space overhead. (The space overhead comparison is not completely fair, because a code cannot be simultaneously normal and hyperbolic. However, in the large code length limit this factor of 3 in the space overhead is appropriate.) In the large code length limit, this method also has an advantage in terms of T-count. Using the hyperbolic codes, even if the encoding rate is near one, one needs 12 T gates per CCZ-state under the test. On the other hand, using (VII.1) on a normal code of encoding rate near one, one needs 8 T gates per CCZ-state under the test.
+Now the protocol at quartic order is as follows. Prepare k inner CCZ-states from the quadratic protocol using 4-qubit code. This consumes 8k inner T-gates with independent error probability p. Embed them into the triple of normal code of parameter [[n inner , k inner , 4]] with each qubit of the CCZ states into a different code block. Apply (VII.1); this step consumes 8n inner T gates with independent error probability p. Upon no violation of code's stabilizers and ancilias, decode the logical qubits and output k inner CCZ states.
+This is a quartic protocol as the output is faulty only if (i) an even number of CCZ states are faulty, which happens at order (p 2 ) 2 , (ii) an odd number of input CCZ states are faulty but missed by a flipped ancilla outcome, which happens at order p 2 ·p 2 , (iii) some error in the inner code is a logical error, which happens at order p d =p 4 , or (iv) some other error of higher order occurred. The total number of T gates used is 8k inner +8n inner .
+There are normal codes of encoding rate greater than ⅔ and code distance 4 or higher on tens of cubits. including quantum BCH codes [[63, 45, 4]] (see Markus Grassl and Thomas Beth, “Quantum bch codes,” in Proceedings X. International Symposium on Theoretical Electrical Engineering, Magdeburg (1999) pp. 207-212, quant-ph/9910060) and “H-codes” of parameters [[k 2 +4k+4, k 2 , 4]] where k is even (see Cody Jones, “Multilevel distillation of magic states for quantum computing,” Phys. Rev. A 87, 042305 (2013), 1210.3388v2).
+Random constructions guarantee such codes of encoding rate near one in the limit of large code length. See A. R. Calderbank and Peter W. Shor, “Good quantum error-correcting codes exist,” Phys. Rev. A 54, 1098-1105 (1996), quant-ph/9512032; Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1.
+The input T count in the current quartic protocol using a high rate inner code approaches 16 per output CCZ.
+In terms of input T count, to the best of the authors' knowledge, this family is better than any previous T-to-CCZ protocol with quartic order of error reduction.
+One can bootstrap the protocol to have a family of protocols for d=2 α , α≥2. The construction is inductive in α. Fix an inner code [[n inner , k inner , 4]]. (This is for simplicity of presentation, and is not necessity.) The quartic protocol above is the base case in the induction. Suppose one has constructed a 2 α -th order protocol P α and a 2 α−1 -th order protocol P α−1 using n α , n α−1 T gates per output CCZ, respectively. The protocol is then: (1) Run P α many times to prepare independent input states at error rate p 2α . (2) Embed them into the triples of the inner code. (3) Apply (VII.1) where CCZ-gates are injected by outputs from P α−1 . (4) Upon no violation of the code's stabilizers, output the logical qubits. The order of reduction in error can be seen by considering the cases (i), (ii), and (iii) above. In all cases, the order of the error is 2·2 α =2 α+1 , 2 α ·(2·2 α−1 )=2 α+1 , or 4·2 α−1 =2 α+1 . Step (1) takes n α T-gates per CCZ state by induction hypothesis. For k inner sufficiently close to n inner , step (3) takes 2n α−1 T-gates per CCZ. Hence, n α+1 ≃n α +2n α−1 , and
+
+n α ≃4·2 α =4 d   (VII.2)
+
+since n 1 =8 and n 2 =16.
+
+It is possible to combine the technology presented here with that of Earl T Campbell and Mark Howard, “Unified framework for magic state distillation and multiqubit gate synthesis with reduced resource cost,” Physical Review A 95, 022316 (2017), 1606.01904v3 to reduce the input T-count at the expense of dealing with a larger batch. At d=2, Earl T Campbell and Mark Howard, “Unified framework for magic state distillation and multiqubit gate synthesis with reduced resource cost,” Physical Review A 95, 022316 (2017), 1606.01904v3 has asymptotic T-count n 1 =6. At d=4, using a high encoding rate normal code, the input T-count approaches n 2 =8+6=14, instead of 16. At d=8, the count becomes 14+2·6=26, instead of 32. At a larger d that is a power of 2, in the limit of large code length, the T-count approaches (⅔)(5·2 α +(−1) α ) which is at most 3.33d+0.67.
+Note that this bootstrapping for large α must involve a quite large number of qubits to ensure the independence of the input CCZ states, and the CCZ-gates on the inner code. The usage of Earl T Campbell and Mark Howard, “Unified framework magic state distillation and multiqubit gate synthesis with reduced resource cost,” Physical Review A 95, 022316 (2017), 1606.01904v3, further enlarges the necessary batch size.
+Also of note is that for d=2d′≥10 with d′ odd, one can first use the protocol of Jeongwan Haah, Matthew B. Hastings, D. Poulin, and D. Wecker, “Magic state distillation with low space overhead and optimal asymptotic input count,” 1703.07847v1, to produce a T gate with error at d′-th order where d′≥5 is odd using d′+o(1) T gates per output T, and then use T-to-CCZ protocol of Earl T Campbell and Mark Howard, “Unified framework for magic state distillation and multiqubit gate synthesis with reduced resource cost,” Physical Review A 95, 022316 (2017), 1606.01904v3, to have CCZ states with error at (d=2d′)-th order. This combination will give T count 3d per output CCZ.
+VIII. Clifford Measurements to Check Matrices
+Here, it is imagined that H-measurement routines are implemented sequentially to check n out magic states. (They may operate on disjoint sets of qubits, in which case they can be implemented in parallel, but one can always regard them as a sequential application of H-measurements, one at a time.) Here, the entire protocol is expressed as a collection of parity checks on all T-gates/states including those that are used to implement the H-measurement routines. Here, only normal codes are considered, and thus each H-measurement routine α consumes 2n inner (α) T gates.
+Under the stochastic error model, any possible error is of Y-type and hence corresponds to a bit string. Let y (0) =(y 1 (0) , . . . , y n out (0) ) denote any error bit string on the magic states that are tested. Let y (α) for α=1, 2, . . . , n c denote the error bit string inside the α-th H-measurement routine. Since there are two layers of T-gates on the inner code, y (α) with α≥1 must have even length; for notational convenience, we let the first half of y (α) to be the error pattern before the layer of C Z, and the second half to be that after C Z. Thus, the error pattern in the entire protocol is represented by a bit vector
+
+y =( y (0) y (1) . . . y (n c ) )  (VIII.1)
+
+of length n T =n out +2Σ α=1 n c n inner (α) , which is by definition equal to the total number of T-gates/states. The error bit vector will be regarded as a column vector (n T -by-1 matrix).
+
+The protocol specifies for each H-measurement routine α a set of magic states to be tested. This set M (α) can be viewed as a bit string of length n out ; M i (α) =1 if and only if the qubit i is included in the test by the routine α. If an H-measurement routine α was perfect, then it would read off the parity of the error in M (α) , which is equal to M (α) ·y (0) over 2 . As M (α) will be used as a submatrix of a complete check matrix, regard M (α) as a 1-by-n out matrix.
+To take the outer measurement error into account, one can regard that any error on the pre- C Z layer is moved to the post- C Z layer:
+
+( C 0 Z j ) Y j =Z 0 Y j ( C 0 Z j ).  (VIII.2)
+
+This convention allows us to consider only the pre- C Z errors in regards to the outer syndrome. That is, if the error pattern on magic states under the test is y (0) , then the outer syndrome by an H-measurement routine α is given by
+
+M
+
+(
+α
+)
+
+⁢
+
+y
+
+(
+0
+)
+
++
+
+(
+
+1
+⁢
+
+⁢
+1
+⁢
+
+⁢
+…
+⁢
+
+⁢
+1
+⁢
+
+⁢
+0
+⁢
+
+⁢
+0
+⁢
+
+⁢
+…
+⁢
+
+⁢
+0
+
+)
+
+︸
+
+(
+10
+)
+
+⁢
+
+⊗
+
+⁢
+
+1
+→
+
+n
+inner
+
+⁢
+
+(
+α
+)
+
+⁢
+
+⁢
+
+y
+
+(
+α
+)
+
+⁢
+
+⁢
+mod
+⁢
+
+⁢
+2
+
+(
+
+VIII
+⁢
+.3
+
+)
+
+The error pattern y (0) is not necessarily the same as one proceeds from an H-measurement routine to the next. This is because there could be a logical error from the inner code that propagates to the magic states under the test. If a bit string
+
+(α) =L (α) ( y (α) )  (VIII.4)
+
+denotes the error on the n out magic states, resulting from the logical error of α-th routine, then after α-th measurement routine the error pattern is
+
+y (0) (α)= y (0) (0)+ (1) + . . . + (α) mod 2  (VIII.5)
+
+and the outer syndrome by α-th routine is given by
+
+M (α) y (0) (0)+ M (α) (1) + . . . +M (α) (α−1) +((10)⊗{right arrow over (1)} n inner (α) ) y (α) ·mod 2  (VIII.6)
+
+The function L (α) that maps an error pattern inside inner code to a logical error has not yet been determined. This function is well-defined only if the encoded state on the inner code remains in the code space. The condition for the zero inner syndrome is given by commutation relations between an error operator and the stabilizers. Since the errors are of Y type and the stabilizers are from a weakly self-dual CSS code, the commutation relation can be read off from
+
+S (α) ( y first half (α) +y second half (α) )=((11)⊗ S (α) ) y (α) mod 2  (VIII.7)
+
+where each row of S (α) corresponds to a stabilizer generator. The sum of two halves is to account for the fact that a pair of errors on a single qubit in the inner code is equal to no error on that qubit in regards to inner syndrome. Conditioned on the zero inner syndrome, the function L (α) can now be determined. An encoded qubit k is acted on by an Y-logical operator if and only if the logical X and Z operators of the logical qubit k both anticommute with a given Pauli operator. Since X and Z logical operators are represented by the same bit string (L k,1 , L k,2 , . . . , L k,n inner (α) ) under the magic basis of logical operators that is chosen, the logical Y on logical qubit k is enacted if and only if
+
+( L k,1 ,L k,2 , . . . ,L k,n inner (α) )·( y first half (α) +y second half (α) )=1 mod 2.  (VIII.8)
+
+Therefore, the function L (α) is linear over 2 whose matrix has rows that correspond to logical operators. Since a routine α may not act on the all n out qubits, the matrix L (α) , which is n out -by-n inner (α) , has nonzero rows only for the support of M (α) . In addition, the choice of the logical operators according to a normal magic basis ensures that the nonzero rows of L (α) are orthonormal.
+
+∑
+
+j
+=
+1
+
+n
+inner
+
+⁡
+
+(
+α
+)
+
+⁢
+
+L
+kj
+
+(
+α
+)
+
+⁢
+
+L
+
+k
+′
+
+⁢
+j
+
+(
+α
+)
+
+=
+
+M
+k
+
+(
+α
+)
+
+⁢
+
+δ
+
+kk
+′
+
+⁢
+
+⁢
+mod
+⁢
+
+⁢
+2.
+
+(
+
+VIII
+⁢
+.9
+
+)
+
+Thus, the necessary ingredients for a complete check matrix have been collected: A representation of errors (VIII.1), the outer syndrome (VIII.6), and the inner syndrome (VIII.7).
+0 = [ M ( 1 ) ( 10 ) ⊗ 1 → M ( 2 ) M ( 2 ) ⁡ ( ( 11 ) ⊗ L ( 1 ) ) ( 10 ) ⊗ 1 → M ( 3 ) M ( 3 ) ⁡ ( ( 11 ) ⊗ L ( 1 ) ) M ( 3 ) ⁡ ( ( 11 ) ⊗ L ( 2 ) ) ( 10 ) ⊗ 1 → ⋮ ⋮ ⋮ ⋮ ⋱ M ( n c ) M ( n c ) ⁡ ( ( 11 ) ⊗ L ( 1 ) ) M ( n c ) ⁡ ( ( 11 ) ⊗ L ( 2 ) ) … … ( 10 ) ⊗ 1 → ( 11 ) ⊗ S ( 1 ) ( 11 ) ⊗ S ( 2 ) ⋱ ( 11 ) ⊗ S ( n c - 1 ) ( 11 ) ⊗ S ( n c - 1 ) ] ( VIII ⁢ .10 )
+where the blank entries are zero, and the vertical lines are to facilitate reading. In the outer syndrome block each displayed row is a single row, whereas in the inner syndrome block each displayed entry is a submatrix. The propagated error from the inner codes to the output magic states is inscribed in (VIII.5), which one can represent as a linear map
+
+1 =[ I n out |(11)⊗ L (1) |(11)⊗ L (2) |(11)⊗ L (3) | . . . |(11)⊗ L (n c ) ].  (VTII.11)
+
+The vertical lines are aligned with those of 0 .
+
+The following theorem has been arrived at:
+Theorem 2. When the error pattern of all T-gates and states is y, the protocol accepts the output if and only if 0 y=0, and the accepted output does not contain an error if and only if 1 y=0.
+IX. Orthogonal Bases at Level v
+In this section, it is implicit that the element of 2 is promoted to an integer in . The association is such that 2 0 0∈ and 2 1 1∈ . Likewise, any element of /2 v will be represented by an integer from 0 to 2 v −1 of . Unless noted by “mod 2 v ,” all arithmetics are over the usual integers . However, every vector space is over 2 . Here, a matrix is regarded as a set of rows. The r-th row of a matrix A is denoted as A r* .
+Definition 2. Consider a vector space 2 n equipped with an odd integer vector t∈(2 +1) n , called a coefficient vector. Let v≥2. The norm at level v (v-norm) of v∈ 2 n is ∥v∥ v =Σ i v i t i mod 2 v . Two vectors v and w are orthogonal at level v (v-orthogonal) if Σ i v i w i t i =0 mod 2 v−1 . Two subspaces V,W are v-orthogonal if any v∈V and w∈W are v-orthogonal. A set of vectors {g (1) , . . . , g (k) } is v-orthogonal if any two disjoint subsets span v-orthogonal subspaces. A v-orthogonal set is v-orthonormal if all members have v-norm 1. A v-orthogonal set or subspace is v-null of all members have v-norm 0. To emphasize the coefficient vector t, we will sometimes write (v,t)-orthogonal, -norm (∥·∥ v,t ), -null, -orthonormal.
+The v-orthogonality is a generalization of an existing notion that is considered for transversal T-gates (Aleksander Kubica and Michael E. Beverland, Universal transversal gates with color codes—a simplified approach, Phys. Rev. A 91, 032330 (2015), 1410.0069v1; Sergey Bravyi and Andrew Cross, Doubled color codes, 1509.03239v1); previously, a coefficient vector had components ±1. Being 2-orthogonal is equivalent to being orthogonal under the usual dot product over 2 . Being 2-null or 2-orthonormal is nontrivial, but is easily satisfied as Lemma 5 below shows. As will be seen shortly, an orthogonal matrix at level 3 is triorthogonal (Sergey Bravyi and Jeongwan Haah, Magic state distillation with low overhead, Phys. Rev. A 86, 052329 (2012), 1209.2426) since t i is odd, but one does not know whether every triorthogonal matrix is orthogonal at level 3 for some coefficient vector t. Examples of triorthogonal matrices in literature are believed to actually be orthogonal at level 3.
+Now, equivalent conditions for the v-orthogonality are given, as an application of a result by Harold N. Ward, Weight polarization and divisibility, Discrete Mathematics 83, 315326 (1990); see also Sergey Bravyi and Jeongwan Haah, Magic state distillation with low overhead, Phys. Rev. A 86, 052329 (2012), 1209.2426. It will be very convenient to introduce the following notation. It is customary to denote a matrix element as A ai for a matrix A. One can write A* αi for any unordered set of row labels a{a 1 , . . . , a m } (whose cardinality a |a| equal to m), to denote
+
+A* ai =A a 1 ,i A a 2 ,i . . . A a m ,i .  (IX.1)
+
+If |a|=0, then A* ai =1 by convention. By definition, |a| cannot be larger than the number of rows of A.
+
+Lemma 4. Let t be a coefficient vector of length n. Let A be a binary matrix with n columns where the rows are 2 -linearly independent. The following are equivalent:
+
+(i) The rows of A form a (v,t)-orthogonal set.
+(ii) For any subset K of rows of A, ∥Σ r∈K A r* mod 2∥ v,t =Σ r∈K ∥A r* ∥ v,t mod 2 v .
+(iii) 2 |a|−1 Σ i A* ai t i =0 mod 2 v for any a such that 2≤|a|≤v.
+In particular, every vector in a subspace ⊆ 2 n has zero (v,t)-norm if and only if any spanning set is (v,t)-null.
+As an example, if the rows of a binary matrix A is v-null with respect to t={right arrow over (1)}, then any vector in the row 2 -span of A has weight divisible by 2 v . More concretely, the rows of
+[ 1 0 1 0 1 0 1 0 1 1 0 0 1 1 0 0 0 1 1 1 1 ] ( IX ⁢ .2 )
+are 2-null with respect to t={right arrow over (1)} and span a doubly even subspace.
+
+Proof. If y is a binary vector of weight |y|, then the parity ϵ(y)=0, 1 of its weight can be expressed as
+
+ϵ ⁡ ( y ) = 1 2 ⁢ ( 1 - ( 1 - 2 )  y  ) = ∑ p = 1  y  ⁢ (  y  p ) ⁢ ( - 2 ) p - 1 . ( IX ⁢ .3 )
+The bionomial factor is equal to the number of ways to choose nonzero components of y. Hence,
+
+ϵ ⁡ ( y ) = ∑ a ≠ ∅ ⁢ ( - 2 ) # ⁢ ( a ) - 1 ⁢ y a ★ ⁢ ⁢ mod ⁢ ⁢ 2 v ( IX ⁢ .4 )
+where a vector y is treated as a column matrix. In other words, if a vector g is the sum of rows of B over 2 , then
+
+g
+i
+
+=
+
+∑
+
+a
+≠
+∅
+
+⁢
+
+(
+
+-
+2
+
+)
+
+#
+⁢
+
+(
+a
+)
+
+-
+1
+
+⁢
+
+B
+ai
+★
+
+⁢
+
+⁢
+mod
+⁢
+
+⁢
+
+2
+v
+
+.
+
+(
+
+IX
+⁢
+.5
+
+)
+
+(i)⇒(ii): It suffices to prove the claim when K consists of two rows, say A 1* and A 2* since a more general case follows by induction in the cardinality of K. By (IX.5), ∥A 1* +A 2* mod 2 ∥ v =∥A 1i A+ 2i −2A 1i A 2i ∥ v =∥A 1* ∥ v +∥A 2* ∥ v −2Σ i A 1i A 2i t i mod 2 v . The last term vanishes because the rows of A are v-orthogonal.
+(ii)⇒(iii): By (IX.5), one has
+0 =  ∑ r ∈ K ⁢ A r * ⁢ ⁢ mod ⁢ ⁢ 2  v - ∑ r ∈ K ⁢  A r *  v = ∑ a ⊆ K ,  a  ≥ 2 ⁢ ∑ i ⁢ ( - 2 )  a  - 1 ⁢ A ai ★ ⁢ t i ⁢ ⁢ mod ⁢ ⁢ 2 v , ( IX ⁢ .6 )
+Taking K such that |K|=2, we see (iii) in the case of |a|=2. Using induction in |K|, one is done.
+
+(iii)⇒(i): Let K and K′ be two disjoint sets of rows of A. We have to show that v=Σ r∈K A r* mod 2 and w=Σ r∈K′ A r* mod 2 are v-orthogonal. Using (IX.5).
+( - 2 ) ⁢ ∑ i ⁢ v i ⁢ w i ⁢ t i = ∑ ∅ ≠ a ⊆ K ⁢ ∑ ∅ ≠ b ⊆ K ′ ⁢ ( - 2 )  a  +  b  - 1 ⁢ ∑ i ⁢ A ai ★ ⁢ A bi ★ ⁢ t i ⁢ mod ⁢ ⁢ 2 v ( IX ⁢ .7 ) ⁢ = ∑ ∅ ≠ c ⊆ K ⋃ k ′ ⁢ ( - 2 )  c  - 1 ⁢ ∑ i ⁢ A ci ★ ⁢ t i = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v ( IX ⁢ .8 )
+where the second equality is because a and b are disjoint,
+
+Lemma 5. Let S and L be rectangular matrices of 2 -linearly independent rows such that SS T =0 mod 2, SL T =0 mod 2, and LL T =I mod 2. Then, there exists an odd integer coefficient vector t, with respect to which
+
+G = [ L S ]
+is 2-orthogonal, L is 2-orthonormal, and S is 2-null.
+
+Proof. Only nontrivial is to claim that there exists a coefficient vector t such that Σ i S ai t i =0 mod 4 and Σ i L bi t i =1 mod 4 for any a, b. An odd integer solution t to these equations are found by Lemma 6 below, since these equations have solution t={right arrow over (1)} mod 2.
+
+Lemma 6. Let A be a binary matrix with linearly independent rows over 2 . If an inhomogeneous linear equation Ax=v has a solution x= over /2 v−1 where v≥2, then the same equation has a solution x= over /2 v such that = mod 2 v−1 .
+
+Proof. The proof is by induction in the number of rows of A. When there is only one row in A, the scalar (a one-dimensional column vector) A −v mod 2 v is either 0 or 2 v−1 . One can subtract this even number from the component of where A has the first nonzero entry. The matrix A must have such nonzero entry because the row is linearly independent over 2 . This proves the claim in the base case.
+
+To prove the induction step when A has more than one row, consider Gauss elimination over /2 v to transform A into (1)⊕A′ up to permutations of columns. Such Gauss elimination is possible because the rows of A are 2 -linearly independent, and any odd number is invertible in /2 v . One finds a solution | 2 , . . . for the A′ part over /2 v χ by the induction hypothesis, and then fixes the first component, if necessary, as in the base case.
+X. Level Lifting
+Theorem 3. Let
+G ( α ) = [ L ( α ) S ( α ) ]
+be a (v,t (α) -orthogonal binary matrix of n inner (α) columns for α=1, 2, . . . , n c , where S (α) is (v,t (α) )-null and consists of 2 -linearly independent rows, L (α) has n out rows, an the nonzero rows of L (α) is (v,t (α) )-orthonormal. Assume that
+
+∑
+k
+
+⁢
+
+∑
+
+i
+=
+1
+
+n
+
+inner
+
+(
+α
+)
+
+⁢
+
+L
+ki
+
+(
+α
+)
+
+⁢
+
+t
+i
+
+(
+α
+)
+
+=
+
+∑
+i
+
+⁢
+
+t
+i
+
+(
+α
+)
+
+⁢
+
+⁢
+mod
+⁢
+
+⁢
+
+2
+v
+
+.
+
+(
+
+X
+⁢
+.1
+
+)
+
+Let M α* be a row binary vector defined as M αk =1 if and only if L k* (α) (is nonzero. Then, the following matrix is (v+1)-orthogonal with respect to some coefficient vector t. is (v+1,t)-orthonormal, and out and in are (v+1,t)-null. Furthermore, Σ r,i ( ) ri t i =Σ i t i .
+[ l out in ] = [ I n out ( 11 ) ⊗ L ( 1 ) M 1 * ( 10 ) ⊗ 1 → M 2 * M 2 * ⁡ ( ( 11 ) ⊗ L ( 1 ) ) M 3 * M 3 * ⁡ ( ( 11 ) ⊗ L ( 1 ) ) ⋮ ⋮ M n c * M n c * ⁡ ( ( 11 ) ⊗ L ( 1 ) ) ( 11 ) ⊗ S ( 1 ) ⁢ ( 11 ) ⊗ L ( 2 ) ( 10 ) ⊗ 1 → M 3 * ⁡ ( ( 11 ) ⊗ L ( 2 ) ) ⋮ M n c * ⁡ ( ( 11 ) ⊗ L ( 2 ) ) ( 11 ) ⊗ S ( 2 ) ⁢ ( 11 ) ⊗ L ( 3 ) ( 10 ) ⊗ 1 → ⋮ … ⋱ ⁢ … ⋱ … ( 11 ) ⊗ S ( n c - 1 ) ⁢ ( 11 ) ⊗ L ( n c ) ( 10 ) ⊗ 1 → ( 11 ) ⊗ S ( n c ) ] ( X ⁢ .2 )
+Proof. We will find t of form (written as a row vector modulo 2 v )
+
+t= [{right arrow over (1)} n out |(−11)⊗ t (1) |(−11)⊗ t (2) |(−11)⊗ t (3) | . . . |(−11)⊗ t (n c ) ].  (X.3)
+
+It is clear that Σ r,i ( ) ri t i =Σ i t i , even without modulo reduction. It is also clear from the choice of t that the (v+1, t)-norms of rows are one for those in , and zero for those in in . This does not depend on t (α) . To calculate the norm of a row in out , one can observe that
+
+∑ i = 1 n inner ( α ) ⁢ ⁢ L ki ( α ) ⁢ L k′i ( α ) ⁢ t i ( α ) = M αk ⁢ δ kk ′ ⁢ ⁢ mod ⁢ ⁢ 2 v , ( X ⁢ .4 )
+which, together with (X.1), implies any row in out has (v,t)-norm zero. To make the (v+1)-norm zero, apply Lemma 6 to out since out is in a row echelon form which ensures 2 -linear independence. It will add 2 v to some components of t, if necessary. One is left with the (v+1,t)-orthogonality, which is not affected by the modification to t by Lemma 6 since one will only need to evaluate sums modulo 2 v .
+
+It is desirable to show that given 2≤m≤v+1 rows, the weighted sum of their overlap is zero modulo 2 v+2−m . Note that any part of the overlap that contains (11) tensor factor has no contribution to the weighted sum due to (X.3). Let a be a label set of chosen rows of , b be that of out , and c be that of in .
+|a|≥2 or |c|≥1:
+
+If |b|=0, there is always a tensor factor (11). So, assume |b|≥1. Except for the part with the tensor factor (11), we must show
+2 | a | + | b | + | c | - 1 ⁢ ∑ i ⁢ ⁢ L ai * ⁢ N b ′ ⁢ i * ⁢ S ci * ⁢ t i ( α ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 ( X ⁢ .5 )
+where L=L (α) , S=S (α) , N bi =Σ j M bj L ji (α) mod 2 for some α such that b={α}␣b′. Note that |b|=1+|b′|. Expanding N* b′i using (IX.5), the left-hand side becomes a ±-sum of terms
+
+2 | a | + | b | + | c | + ∑ j = 1 | b′ | ⁢ ⁢ ( | ∂ ( j ) ⁢ | - 1 ) ⁢ ∑ i ⁢ ⁢ L ai * ⁢ L ∂ ( 1 ) i * ⁢ …L ∂ ( | b′ | ) i * ⁢ S ci * ⁢ t i ( α ) . ( X ⁢ .6 )
+From the assumption of v-orthogonality of G (α) , one has
+
+2 | a ⁢ ⋃ j ⁢ ∂ ( j ) | + | c | ⁢ ∑ i ⁢ ⁢ L ai * ⁢ L ∂ ( 1 ) i * ⁢ …L ∂ ( | b′ | ) i * ⁢ S ci * ⁢ t i ( α ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 ⁢
+⁢ if ⁢ | a ⁢ ⋃ j ⁢ ∂ ( j ) | + | c | ≥ 2 ⁢ ⁢ or ⁢ ⁢ a = b ′ = ∅ . ( X ⁢ .7 )
+The condition |a∪ j d (j) |+|c|≥2 or a=b′=∅ is always true in the present case. Comparing the exponent of 2 in (X.6) and that in (X.7), we see that (X.6) is zero modulo 2 v+1 .
+a={a} and c=∅:
+
+Since one is choosing at least two rows, |b|≥1. Dropping the part with the tensor factor (11), one desirably shows
+2 | b | ⁢ M ba * - 2 | b | ⁢ ∑ i ⁢ ⁢ L ai ⁢ N b′i * ⁢ t i ( b 1 ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 ( X ⁢ .8 )
+where L=L (b 1 ) , N bi =Σ j M bj L ji (b 1 ) mod 2, and b={b 1 }␣b′. Expanding N* b′i using (IX.5), the second term becomes a ±-sum of terms
+
+2 | b′ | + 1 + ∑ j = 1 | b′ | ⁢ ⁢ ( | ∂ ( j ) ⁢ | - 1 ) ⁢ ∑ i ⁢ ⁢ L ai * ⁢ L ∂ ( 1 ) i * ⁢ …L ∂ ( | b′ | ) i * ⁢ t i ( b 1 ) . ( X ⁢ .9 )
+From the assumption of v-orthogonality of G (b 1 ) , one has
+
+2 | a ⁢ ⋃ j ⁢ ∂ ( j ) | ⁢ ∑ i ⁢ ⁢ L ai * ⁢ L ∂ ( 1 ) i * ⁢ …L ∂ ( | b′ | ) i * ⁢ t i ( b 1 ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 ⁢
+⁢ if ⁢ ⁢  a ⁢ ⋃ j ⁢ ∂ ( j )  ≥ 2. ( X ⁢ .10 )
+Comparing the exponents of 2 of the last two expressions, one sees that only the terms with a∪ j (j) =a in (X.8) may survive. Hence, (X.8) is equivalent to
+
+2 | b′ | ⁢ M ba * - 2 | b′ | ⁢ ∑ i ⁢ ⁢ L ai ⁢ M b′a * ⁢ t i ( b 1 ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v , ( X ⁢ .11 )
+but one knows this is satisfied since Σ i L ai (b 1 ) t i (b 1 ) =M b 1 a mod 2 v by (X.4) and v-orthogonality of G (b 1 ) .
+a=c=∅:
+
+Except for the part with the tensor factor (11), one desirably shows
+2 | b | - 1 ⁢ ∑ k ⁢ M bk * - 2 | b | - 1 ⁢ ∑ i ⁢ N b′i * ⁢ t i ( b 1 ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 ( X ⁢ .12 )
+where L=L (b 1 ) , S=S (α) , N bi =Σ j M bj L ji (b 1 ) mod 2, and b={b 1 }␣b′. By assumption, |b′|≥1. Expanding N* b′i using (IX.5), the second term becomes a ±-sum of terms
+
+2 | b′ | + ∑ j = 1 | b′ | ⁢ ⁢ ( | ∂ ( j ) ⁢ | - 1 ) ⁢ ∑ i ⁢ L ∂ ( 1 ) i * ⁢ …L ∂ ( | b′ | ) i * ⁢ t i ( b 1 ) . ( X ⁢ .13 )
+From the assumption of v-orthogonality of G (b 1 ) , one has
+
+2 | ⋃ j ⁢ ∂ ( j ) | ⁢ ∑ i ⁢ L ∂ ( 1 ) i * ⁢ …L ∂ ( | b′ | ) i * ⁢ t i ( b 1 ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 ⁢
+⁢ if ⁢ ⁢  ⋃ j ⁢ ∂ ( j )  ≥ 2. ( X ⁢ .14 )
+Comparing the exponents of 2 of the last two expressions, one sees that only the terms with (j) ={d} in (X.12) may survive. Hence, (X.12) is equivalent to
+
+2 | b′ | ⁢ ∑ k ⁢ M bk * - 2 | b′ | ⁢ ∑ i ⁢ M b′d * ⁢ L di ⁢ t i ( b 1 ) = 0 ⁢ ⁢ mod ⁢ ⁢ 2 v + 1 , ( X ⁢ .15 )
+but one knows this is satisfied since Σ i L di (b 1 ) t i =M b 1 d mod 2 v by (X.4).
+
+The orthogonality condition (iii) in Lemma 4 has thus been shown, and the proof is completed.
+XI. Example Computing Environments
+FIG. 1 illustrates a generalized example of a suitable computing environment 100 in which several of the described embodiments can be implemented. The computing environment 100 is not intended to suggest any limitation as to the scope of use or functionality of the disclosed technology, as the techniques and tools described herein can be implemented in diverse general-purpose or special-purpose environments that have computing hardware.
+With reference to FIG. 1 , the computing environment 100 includes at least one processing device 110 and memory 120 . In FIG. 1 , this most basic configuration 130 is included within a dashed line. The processing device 110 (e.g., a CPU or microprocessor) executes computer-executable instructions. In a multi-processing system, multiple processing devices execute computer-executatable instructions to increase processing power. The memory 120 may be volatile memory (e.g., registers, cache, RAM, DRAM, SRAM), non-volatile memory (e.g., ROM, EEPROM, flash memory), or some combination of the two. The memory 120 stores software 180 implementing tools for implementing the quantum circuit (e.g., the Magic state distillation protocols, circuits, and associated techniques) as described herein.
+The computing environment can have additional features. For example, the computing environment 100 includes storage 140 , one or more input devices 150 , one or more output devices 160 , and one or more communication connections 170 . An interconnection mechanism (not shown), such as a bus, controller, or network, interconnects the components of the computing environment 100 . Typically, operating system software (not shown) provides an operating environment for other software executing in the computing environment 100 , and coordinates activities of the components of the computing environment 100 .
+The storage 140 can be removable or non-removable, and includes one or more magnetic disks (e.g., hard drives), solid state drives (e.g., flash drives), magnetic tapes or cassettes, CD-ROMs, DVDs, or any other tangible non-volatile storage medium which can be used to store information and which can be accessed within the computing environment 100 . The storage 140 can also store instructions for the software 180 implementing the quantum circuits, prototocols, and techniques described herein.
+The input device(s) 150 can be a touch input device such as a keyboard, touchscreen, mouse, pen, trackball, a voice input device, a scanning device, or another device that provides input to the computing environment 100 . The output device(s) 160 can be a display device (e.g., a computer monitor, laptop display, smartphone display, tablet display, netbook display, or touchscreen), printer, speaker, or another device that provides output from the computing environment 100 .
+The communication connection(s) 170 enable communication over a communication medium to another computing entity. The communication medium conveys information such as computer-executable instructions or other data in a modulated data signal. A modulated data signal is a signal that has one or more of its characteristics set or changed in such a manner as to encode information in the signal. By way of example, and not limitation, communication media include wired or wireless techniques implemented with an electrical, optical, RF, infrared, acoustic, or other carrier.
+As noted, the various methods for generating the disclosed circuits (e.g., for compiling/synthesizing the circuits) can be described in the general context of computer-readable instructions stored on one or more computer-readable media. Computer-readable media are any available media (e.g., memory or storage device) that can be accessed within or by a computing environment. Computer-readable media include tangible computer-readable memory or storage devices, such as memory 120 and/or storage 140 , and do not include propagating carrier waves or signals per se (tangible computer-readable memory or storage devices do not include propagating carrier waves or signals per se).
+Various embodiments of the methods disclosed herein can also be described in the general context of computer-executable instructions (such as those included in program modules) being executed in a computing environment by a processor. Generally, program modules include routines, programs, libraries, objects, classes, components, data structures, and so on, that perform particular tasks or implement particular abstract data types. The functionality of the program modules may be combined or split between program modules as desired in various embodiments. Computer-executable instructions for program modules may be executed within a local or distributed computing environment.
+An example of a possible network topology 200 (e.g., a client-server network) for implementing a system according to the disclosed technology is depicted in FIG. 2 . Networked computing device 220 can be, for example, a computer running a browser or other software connected to a network 212 . The computing device 220 can have a computer architecture as shown in FIG. 1 and discussed above. The computing device 220 is not limited to a traditional personal computer but can comprise other computing hardware configured to connect to and communicate with a network 212 (e.g., smart phones, laptop computers, tablet computers, or other mobile computing devices, servers, network devices, dedicated devices, and the like). In the illustrated embodiment, the computing device 220 is configured to communicate with a computing device 230 (e.g., a remote server, such as a server in a cloud computing environment) via a network 212 . In the illustrated embodiment, the computing device 220 is configured to transmit input data to the computing device 230 , and the computing device 230 is configured to implement any of the quantum circuits or protocols disclosed herein (e.g., compiling/synthesizing the quantum circuit (for instance, a quantum circuit including circuit elements for implementing the magic state distillation procedures) front a higher-level circuit description) and outputting results to the computing device 220 . Any of the data received from the computing device 2930 can be stored or displayed on the computing device 2920 (e.g., displayed as data on a graphical user interface or web page at the computing devices 220 ). In the illustrated embodiment, the illustrated network 212 can be implemented as a Local Area Network (LAN) using wired networking (e.g., the Ethernet IEEE standard 802.3 or other appropriate standard) or wireless networking (e.g. one of the IEEE standards 802.11a, 802.11b, 802.11g, or 802.11n or other appropriate standard). Alternatively, at least part of the network 212 can be the Internet or a similar public network and operate using an appropriate protocol (e.g., the HTTP protocol).
+Another example of a possible network topology 300 (e.g., a distributed computing environment) for implementing a system according to the disclosed technology is depicted in FIG. 3 . Networked computing device 320 can be, for example, a computer running a browser or other software connected to a network 312 . The computing device 320 can have a computer architecture as shown in FIG. 1 and discussed above. In the illustrated embodiment, the computing device 320 is configured to communicate with multiple computing devices 330 , 331 , 332 (e.g., remote servers or other distributed computing devices, such as one or more servers in a cloud computing environment) via the network 312 . In the illustrated embodiment, each of the computing devices 330 , 331 , 332 in the computing environment 300 is used to perform at least a portion of any of the quantum circuits disclosed herein. In other words, the computing devices 330 , 331 , 332 form a distributed computing environment in which the quantum circuit implementation process is shared across multiple computing devices. The computing device 320 is configured to transmit input data to the computing devices 330 , 331 , 332 , which are configured to distributively implement any of the quantum circuit processes disclosed herein (e.g., compiling/synthesizing the quantum circuit from a higher-level circuit description) and to provide results to the computing device 320 . Any of the data received from the computing devices 330 , 331 , 332 can be stored or displayed on the computing device 320 (e.g., displayed as data on a graphical user interface or web page at computing devices 320 ). The illustrated network 312 can be any of the networks discussed above with respect to FIG. 2 .
+With reference to FIG. 4 , an exemplary system for implementing embodiments of the disclosed technology includes computing environment 400 . In computing environment 400 , a compiled, quantum computer circuit description, including a circuit description for one or more magic state distillation circuits as disclosed herein, can be used to program (or configure) one or more quantum processing units such that the quantum processing unit(s) implement the circuit described by the quantum computer circuit description. The quantum computer circuit description can implement any of the magic state distillation circuits discussed herein.
+The environment 400 includes one or more quantum processing units 402 and one or more readout device(s) 408 . The quantum processing unit(s) execute quantum circuits that are precompiled and described by the quantum computer circuit description. The quantum processing unit(s) can be one or more of, but are not limited to: (a) a superconducting quantum computer; (b) an ion trap quantum computer; (c) a fault-tolerant architecture for quantum computing; and/or (d) a topological quantum architecture (e.g., a topological quantum computing device using Majorana zero modes). The precompiled quantum circuits, including any of the disclosed circuits or circuits for implementing the disclosed protocols, can be sent into (or otherwise applied to) the quantum processing unit(s) via control lines 406 at the control of quantum processor controller 420 . The quantum processor controller (QP controller) 420 can operate in conjunction with a classical processor 410 (e.g., having an architecture as described above with respect to FIG. 1 ) to implement the desired quantum computing process. Further, the classical processor 410 can be programmed to implement any of the disclosed methods and/or protocols.
+In the illustrated example, the QP controller 420 further implements the desired quantum computing process via one or more QP subcontrollers 404 that are specially adapted to control a corresponding one of the quantum processor(s) 402 . For instance, in one example, the quantum controller 420 facilitates implementation of the compiled quantum circuit by sending instructions to one or more memories (e.g., lower-temperature memories), which then pass the instructions to low-temperature control unit(s) (e.g., QP subcontroller(s) 404 ) that transmit, for instance, pulse sequences representing the gates to the quantum processing unit(s) 402 for implementation. In other examples, the QP controller(s) 420 and QP subcontroller(s) 404 operate to provide appropriate magnetic fields, encoded operations, or other such control signals to the quantum processor(s) to implement the operations of the compiled quantum computer circuit description. The quantum controller(s) can further interact with readout devices 408 to help control and implement the desired quantum computing process (e.g., by reading or measuring out data results from the quantum processing units once available, etc.)
+With reference to FIG. 4 , compilation is the process of translating a high-level description of a quantum algorithm into a quantum computer circuit description comprising a sequence of quantum operations or gates, which can include any of the magic state distillation circuits as disclosed herein. The compilation can be performed by a compiler 422 using a classical processor 410 (e.g., as shown in FIG. 1 ) of the environment 400 which loads the high-level description from memory or storage devices 412 and stores the resulting quantum computer circuit description in the memory or storage devices 412 .
+In other embodiments, compilation can be performed remotely by a remote computer 400 (e.g., a computer having a computing environment as described above with respect to FIG. 1 ) which stores the resulting quantum computer circuit description in one or more memory or storage devices 462 and transmits the quantum computer circuit description to the computing environment 400 for implementation in the quantum processing unit(s) 402 . Still further, the remote computer 400 can store the high-level description the memory or storage devices 462 and transmit the high-level description to the computing environment 400 for compilation and use with the quantum processor(s). In any of these scenarios, results from the computation performed by the quantum processor(s) can be communicated to the remote computer after and/or during the computation process. Still further, the remote computer can communicate with the QP controller(s) 420 such that the quantum computing process (including any compilation and/or QP processor control procedures) can be remotely controlled by the remote computer 460 . In general, the remote computer 460 communicates with the QP roller(s) 420 and/or compiler/ synthesizer 422 via communication connections 450 .
+In particular embodiments, the environment 400 can be a cloud computing environment, which provides the quantum processing resources of the environment 400 to one or more remote computers (such as remote computer 460 ) over a suitable network (which can include the internet).
+XII. General Embodiments
+This section describes several example embodiments for implementing embodiments of the disclosed technology. The disclosed tools and techniques are not to be construed as limiting in any way, as an one or more of the illustrated method acts can be performed alone or in various other combinations and subcombinations with one another. Further, any one or more of the disclosed method acts can be performed with one or more other method acts disclosed herein.
+FIG. 5 is a flowchart of an example method 500 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+In some embodiments, the methods below are performed (at least in part) by a classical computer configured to communicate with and control a quantum computer. Still further, the method acts can be embodied as computer-executable instructions which when executed by a computer cause the computer to perform the methods.
+At 510 , a Reed-Muller magic state distillation protocol is generated for creating magic states in the quantum computing device. In particular implementations, the Reed-Muller magic state distillation protocol is for Toffoli gates or controlled-controlled-Z (CCZ) gates. In some implementations, logical vectors implemented by the protocol allow 10 CCZ magic states for 512 qubit code with eighth order error reduction. In certain implementations, the protocol uses R-M stabilizers as shown and described herein.
+At 512 , the quantum computing device is configured to implement the Reed-Muller magic state distillation protocol.
+FIG. 6 is a flowchart of an example method 600 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+At 610 , a magic state distillation protocol for T gates, controlled-S gates, or CCZ gates is generated using a randomized construction process. In certain implementations, the magic state distillation protocol has an asymptotic distillation efficiency γ→1
+At 612 , the quantum computing device is configured to implement the magic state distillation protocol.
+FIG. 7 is a flowchart of an example method 700 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+At 710 , a magic state distillation protocol for T gates, controlled-S gates, or CCZ gates is generated, wherein the magic state distillation protocol includes level-lifted triorthogonal codes for reducing circuit depth. In certain implementations, the magic state distillation protocol is a protocol as disclosed herein (e.g., in Sections VII-X).
+At 712 , the quantum computing device is configured to implement the magic state distillation protocol.
+FIG. 8 is a flowchart of an example method 800 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+At 810 , a controlled-Z operator using a transversal T gate are measured to measure stabilizers of a CCZ magic state. In certain implementations, the stabilizers of the CCZ magic state achieve a second order error reduction. Further, the stabilizers of the CCZ magic state achieve a fourth order error reduction.
+FIG. 9 is a flowchart of an example method 900 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+At 910 , stabilizers of CCZ magic states using one or more transversal CCZ gates are simultaneously measured. In certain implementations, the stabilizers of the CCZ magic state achieve a fourth order error redaction.
+FIG. 10 is a flowchart of an example method 1000 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+At 1010 , a magic state distillation protocol for T gates is generated, wherein the magic state distillation protocol includes punctured Reed-Muller codes. In particular implementations, the punctured Reed-Muller codes comprise any of the Reed-Muller codes as disclosed herein. In some implementations, the punctured Reed-Muller codes comprise any of the punctured higher-order Reed-Muller codes (above first-order) as disclosed herein. In certain implementations, the punctured Reed-Muller codes are selected based on Hamming distances.
+At 1012 , the quantum computing device is configured to implement the magic state distillation protocol.
+FIG. 11 is a flowchart of an example method 1100 for distilling magic states in a quantum computing device in accordance with embodiments of the disclosed technology. The illustrated embodiment should not be construed as limiting, as the disclosed method acts can, in some cases, be performed alone, in different orders, or at least partially simultaneously with one another. Further, any of the disclosed methods or method acts can be performed with any other methods or method acts disclosed herein.
+At 1110 , a magic state distillation protocol is generated using only k+n X total qubits. In particular implementations, the magic state distillation protocol is based on a triorthogonal code.
+At 1112 , the quantum computing device is configured to implement the magic state distillation protocol.
+XIII. Concluding Remarks
+Having described and illustrated the principles of the disclosed technology with reference to the illustrated embodiments, it will be recognized that the illustrated embodiments can be modified in arrangement and detail without departing from such principles.

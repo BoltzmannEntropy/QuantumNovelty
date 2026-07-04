@@ -1,0 +1,61 @@
+{
+  "publication_number": "US10846608B2",
+  "app_number": "15/982,988",
+  "title": "Codes and protocols for distilling T and Toffoli gates",
+  "assignee": "Microsoft Technology Licensing LLC",
+  "filing_date": "2018-05-17",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US11809839B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20240152335A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12093785B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10574268B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11410070B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20230274166A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11580435B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10628567B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20210256416A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10810248B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20230049901A1",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/15982988/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/15982988",
+  "google_patents_url": "https://patents.google.com/patent/US10846608B2/en"
+}

@@ -1,0 +1,18 @@
+[OA text not yet acquired for US9985193B2]
+
+Application Number: 14/755,181
+Filing Date: 2015-06-30
+Source limitation: USPTO OA text not accessible via automated routes (see real_oa_summary.json for route audit).
+
+To retrieve real OA text:
+  Option A (with ODP API key from account.uspto.gov):
+    curl -H 'X-API-KEY: <key>' \
+      'https://api.uspto.gov/api/v1/patent/applications/14755181/documents' \
+    | jq '.documentBag[] | select(.documentCode | test("CTNF|CTFR"))'
+
+  Option B (browser, no code):
+    1. Open https://patentcenter.uspto.gov/applications/14755181
+    2. Click "Documents" / "IFW" tab
+    3. Download first CTNF or CTFR document listed
+
+Place downloaded PDF as: US9985193B2/real_oa.pdf

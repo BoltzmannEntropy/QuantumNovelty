@@ -1,0 +1,77 @@
+{
+  "publication_number": "US11455207B2",
+  "app_number": "16/512,143",
+  "title": "Flag qubits for fault-tolerant topological codes",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2019-07-15",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US20230071000A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20240056101A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20240086756A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12087503B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12112240B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20240354629A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11469778B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11625639B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "KR102361858B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "AU2021391403B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11941483B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "JP7366484B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20240169236A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11966813B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11983601B2",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/16512143/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/16512143",
+  "google_patents_url": "https://patents.google.com/patent/US11455207B2/en"
+}

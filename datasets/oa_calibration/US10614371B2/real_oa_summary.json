@@ -1,0 +1,61 @@
+{
+  "publication_number": "US10614371B2",
+  "app_number": "15/720,814",
+  "title": "Debugging quantum circuits by circuit rewriting",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2017-09-29",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US11170137B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20220198309A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11605033B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10657185B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11341151B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20230004844A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10963488B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20220230086A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10812126B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11216519B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20220270003A1",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/15720814/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/15720814",
+  "google_patents_url": "https://patents.google.com/patent/US10614371B2/en"
+}

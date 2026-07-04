@@ -44,3 +44,7 @@ audit_claims_*.py.draft
 # CSV/markdown, but ignore per-patent prompt/output directories.
 datasets/*/eval/*/
 datasets/*/eval_fixed*/
+
+# Patent PDFs in the OA calibration set are public-record and re-fetchable
+# via the curl commands in datasets/oa_calibration/README.md — keep git light.
+datasets/oa_calibration/**/*.pdf

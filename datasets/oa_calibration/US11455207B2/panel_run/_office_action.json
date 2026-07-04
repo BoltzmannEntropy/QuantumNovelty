@@ -1,0 +1,91 @@
+{
+  "disposition": "allowance",
+  "passes": true,
+  "n_claims_examined": 25,
+  "n_claims_rejected": 0,
+  "rejected_claims": [],
+  "allowed_claims": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "allowable_subject_matter": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "rejections_by_statute": {},
+  "votes": {
+    "Primary Examiner": {
+      "disposition": "allowance",
+      "confidence": 9.0
+    },
+    "\u00a7 112 Examiner": {
+      "disposition": "allowance-with-drafting-notes",
+      "confidence": 8.0
+    },
+    "Quantum Technical Specialist": {
+      "disposition": "allowance",
+      "confidence": 9.0
+    },
+    "Supervisory Patent Examiner": {
+      "disposition": "allowance",
+      "confidence": 9.0
+    }
+  },
+  "source": "deterministic parse of office_action.md (USPTO Office Action shape; no extra LLM call). Disposition from the SPE synthesis; rejected claims from the per-examiner rejection tables (canonical block absent).",
+  "parse_conflict": true,
+  "per_voice_rejections_by_statute": {
+    "112": [
+      1,
+      12,
+      13,
+      17,
+      25
+    ]
+  }
+}

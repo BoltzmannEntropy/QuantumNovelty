@@ -1,0 +1,77 @@
+{
+  "publication_number": "US9985193B2",
+  "app_number": "14/755,181",
+  "title": "Coupling quantum bits via localized resonators",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2015-06-30",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US10529909B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10546994B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12317757B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "EP3371752B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "FR3066297B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10366340B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "EP4216112B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "GB201813188D0",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US6535086B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US6897468B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US7135701B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US7932514B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US8164082B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20130196855A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US8642998B2",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/14755181/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/14755181",
+  "google_patents_url": "https://patents.google.com/patent/US9985193B2/en"
+}

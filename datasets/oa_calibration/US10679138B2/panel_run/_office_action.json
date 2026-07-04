@@ -1,0 +1,63 @@
+{
+  "disposition": "non-final-rejection",
+  "passes": false,
+  "n_claims_examined": 18,
+  "n_claims_rejected": 4,
+  "rejected_claims": [
+    3,
+    4,
+    14,
+    15
+  ],
+  "allowed_claims": [
+    1,
+    2,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    16,
+    17,
+    18
+  ],
+  "allowable_subject_matter": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "rejections_by_statute": {
+    "112": [
+      3,
+      4,
+      14,
+      15
+    ]
+  },
+  "votes": {
+    "Supervisory Patent Examiner": {
+      "disposition": "non-final-rejection",
+      "confidence": 8.0
+    }
+  },
+  "source": "deterministic parse of office_action.md (USPTO Office Action shape; no extra LLM call). Disposition from the SPE synthesis; rejected claims from the SPE canonical 'Rejections of record' block."
+}

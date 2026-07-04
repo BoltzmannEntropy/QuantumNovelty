@@ -74,3 +74,21 @@ Built on:
 - the multi-voice editorial-board review pattern
   contributed the Devil's Advocate role design
 - QN's `audit_falsify` primitives for methodology-focus and re-review
+
+## Deterministic calibration harness (`calibrate.py`)
+
+Beyond the prompt-driven `--mode calibration`, `calibrate.py` MEASURES the
+panel against a labeled gold set: it runs `--mode full` per paper, parses each
+`_quality_gate.json` deterministically, and computes FNR/FPR/accuracy and a
+threshold-free AUC in code (no LLM involved in the scoring itself).
+
+```bash
+python skills/quantum_reviewer/calibrate.py \
+    --gold-set goldset/ --outdir runs/calibration_01 --llm claude
+```
+
+Gold-set layout: `<name>.md|.pdf|.txt` plus `<name>.label.json` containing
+`{"ground_truth": "accept"}` or `"reject"`. Outputs
+`_calibration_metrics.json` and `calibration_report.md` (both code-emitted).
+Run this before trusting panel verdicts on real submissions; a panel whose
+FNR/FPR are unknown is an unvalidated instrument.

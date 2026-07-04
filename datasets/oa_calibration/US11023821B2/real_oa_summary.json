@@ -1,0 +1,61 @@
+{
+  "publication_number": "US11023821B2",
+  "app_number": "15/881,260",
+  "title": "Embedding of a condensed matter system with an analog processor",
+  "assignee": "D-Wave Systems Inc",
+  "filing_date": "2018-01-26",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US11809839B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11880741B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12190203B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11568287B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11790264B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20220309368A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10853727B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10719541B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11321622B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US20210248501A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11379748B2",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/15881260/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/15881260",
+  "google_patents_url": "https://patents.google.com/patent/US11023821B2/en"
+}

@@ -1,0 +1,77 @@
+{
+  "publication_number": "US10915831B2",
+  "app_number": "16/719,123",
+  "title": "Crosstalk mitigation in superconducting quantum bit gates",
+  "assignee": "International Business Machines Corp",
+  "filing_date": "2019-12-18",
+  "oa_date": null,
+  "oa_type": "CTNF",
+  "sections": [],
+  "cited_refs": [
+    {
+      "publication_number": "US20220019927A1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10474960B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10333503B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10454459B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10505524B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11164100B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11748648B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10931267B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12579462B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11245390B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10862465B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US12431879B2",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11507873B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US10956829B1",
+      "source": "google_patents_examiner_cited"
+    },
+    {
+      "publication_number": "US11695483B2",
+      "source": "google_patents_examiner_cited"
+    }
+  ],
+  "source_route": "google_patents_html_scrape",
+  "oa_text_available": false,
+  "access_note": "OA full text not programmatically accessible. Route A (api.uspto.gov) HTTP 403 \u2014 requires free ODP API key from account.uspto.gov. Route B (OARD bulk, S3/PatentsView) HTTP 403 \u2014 access model changed; historically public S3 bucket now restricted. Route C (patentcenter.uspto.gov retrieval API) HTTP 405 \u2014 browser SPA only, not scrapeable. Route D (EPO OPS) HTTP 403 \u2014 fair use violation without OAuth token. Manual retrieval: patentcenter.uspto.gov \u2192 search application number \u2192 Documents/IFW tab \u2192 download CTNF/CTFR. One-command re-run once ODP API key obtained: curl -H 'X-API-KEY: <your_key>' 'https://api.uspto.gov/api/v1/patent/applications/16719123/documents'",
+  "patent_center_url": "https://patentcenter.uspto.gov/applications/16719123",
+  "google_patents_url": "https://patents.google.com/patent/US10915831B2/en"
+}
