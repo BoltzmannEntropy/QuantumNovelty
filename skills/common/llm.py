@@ -82,7 +82,7 @@ class LLMResult:
 
     def as_marker_json(self) -> str:
         """JSON suitable for writing as `_backend_used.json` for audit gates."""
-        return json.dumps({
+        marker = {
             "backend_requested": self.backend_requested,
             "backend_actually_used": self.backend_actually_used,
             "model_id": self.model_id,
@@ -96,7 +96,16 @@ class LLMResult:
                 "tokens_estimated": self.tokens_estimated,
                 "total_cost_usd": self.total_cost_usd,
             },
-        }, indent=2)
+        }
+        # Fallbacks and retries must be visible to audit gates, never silent.
+        resilience = self.extras.get("resilience")
+        if resilience:
+            marker["resilience"] = {
+                "fallback_used": bool(resilience.get("fallback_used")),
+                "n_failed_attempts": len(resilience.get("attempts", [])),
+                "attempts": resilience.get("attempts", []),
+            }
+        return json.dumps(marker, indent=2)
 
 
 def call_llm(
@@ -105,12 +114,28 @@ def call_llm(
     timeout: int = 600,
     extra_env: dict[str, str] | None = None,
     acp_session: str | None = None,
+    retries: int | None = None,
+    fallback_backends: list[str] | None = None,
 ) -> LLMResult:
     """Invoke the chosen backend and return a structured result.
 
-    Raises RuntimeError on non-zero exit or empty output. Callers that want
-    to write a degraded artefact on failure should catch the RuntimeError and
-    log the LLMResult before deciding how to proceed.
+    Raises RuntimeError when every attempt fails. Callers that want to write
+    a degraded artefact on failure should catch the RuntimeError and log the
+    LLMResult before deciding how to proceed.
+
+    Resilience (adopted from hermes-agent's credential-pool pattern):
+      - TRANSIENT errors (timeouts, network errors, HTTP 429/5xx, empty
+        output, error envelopes) are retried on the SAME backend with
+        exponential backoff. `retries` counts extra attempts after the
+        first; default from QN_LLM_RETRIES (2).
+      - Cross-backend fallback is STRICTLY OPT-IN, honoring this module's
+        no-silent-fallback doctrine: pass `fallback_backends` explicitly or
+        set QN_LLM_FALLBACKS (comma-separated, e.g. "kimi,codex"). Every
+        attempt is recorded in `extras["resilience"]`, and a fallback is
+        visible to the audit_backend_fidelity gate because
+        `backend_actually_used` differs from `backend_requested`.
+      - "anthropic-api" is never accepted as a fallback target (it is
+        opt-in-only by contract); listing it raises ValueError.
 
     `extra_env`: extra env vars to merge on top of the scrubbed env. Use
     sparingly; prefer routing through `--flag VALUE` over env tunneling.
@@ -138,6 +163,63 @@ def call_llm(
             tokens_estimated=True,
         )
 
+    if retries is None:
+        retries = max(0, int(os.environ.get("QN_LLM_RETRIES", "2")))
+    if fallback_backends is None:
+        raw = os.environ.get("QN_LLM_FALLBACKS", "")
+        fallback_backends = [b.strip() for b in raw.split(",") if b.strip()]
+    chain = [backend] + [b for b in fallback_backends if b != backend]
+    for fb in chain[1:]:
+        if fb == "anthropic-api":
+            raise ValueError(
+                "anthropic-api is opt-in only and may not be used as a "
+                "fallback target (see module docstring); pass --llm "
+                "anthropic-api explicitly instead"
+            )
+        if not _is_known_backend(fb):
+            raise ValueError(f"unknown fallback backend {fb!r}")
+
+    import time as _time
+    attempts_log: list[dict[str, Any]] = []
+    for be in chain:
+        for attempt in range(1, retries + 2):
+            try:
+                result = _dispatch_backend(
+                    prompt, be, timeout, extra_env, acp_session
+                )
+                result.backend_requested = backend
+                if attempts_log:
+                    result.extras["resilience"] = {
+                        "attempts": attempts_log,
+                        "fallback_used": be != backend,
+                    }
+                return result
+            except RuntimeError as e:
+                transient = _is_transient_error(str(e))
+                attempts_log.append({
+                    "backend": be,
+                    "attempt": attempt,
+                    "transient": transient,
+                    "error": str(e)[:300],
+                })
+                if not transient:
+                    break  # permanent for this backend; try next in chain
+                if attempt <= retries:
+                    _time.sleep(min(30.0, float(2 ** attempt)))
+    raise RuntimeError(
+        f"all backends failed after {len(attempts_log)} attempt(s) "
+        f"(chain={chain}); last error: {attempts_log[-1]['error']}"
+    )
+
+
+def _dispatch_backend(
+    prompt: str,
+    backend: str,
+    timeout: int,
+    extra_env: dict[str, str] | None,
+    acp_session: str | None,
+) -> LLMResult:
+    """Single-attempt dispatch to one backend (no retry, no fallback)."""
     env = _scrubbed_env()
     if extra_env:
         env.update(extra_env)
@@ -156,6 +238,35 @@ def call_llm(
         return _call_anthropic_api(prompt, timeout)
     # Should be unreachable given the KNOWN_BACKENDS check above.
     raise AssertionError(f"unhandled backend: {backend}")
+
+
+_TRANSIENT_MARKERS = (
+    "timed out",
+    "network error",
+    "empty stdout",
+    "error envelope",
+    "returned no text",
+    "result` is empty",
+    "overloaded",
+    "rate limit",
+    "connection",
+    "http 429",
+    "http 5",
+    "temporarily",
+)
+
+
+def _is_transient_error(message: str) -> bool:
+    """Classify a backend failure as retry-worthy (vs permanent).
+
+    Permanent failures (missing binary, missing env file, missing API key)
+    contain "not found", "requires", or "missing" and should move straight
+    to the next backend in the chain instead of burning retries.
+    """
+    low = message.lower()
+    if any(p in low for p in ("not found on path", "requires", "missing")):
+        return False
+    return any(m in low for m in _TRANSIENT_MARKERS)
 
 
 # =========================================================================
