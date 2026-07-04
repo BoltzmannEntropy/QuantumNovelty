@@ -210,9 +210,19 @@ def load_patent(source: str, timeout: int = 60) -> Patent:
         raw = p.read_text(encoding="utf-8", errors="replace")
         if "<html" in raw.lower() or "<section" in raw.lower():
             return parse_google_patents_html(raw, source_url=str(p))
-        # Already-rendered text/markdown: wrap minimally.
+        # Already-rendered text/markdown: split on the spec heading if present
+        # so description is populated when run_eval.py appends it.
+        spec_marker = "## Written description / specification"
+        if spec_marker in raw:
+            parts = raw.split(spec_marker, 1)
+            claims_part = parts[0].strip()
+            desc_part = parts[1].strip()
+        else:
+            claims_part = raw
+            desc_part = ""
         return Patent(pub_number=p.stem, kind_code="", title=p.stem,
-                      claims=raw, source_url=str(p), description="")
+                      claims=claims_part, source_url=str(p),
+                      description=desc_part)
     if "patents.google.com" in source:
         return fetch_patent(canonicalize_google_url(source), timeout=timeout)
     if re.fullmatch(r"[A-Z]{2}[A-Z0-9]+", source.strip()):

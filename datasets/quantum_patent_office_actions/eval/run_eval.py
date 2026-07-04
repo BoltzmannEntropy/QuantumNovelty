@@ -78,7 +78,16 @@ def extract_cited_from_md(md_text: str) -> list[str]:
     return list(all_nums)
 
 
-def run_one(pub: str) -> dict:
+def run_one(pub: str, include_spec: bool = True) -> dict:
+    """Run the patent_reviewer skill on one patent.
+
+    Args:
+        include_spec: When True (default), appends the written description /
+            specification to the claims .md file under the canonical heading
+            ``## Written description / specification``.  This lets the panel
+            assess § 112 enablement properly.  Silently skipped when no
+            ``description_text`` is stored in the record.
+    """
     record_path = RECORDS_DIR / f"{pub}.json"
     with open(record_path) as f:
         record = json.load(f)
@@ -88,7 +97,7 @@ def run_one(pub: str) -> dict:
     examiner_pns = [r["publication_number"] for r in examiner_refs if isinstance(r, dict)]
     examiner_norm = set(normalize_pn(p) for p in examiner_pns)
 
-    # Write claims_text to a .md file for local load_patent()
+    # Write claims_text (+ optional description) to a .md file for load_patent()
     out_dir = EVAL_DIR / pub
     out_dir.mkdir(parents=True, exist_ok=True)
     claims_file = out_dir / f"{pub}.md"
@@ -98,9 +107,18 @@ def run_one(pub: str) -> dict:
                 "sections_raised": "", "examiner_cited_n": len(examiner_pns),
                 "qn_cited_n": 0, "overlap_n": 0, "error": "no claims_text"}
 
+    description_text = record.get("description_text", "") or ""
+    # Truncate spec to 40 KB to keep the panel prompt manageable
+    _SPEC_CAP = 40_000
+    if len(description_text) > _SPEC_CAP:
+        description_text = description_text[:_SPEC_CAP] + "\n\n[... truncated ...]"
+
     with open(claims_file, "w") as f:
         f.write(f"# {pub}\n\n")
         f.write(claims_text)
+        if include_spec and description_text:
+            f.write("\n\n## Written description / specification\n\n")
+            f.write(description_text)
 
     oa_json_path = out_dir / "_office_action.json"
     oa_md_path = out_dir / "office_action.md"
@@ -183,14 +201,24 @@ def run_one(pub: str) -> dict:
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument(
+        "--no-spec", dest="include_spec", action="store_false", default=True,
+        help="Omit the written description / specification from the panel input "
+             "(reproduces the original eval behaviour; not recommended).",
+    )
+    args = ap.parse_args()
+
     print(f"Patent reviewer skill: {SKILL_PY}", flush=True)
     print(f"Records dir: {RECORDS_DIR}", flush=True)
     print(f"Eval dir: {EVAL_DIR}", flush=True)
+    print(f"Include spec: {args.include_spec}", flush=True)
     print(f"Running {len(SELECTED)} patents in full mode...\n", flush=True)
 
     rows = []
     for pub in SELECTED:
-        row = run_one(pub)
+        row = run_one(pub, include_spec=args.include_spec)
         rows.append(row)
 
     # Write results.csv
@@ -294,7 +322,7 @@ QN-cited patent numbers (extracted from office_action.md prose) vs. examiner-cit
 
 1. **Small N (n={n_ran})**: Results may not generalise. Run on all 28 for production use.
 2. **Granted = final claims**: The USPTO ultimately allowed every patent in this set. QN reviews the stored claims (final granted form), not the original application claims — this likely makes QN's task harder (examiner already accepted these), so the over-rejection rate here is an upper-bound on real-world over-rejection against pending applications.
-3. **No description fed**: `patent_io.load_patent` on a local `.md` receives only `claims_text` — no specification. §112 enablement rejections are penalised by this absence; enablement cannot be properly assessed without the written description. §112 counts should be interpreted as an artefact of the evaluation design.
+3. **Description / specification**: When ``--include-spec`` is active (default), the ``description_text`` stored in each record is appended to the claims file and the panel can assess § 112 enablement. If the record has no ``description_text`` (legacy records built before this field was added), the panel still receives only the claims; § 112 enablement counts for those records remain artefacts of the evaluation design.
 4. **Examiner-cited ≠ exhaustive prior art**: The ground-truth `cited_prior_art` is from a single office action (non-final in most cases). Examiners cite a subset; QN may legitimately surface additional relevant prior art not in this list. Low overlap does not necessarily mean QN's prior art is wrong.
 5. **Prior-art extraction via regex**: QN-cited numbers are extracted by regex from prose text. Numbers embedded in non-citation contexts (e.g., application filing numbers) may inflate `qn_cited_n`; the overlap denominator is correct but `qn_cited_n` may be noisy.
 6. **Kind-code normalization**: Both sets normalized by stripping trailing letter+digit (e.g., B2, A1) before comparison — this is best-effort; some pub numbers may differ by country/series that don't reduce cleanly.

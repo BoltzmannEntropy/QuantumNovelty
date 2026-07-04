@@ -207,6 +207,14 @@ under each statute (a § 101 *eligibility pass* is NOT a § 101 rejection —
 write `none`). Use claim numbers / ranges; write `none` if no claim is
 rejected under that statute:
 
+> **CRITICAL — REQUIRED OUTPUT:** The `### Rejections of record` block below
+> is parsed deterministically by the downstream gate. Omitting it or changing
+> its heading causes the parser to fall back to per-examiner tables, which
+> miscount § 101 eligibility passes as rejections and may silently flip an
+> allowance to a non-final-rejection. You MUST emit this block verbatim as the
+> last item before the Vote table, even when the disposition is allowance
+> (write `none` for every statute in that case).
+
 ### Rejections of record
 - § 101: <claims or none>
 - § 102: <claims or none>

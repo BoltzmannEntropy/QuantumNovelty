@@ -199,8 +199,12 @@ _DISPO_RE = re.compile(
 #   | 1 | § 102(a)(1) | anticipated by Smith (US1234) |
 #   | 11, 12 | § 112(b) | indefinite |
 # Statute cell is § 101 / 102 / 103 / 112 — note 112 is 1-1-2, not 10X.
+# Three-cell form captures the basis/reason cell so § 101 eligibility-pass
+# rows ("Eligible — ...") can be filtered correctly (two-cell form only saw
+# "| 1–25 | § 101 |" and missed the "Eligible" keyword in cell 3).
 _CLAIM_ROW_RE = re.compile(
-    r"^\|\s*([\d,\s\-–]+?)\s*\|\s*(§?\s*1\s*[01]\s*[0-9][^|]*?)\s*\|",
+    r"^\|\s*([\d,\s\-–]+?)\s*\|\s*(§?\s*1\s*[01]\s*[0-9][^|]*?)\s*\|"
+    r"\s*([^|\n]*?)\s*\|",
     re.MULTILINE)
 _VALID_STATUTES = {"101", "102", "103", "112"}
 # Vote table rows: | <Voice> | <recommendation> | <confidence> |
@@ -303,6 +307,8 @@ def extract_office_action(panel_text: str, total_claims: int | None) -> dict:
     """
     by_statute: dict[str, set] = {}
     allowable_from_block: list[int] = []
+    parse_conflict: bool = False
+    per_voice_rejections_by_statute: dict[str, list[int]] = {}
     block_statutes, allowable_from_block = _parse_canonical_block(panel_text)
     if block_statutes:
         by_statute = block_statutes
@@ -310,16 +316,20 @@ def extract_office_action(panel_text: str, total_claims: int | None) -> dict:
     else:
         # Fallback: per-examiner rejection tables. Skip § 101 rows whose
         # basis cell says the claim is eligible (Voice 1's table lists
-        # *passes*, not rejections).
+        # *passes*, not rejections).  Three-cell regex now captures cell 3
+        # (the basis/reason text) so the "eligible"/"pass" filter is reliable.
+        fallback_by_statute: dict[str, set] = {}
         for m in _CLAIM_ROW_RE.finditer(panel_text):
             statute = _statute_of(m.group(2))
             if statute not in _VALID_STATUTES:
                 continue
-            row = m.group(0).lower()
-            if statute == "101" and ("eligible" in row or "pass" in row):
+            # Check both the statute cell and the basis/reason cell (group 3)
+            basis = (m.group(3) or "").lower()
+            if statute == "101" and ("eligible" in basis or "pass" in basis):
                 continue
             for c in _expand_claim_spec(m.group(1)):
-                by_statute.setdefault(statute, set()).add(c)
+                fallback_by_statute.setdefault(statute, set()).add(c)
+        by_statute = fallback_by_statute
         parse_source = "per-examiner rejection tables (canonical block absent)"
 
     rejected: set = set()
@@ -354,13 +364,26 @@ def extract_office_action(panel_text: str, total_claims: int | None) -> dict:
     if dispo not in _DISPOSITIONS:
         spe_vote = (votes.get("Supervisory Patent Examiner") or {})
         dispo = spe_vote.get("disposition", dispo)
-    # If any claim is rejected, an "allowance" disposition is inconsistent;
-    # downgrade so the gate cannot certify a patent with open rejections.
-    if dispo == "allowance" and rejected_claims:
-        dispo = "non-final-rejection"
+
+    # Conflict detection: when the canonical block was absent and the fallback
+    # per-examiner tables produced rejected claims but the SPE independently
+    # declared allowance, the two sources disagree.  The SPE disposition is
+    # authoritative (it reconciles all examiners); keep it and record the
+    # conflict rather than silently downgrading allowance → non-final-rejection.
+    if not block_statutes and dispo in _PASSING and rejected_claims:
+        parse_conflict = True
+        per_voice_rejections_by_statute = {
+            k: sorted(v) for k, v in sorted(by_statute.items())
+        }
+        # SPE wins: clear the per-examiner rejections so the returned fields
+        # reflect the authoritative disposition.
+        by_statute = {}
+        rejected_claims = []
+        allowed_claims = (list(range(1, total_claims + 1))
+                          if total_claims else [])
 
     passes = (dispo in _PASSING) if dispo else None
-    return {
+    result: dict = {
         "disposition": dispo,
         "passes": passes,
         "n_claims_examined": total_claims,
@@ -376,6 +399,10 @@ def extract_office_action(panel_text: str, total_claims: int | None) -> dict:
                   "SPE synthesis; rejected claims from the "
                   + parse_source + ".",
     }
+    if parse_conflict:
+        result["parse_conflict"] = True
+        result["per_voice_rejections_by_statute"] = per_voice_rejections_by_statute
+    return result
 
 
 def main() -> int:

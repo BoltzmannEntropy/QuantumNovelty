@@ -278,26 +278,74 @@ def extract_publication_date(html: str) -> str | None:
     all_dc = re.findall(r'<meta[^>]+name=["\']DC\.date["\'][^>]+content=["\'](\d{4}-\d{2}-\d{2})["\']', html)
     return all_dc[1] if len(all_dc) > 1 else None
 
-def extract_cited_prior_art(html: str) -> list[dict]:
+def _infer_pub_year(pub_no: str) -> int | None:
+    """Infer publication year from a publication number.
+
+    US utility patents: US7xxxxxxx = 7M+ serial → post-2002; US8xxxxxxx →
+    post-2011; US10xxxxxxB2 → 10M+ serial → post-~2018.  For applications
+    (US2017xxxxxxA1) the year is embedded as the first 4 digits after "US".
     """
-    Extract examiner-cited prior art references (publication numbers).
-    Scopes to the "Cited by examiner" table only; stops at the next section.
+    # Application style: US20YYXXXXXA1 → year = 20YY
+    m = re.match(r"US(20\d{2})\d+[A-Z]", pub_no)
+    if m:
+        return int(m.group(1))
+    # EP / WO / JP / CN applications often embed year
+    m = re.match(r"(?:EP|WO|JP|CN)((?:19|20)\d{2})\d+", pub_no)
+    if m:
+        return int(m.group(1))
+    # Granted US: serial number correlates with issue year but is not
+    # reliably year-encoded; skip to avoid false guards.
+    return None
+
+
+def extract_cited_prior_art(
+    html: str, priority_year: int | None = None
+) -> list[dict]:
+    """Extract backward-citation prior art references (publication numbers).
+
+    Scopes to the "Patent citations" section of Google Patents HTML (backward
+    citations — what the patent itself cites as prior art).  The old approach
+    scraped "Cited by examiner", which is a *forward*-citation subsection and
+    yields post-grant forward references, not prior-art references.
+
+    If *priority_year* is provided, references whose inferred publication year
+    post-dates the priority year are dropped (temporal guard) — they cannot
+    logically be prior art.  The number of dropped entries is logged to stdout.
     """
-    idx = html.find("Cited by examiner")
+    # "Patent citations" is the backward-citation heading on Google Patents.
+    # It appears before "Non-patent citations" and "Cited by" sections.
+    idx = html.find("Patent citations")
+    if idx < 0:
+        # Fallback: older Google Patents layout may use "References Cited"
+        idx = html.find("References Cited")
     if idx < 0:
         return []
     block = html[idx:idx + 8000]
-    end = re.search(r'Cited by applicant|Family Cites Families|<section\b', block)
+    # Stop at the next major section (forward citations or family)
+    end = re.search(
+        r'Non-patent citations|Cited by|Family Cites Families|<section\b',
+        block
+    )
     if end:
         block = block[:end.start()]
-    # Extract US/EP/WO/JP/CN publication numbers (no spaces in Google Patents HTML)
+    # Extract US/EP/WO/JP/CN publication numbers
     pub_nos = re.findall(r'(?:US|EP|WO|JP|CN)\d{6,11}[A-Z][0-9]?', block)
     seen: set[str] = set()
     result = []
+    dropped = 0
     for pn in pub_nos:
-        if pn not in seen:
-            seen.add(pn)
-            result.append({"publication_number": pn, "source": "google_patents_examiner_cited"})
+        if pn in seen:
+            continue
+        seen.add(pn)
+        if priority_year is not None:
+            pub_year = _infer_pub_year(pn)
+            if pub_year is not None and pub_year > priority_year:
+                dropped += 1
+                continue  # post-dates priority — not prior art
+        result.append({"publication_number": pn, "source": "google_patents_backward_citation"})
+    if dropped:
+        print(f"  [prior-art filter] dropped {dropped} reference(s) "
+              f"post-dating priority year {priority_year}")
     return result
 
 def extract_oa_events(html: str) -> dict | None:
@@ -378,6 +426,19 @@ def is_quantum_computing(cpcs: list[str], title: str, html: str) -> bool:
 
 # ── Record builder ─────────────────────────────────────────────────────────────
 
+def extract_description(html: str) -> str | None:
+    """Extract the written description / specification from Google Patents HTML."""
+    m = re.search(
+        r'<section[^>]*itemprop=["\']description["\'][^>]*>(.*?)</section>',
+        html, re.DOTALL | re.IGNORECASE
+    )
+    if m:
+        raw = _strip_html(m.group(1))
+        if len(raw) > 50:
+            return raw[:40000]  # cap at 40KB to avoid bloating records
+    return None
+
+
 def build_record(pub_no: str, hint: str, html: str) -> dict:
     """Build a full structured record from Google Patents HTML."""
     title = extract_title(html) or ""
@@ -386,8 +447,16 @@ def build_record(pub_no: str, hint: str, html: str) -> dict:
     pub_date = extract_publication_date(html)
     cpcs = extract_cpcs(html)
     claims = extract_claims(html)
+    description = extract_description(html)
     disposition = extract_disposition(html)
-    cited_art = extract_cited_prior_art(html)
+    # Derive priority_year from filing_date for the temporal guard
+    priority_year: int | None = None
+    if filing_date:
+        try:
+            priority_year = int(filing_date[:4])
+        except (ValueError, IndexError):
+            pass
+    cited_art = extract_cited_prior_art(html, priority_year=priority_year)
     oa_event = extract_oa_events(html)
 
     # Infer disposition from pub suffix if not found in HTML text
@@ -408,6 +477,7 @@ def build_record(pub_no: str, hint: str, html: str) -> dict:
         "publication_date": pub_date,
         "cpc_codes": cpcs,
         "claims_text": claims,
+        "description_text": description,
         "office_action": {
             "date": oa_event["date"] if oa_event else None,
             "type": oa_event["type"] if oa_event else None,
