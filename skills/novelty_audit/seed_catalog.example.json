@@ -1,0 +1,33 @@
+{
+  "_comment": "Example augmented-baseline catalog for --augmented-baselines. Schema per skill.py: top-level hamiltonian_id + rows[]. Each row: label, energy_ha, params, ops, cnots, source ('baseline' for literature/reference entries, 'llm' for generated candidates; llm rows may carry prompt_hash and model). The entries below are NOTIONAL placeholders that document the schema; they are NOT literature-extracted values. Before issuing a genuine novelty verdict, replace them with values extracted from the cited references (see paper Sec. X: literature-populated catalog is the prerequisite).",
+  "hamiltonian_id": "H2_2q_sto3g",
+  "rows": [
+    {
+      "label": "UCCSD-1-Trotter (notional placeholder — replace with literature value)",
+      "energy_ha": -1.13727,
+      "params": 3,
+      "ops": 15,
+      "cnots": 6,
+      "source": "baseline",
+      "provenance": "notional"
+    },
+    {
+      "label": "Hardware-efficient-2layer (notional placeholder — replace with literature value)",
+      "energy_ha": -1.13650,
+      "params": 8,
+      "ops": 22,
+      "cnots": 4,
+      "source": "baseline",
+      "provenance": "notional"
+    },
+    {
+      "label": "Bell-state-ansatz (notional placeholder — replace with literature value)",
+      "energy_ha": -1.11700,
+      "params": 1,
+      "ops": 4,
+      "cnots": 1,
+      "source": "baseline",
+      "provenance": "notional"
+    }
+  ]
+}

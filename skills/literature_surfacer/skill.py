@@ -36,6 +36,41 @@ DEFAULT_UA = ("QuantumNovelty/0.1 (literature-surfacer; "
               "mailto:please-set-your-email@example.org)")
 DEFAULT_TIMEOUT = 30
 
+# Domain keywords used by the quantum-constraint filter (case-insensitive).
+_QUANTUM_KEYWORDS: tuple[str, ...] = (
+    "quantum", "qubit", "ansatz", "variational", "hamiltonian",
+    "hilbert", "entanglement", "superposition", "wavefunction",
+    "pauli", "vqe", "qaoa", "qcnn", "qml", "unitary",
+    "circuit", "gate", "fidelity", "decoherence", "qugate",
+)
+
+
+def _is_quantum_card(card_title: str, card_abstract: str) -> bool:
+    """Return True if title+abstract contains at least one quantum-domain keyword."""
+    haystack = (card_title + " " + card_abstract).lower()
+    return any(kw in haystack for kw in _QUANTUM_KEYWORDS)
+
+
+def _apply_domain_filter(
+    hits: list,
+    require_term: bool,
+    topic: str,
+) -> tuple[list, int]:
+    """Filter hits by quantum-domain keywords when the flag is active.
+
+    Auto-activates when the topic itself contains a quantum keyword AND
+    ``require_term`` is True.  Returns (filtered_hits, n_dropped).
+    """
+    if not require_term:
+        return hits, 0
+    kept, dropped = [], 0
+    for h in hits:
+        if _is_quantum_card(h.title, h.abstract):
+            kept.append(h)
+        else:
+            dropped += 1
+    return kept, dropped
+
 
 # =========================================================================
 # Per-source clients
@@ -342,6 +377,15 @@ def main() -> int:
     ap.add_argument("--hamiltonian-id", default=None)
     ap.add_argument("--journal", default=None)
     ap.add_argument("--quantum-lib", default=None)
+    ap.add_argument(
+        "--require-term", action="store_true", default=False,
+        help=(
+            "Drop candidate cards whose title+abstract contain no "
+            "quantum-domain keyword (quantum, qubit, ansatz, variational, "
+            "hamiltonian, …). Safe to pass for any quantum topic; "
+            "a warning is printed with the count of filtered-out cards."
+        ),
+    )
     args = ap.parse_args()
     args.outdir.mkdir(parents=True, exist_ok=True)
 
@@ -371,12 +415,19 @@ def main() -> int:
         time.sleep(0.5)  # polite delay between sources
 
     deduped = dedupe_hits(all_hits)
+    deduped, n_filtered = _apply_domain_filter(
+        deduped, args.require_term, args.topic
+    )
+    if n_filtered:
+        print(f"filtered {n_filtered} off-topic cards "
+              f"(--require-term dropped non-quantum hits)")
     cards = [hit_to_card(h) for h in deduped]
     (args.outdir / "candidates.json").write_text(
         json.dumps({
             "topic": args.topic,
             "n_total": len(all_hits),
             "n_deduped": len(cards),
+            "n_filtered_offtopic": n_filtered,
             "per_source_status": per_source_status,
             "cards": cards,
         }, indent=2), encoding="utf-8")

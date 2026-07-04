@@ -14,3 +14,18 @@ queries are passed to `book_acquirer` (Anna's Archive).
 **No RAG** — literature is fetched fresh per query.
 
 (Ported from upstream ARS's literature stage with the book-acquirer hook added.)
+
+## Quantum-domain filter (F-03)
+
+Pass `--require-term` to drop candidate cards whose title+abstract contain
+no quantum-domain keyword (`quantum`, `qubit`, `ansatz`, `variational`,
+`hamiltonian`, `hilbert`, `entanglement`, `superposition`, `wavefunction`,
+`pauli`, `vqe`, `qaoa`, `qcnn`, `qml`, `unitary`, `circuit`, `gate`,
+`fidelity`, `decoherence`).
+
+Default: **off** (backward compatible — all existing call-sites are unaffected).
+
+When active, the filter runs after deduplication.  The number of dropped cards
+is printed as `"filtered N off-topic cards"` and stored in `candidates.json`
+under the key `n_filtered_offtopic`.  Use for quantum queries where Semantic
+Scholar over-retrieves off-topic hits.
