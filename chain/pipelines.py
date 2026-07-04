@@ -553,6 +553,25 @@ def pipeline_paper_audit(args: argparse.Namespace) -> int:
                        "--draft", paper_path]
             if args.augmented_baselines:
                 nv_args += ["--augmented-baselines", str(args.augmented_baselines)]
+            # Retrieval pre-flight gate: run before novelty_audit unless
+            # --skip-retrieval-preflight is set.
+            if not getattr(args, "skip_retrieval_preflight", False):
+                import subprocess as _sp
+                import sys as _sys
+                _preflight_outdir = base / "02b_preflight_probe"
+                _preflight_outdir.mkdir(parents=True, exist_ok=True)
+                _preflight_script = (
+                    Path(__file__).resolve().parent.parent
+                    / "skills" / "literature_surfacer" / "preflight_probe.py"
+                )
+                _sp.run(
+                    [_sys.executable, str(_preflight_script),
+                     "--outdir", str(_preflight_outdir)],
+                    check=False,  # gate failure is non-fatal; verdict is downgraded
+                )
+                _probe_result = _preflight_outdir / "probe_result.json"
+                if _probe_result.is_file():
+                    nv_args += ["--retrieval-probe-result", str(_probe_result)]
             results.append(_run_skill(
                 "novelty_audit", base / "02b_novelty_audit",
                 nv_args + common_flags, force=args.force,
@@ -1111,6 +1130,11 @@ def main() -> int:
                     help="BibTeX file for the citation-integrity stage")
     ap.add_argument("--augmented-baselines", default=None,
                     help="Baseline catalog JSON for novelty-audit stage")
+    ap.add_argument("--skip-retrieval-preflight", action="store_true",
+                    dest="skip_retrieval_preflight",
+                    help="Skip the retrieval pre-flight probe gate for "
+                         "novelty-audit (verdicts will not be downgraded "
+                         "for low recall)")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--no-llm-narrative", action="store_true",
                     help="Disable the LLM-narrative pass in process_summary")

@@ -53,6 +53,7 @@ EVALUATOR_CMD=""
 PLAN_ONLY=false
 PARETO_ARCHIVE=""
 AUGMENTED_BASELINES=""
+SKIP_RETRIEVAL_PREFLIGHT=false
 GEOMETRY_SWEEP=""
 LLMS=""
 VENUE=""
@@ -202,6 +203,9 @@ Pipeline-specific:
     --pareto-archive PATH       Required.
     --augmented-baselines PATH  Required (from literature pipeline output).
     --paper PATH                Required. The draft manuscript.
+    --skip-retrieval-preflight  Skip the retrieval pre-flight probe gate
+                                (verdicts will not be downgraded for low
+                                recall; use when offline or probes not set up).
 
   cross-llm:
     --hamiltonian ID            Required.
@@ -294,6 +298,7 @@ while [[ $# -gt 0 ]]; do
     --samples)  SAMPLES="$2"; shift 2 ;;
     --pareto-archive) PARETO_ARCHIVE="$2"; shift 2 ;;
     --augmented-baselines) AUGMENTED_BASELINES="$2"; shift 2 ;;
+    --skip-retrieval-preflight) SKIP_RETRIEVAL_PREFLIGHT=true; shift ;;
     --geometry-sweep) GEOMETRY_SWEEP="$2"; shift 2 ;;
     --llms)     LLMS="$2"; shift 2 ;;
     --venue)    VENUE="$2"; shift 2 ;;
@@ -425,11 +430,23 @@ case "$PIPELINE" in
   novelty-audit)
     [[ -n "$PARETO_ARCHIVE" && -n "$PAPER" ]] || \
       { echo "Error: --pareto-archive and --paper required" >&2; exit 2; }
+    # Retrieval pre-flight gate (runs first; opt-out via --skip-retrieval-preflight).
+    PROBE_RESULT_FILE=""
+    if ! $SKIP_RETRIEVAL_PREFLIGHT; then
+      PREFLIGHT_OUTDIR="$OUTDIR/preflight_probe"
+      mkdir -p "$PREFLIGHT_OUTDIR"
+      echo "[chain] >> preflight_probe"
+      python3 "$SKILLS_DIR/literature_surfacer/preflight_probe.py" \
+        --outdir "$PREFLIGHT_OUTDIR" \
+        || true  # non-zero exit (gate failed) is non-fatal; verdict is downgraded
+      PROBE_RESULT_FILE="$PREFLIGHT_OUTDIR/probe_result.json"
+    fi
     run_skill novelty_audit \
       --pareto-archive "$PARETO_ARCHIVE" \
       ${AUGMENTED_BASELINES:+--augmented-baselines "$AUGMENTED_BASELINES"} \
       --draft "$PAPER" \
-      ${HAMILTONIAN:+--hamiltonian-id "$HAMILTONIAN"}
+      ${HAMILTONIAN:+--hamiltonian-id "$HAMILTONIAN"} \
+      ${PROBE_RESULT_FILE:+--retrieval-probe-result "$PROBE_RESULT_FILE"}
     ;;
   cross-llm)
     [[ -n "$HAMILTONIAN" && -n "$GEOMETRY_SWEEP" && -n "$LLMS" ]] || \

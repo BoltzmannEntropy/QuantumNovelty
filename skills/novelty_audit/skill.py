@@ -47,6 +47,7 @@ class Row:
     label: str
     source: str               # baseline | llm | literature
     metrics: dict[str, float] # axis_name -> value (lower is better)
+    provenance: str = "unspecified"  # "literature-verified" | "notional" | "unspecified"
 
     def __getitem__(self, k: str) -> float:
         return self.metrics[k]
@@ -173,7 +174,8 @@ def load_rows(path: Path) -> list[Row]:
             metrics={k: float(v) for k, v in r.items()
                      if isinstance(v, (int, float))
                      and not isinstance(v, bool)
-                     and k != "params"})
+                     and k != "params"},
+            provenance=r.get("provenance", "unspecified"))
         for r in data.get("rows", [])
     ]
 
@@ -252,15 +254,101 @@ def write_augmented_pareto(outdir: Path, rows: list[Row],
     return p
 
 
-def write_verdict(outdir: Path, verdicts: list[dict],
-                  eps_abs: float, eps_rel: float) -> Path:
-    p = outdir / "novelty_verdict.json"
-    p.write_text(json.dumps({
+def write_verdict(
+    outdir: Path,
+    verdicts: list[dict],
+    eps_abs: float,
+    eps_rel: float,
+    *,
+    retrieval_gate: dict | None = None,
+    assumptions: dict | None = None,
+) -> Path:
+    doc: dict = {
         "eps_abs": eps_abs,
         "eps_rel": eps_rel,
         "verdicts": verdicts,
-    }, indent=2), encoding="utf-8")
+    }
+    if retrieval_gate is not None:
+        doc["retrieval_gate"] = retrieval_gate
+    if assumptions is not None:
+        doc["assumptions"] = assumptions
+    p = outdir / "novelty_verdict.json"
+    p.write_text(json.dumps(doc, indent=2), encoding="utf-8")
     return p
+
+
+# =========================================================================
+# Retrieval gate helpers
+# =========================================================================
+
+def apply_retrieval_gate(
+    verdicts: list[dict],
+    probe_result: dict,
+) -> tuple[list[dict], dict]:
+    """Downgrade verdicts when the retrieval gate failed.
+
+    Returns (gated_verdicts, retrieval_gate_summary).
+
+    When probe_result["passed"] is False, each verdict entry gets:
+      - "verdict_ungated": the original verdict string
+      - "verdict": "<original> (indicative)"
+
+    When passed is True, verdicts are unchanged.
+    """
+    passed = probe_result.get("passed", True)
+    recall = probe_result.get("recall", 1.0)
+    threshold = probe_result.get("threshold", 0.67)
+
+    if not passed:
+        gated: list[dict] = []
+        for v in verdicts:
+            raw = v["verdict"]
+            gated.append({
+                **v,
+                "verdict_ungated": raw,
+                "verdict": f"{raw} (indicative)",
+            })
+        gate_summary = {
+            "passed": False,
+            "recall": recall,
+            "threshold": threshold,
+            "effect": "verdicts downgraded to indicative",
+        }
+    else:
+        gated = list(verdicts)
+        gate_summary = {
+            "passed": True,
+            "recall": recall,
+            "threshold": threshold,
+            "effect": "none",
+        }
+    return gated, gate_summary
+
+
+def build_assumptions_manifest(baseline_rows: list[Row]) -> dict:
+    """Produce the assumptions manifest from a list of baseline/literature rows.
+
+    Only rows with source != 'llm' are considered for the provenance manifest.
+    """
+    rows_info = []
+    n_literature_verified = 0
+    n_notional = 0
+    n_unspecified = 0
+    for r in baseline_rows:
+        prov = r.provenance
+        rows_info.append({"label": r.label, "provenance": prov})
+        if prov == "literature-verified":
+            n_literature_verified += 1
+        elif prov == "notional":
+            n_notional += 1
+        else:
+            n_unspecified += 1
+    return {
+        "baseline_rows": rows_info,
+        "n_literature_verified": n_literature_verified,
+        "n_notional": n_notional,
+        "n_unspecified": n_unspecified,
+    }
 
 
 def write_failure_modes(outdir: Path,
@@ -364,13 +452,20 @@ def main() -> int:
                     default=True)
     ap.add_argument("--no-require-failure-modes",
                     dest="require_failure_modes", action="store_false")
+    ap.add_argument(
+        "--retrieval-probe-result", required=False, type=Path, default=None,
+        help="probe_result.json from preflight_probe. When provided and "
+             "passed==false, verdicts are downgraded to indicative.",
+    )
     args = ap.parse_args()
 
     args.outdir.mkdir(parents=True, exist_ok=True)
 
     rows = load_rows(args.pareto_archive)
+    augmented_baseline_rows: list[Row] = []
     if args.augmented_baselines:
-        rows += load_rows(args.augmented_baselines)
+        augmented_baseline_rows = load_rows(args.augmented_baselines)
+        rows += augmented_baseline_rows
 
     axes = detect_axes(rows)
     if not axes:
@@ -416,10 +511,38 @@ def main() -> int:
                          draft_text, re.IGNORECASE):
             require_failure_modes_missing = True
 
+    # Retrieval gate — apply if probe result file was provided.
+    retrieval_gate_summary: dict | None = None
+    if args.retrieval_probe_result and args.retrieval_probe_result.is_file():
+        probe_result = json.loads(
+            args.retrieval_probe_result.read_text(encoding="utf-8")
+        )
+        verdicts, retrieval_gate_summary = apply_retrieval_gate(
+            verdicts, probe_result
+        )
+    elif args.retrieval_probe_result:
+        print(
+            f"WARNING: --retrieval-probe-result file not found: "
+            f"{args.retrieval_probe_result}; gate skipped.",
+            file=sys.stderr,
+        )
+
+    # Assumption manifest — built from augmented-baseline rows only.
+    assumptions: dict | None = None
+    if augmented_baseline_rows:
+        assumptions = build_assumptions_manifest(augmented_baseline_rows)
+        assumptions["verdict_rests_on_unverified_baselines"] = (
+            assumptions["n_notional"] + assumptions["n_unspecified"] > 0
+        )
+
     # Write the outputs.
     write_augmented_pareto(args.outdir, rows, axes)
-    write_verdict(args.outdir, verdicts,
-                  args.strict_eps_abs, args.strict_eps_rel)
+    write_verdict(
+        args.outdir, verdicts,
+        args.strict_eps_abs, args.strict_eps_rel,
+        retrieval_gate=retrieval_gate_summary,
+        assumptions=assumptions,
+    )
     write_ratio_recompute(args.outdir, ratios)
     write_wilson_annotations(args.outdir, rates)
     write_audit_script(args.outdir, rows, axes, ratios, rates)

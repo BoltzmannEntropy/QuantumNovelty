@@ -1,0 +1,14 @@
+[
+  {
+    "query": "barren plateaus variational quantum circuits",
+    "expected": ["1803.11173", "mcclean", "barren plateau"]
+  },
+  {
+    "query": "variational quantum eigensolver VQE",
+    "expected": ["1304.3061", "peruzzo", "variational quantum eigensolver"]
+  },
+  {
+    "query": "quantum convolutional neural network QCNN",
+    "expected": ["1810.03787", "cong", "quantum convolutional neural network"]
+  }
+]

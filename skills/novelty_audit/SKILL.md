@@ -22,6 +22,8 @@ skills/novelty_audit/run.sh \
   [--strict-eps-rel FLOAT]     # default: 1e-9
   [--small-sample-threshold N] # default: 30 (Wilson CIs added below this)
   [--require-failure-modes]    # default: true
+  [--retrieval-probe-result PATH]  # probe_result.json from preflight_probe; see below
+  [--skip-retrieval-preflight]     # chain flag: skip the automatic preflight step
 ```
 
 ## Inputs
@@ -115,6 +117,92 @@ The LLM is consulted at two points in the pipeline:
 2. **Failure-modes drafting** (step 5): given the list of un-dominated baselines, the LLM drafts a `Failure Modes` section in the manuscript's voice. The drafted section requires human approval before commit; the skill flags it as `_DRAFT_REQUIRES_REVIEW`.
 
 Both prompts are in `prompts/` next to this file.
+
+## Feature: Retrieval pre-flight gate
+
+Before spending API budget on a full literature pull, the chain runs
+`skills/literature_surfacer/preflight_probe.py` to verify that the retrieval
+stack can actually surface canonical quantum papers (barren plateaus, VQE,
+QCNN). If it cannot, the verdicts from the novelty audit are pre-emptively
+marked as **indicative** rather than authoritative.
+
+### preflight_probe CLI
+
+```bash
+python3 skills/literature_surfacer/preflight_probe.py \
+  [--probes FILE]       # JSON probe list; default: probes_quantum_default.json
+  --outdir DIR          # writes probe_result.json here
+  [--max-cards N]       # cards fetched per probe (default 40)
+  [--sources LIST]      # comma-separated: crossref,arxiv,semantic_scholar,serper
+  [--threshold FLOAT]   # recall fraction to pass (default 0.67)
+```
+
+Probe file format:
+
+```json
+[
+  {"query": "barren plateaus variational quantum circuits",
+   "expected": ["1803.11173", "mcclean", "barren plateau"]}
+]
+```
+
+Each probe hits if any expected entry (case-insensitive substring) appears in
+any returned card's `title + arxiv_id + doi`. Overall recall = hits / probes.
+
+### Gate wiring in `novelty_audit`
+
+When `--retrieval-probe-result PATH` is supplied and `passed == false`,
+`novelty_verdict.json` gains two additions:
+
+1. **`retrieval_gate`** top-level key:
+   ```json
+   {"passed": false, "recall": 0.33, "threshold": 0.67,
+    "effect": "verdicts downgraded to indicative"}
+   ```
+2. Every verdict entry gets `verdict_ungated` (original value) and `verdict`
+   is rewritten to `"<original> (indicative)"`.
+
+When `passed == true`, `retrieval_gate.effect` is `"none"` and verdicts are
+unchanged. When the flag is absent, behaviour is unchanged.
+
+The chain (`chain/run.sh` and `chain/pipelines.py`) runs preflight automatically
+before the novelty-audit stage; pass `--skip-retrieval-preflight` to opt out.
+A failed gate (exit code 1) is non-fatal — the chain continues and passes the
+result file to novelty_audit.
+
+## Feature: Assumption manifest on verdicts
+
+Each row in `--augmented-baselines` (and `--pareto-archive`) may carry an
+optional `"provenance"` field:
+
+| Value | Meaning |
+|---|---|
+| `"literature-verified"` | Value extracted from a cited paper |
+| `"notional"` | Placeholder / schema example — not from the literature |
+| `"unspecified"` (default) | Provenance not recorded |
+
+`seed_catalog.example.json` ships all rows as `"notional"` to document this
+requirement.
+
+`novelty_verdict.json` gains an `"assumptions"` top-level key:
+
+```json
+{
+  "baseline_rows": [
+    {"label": "UCCSD-1-Trotter", "provenance": "notional"},
+    ...
+  ],
+  "n_literature_verified": 0,
+  "n_notional": 3,
+  "n_unspecified": 0,
+  "verdict_rests_on_unverified_baselines": true
+}
+```
+
+`verdict_rests_on_unverified_baselines` is `true` whenever any row is
+`notional` or `unspecified`. A reviewer seeing `true` knows the claim depends
+on baselines that have not been pulled from the primary literature and should
+treat the verdict as preliminary.
 
 ## Why this skill is the contribution
 
