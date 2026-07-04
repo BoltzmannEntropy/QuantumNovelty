@@ -149,7 +149,7 @@ what you need without grepping.
 | **`cross_llm_prediction`** | (single) | `--hamiltonian-id ID` `--geometry-sweep STR` `--llms LIST` (must be ≥2 different vendors) `--k N` | per-LLM predictions JSON + overlap-vs-truth table | Build a falsifiable amplitude-prediction rubric across two vendors with predictions persisted before truth. |
 | **`pareto_explorer`** | DEPRECATED legacy narrow path: built-in / `--evaluator-cmd` / `--plan-only` | `--hamiltonian ID` `--baseline LIST` (built-in registry: TFIM/Heisenberg 2-10q, H2_2q; or bring your own evaluator) | `archive.json` (strict-domination Pareto archive at calibrated epsilon) with real energies | Reproduce fixed-Hamiltonian ansatz/Pareto experiments only. Use `quantum_scout` / `--pipeline scout` for broad quantum novelty discovery. |
 | **`ablation_designer`** | (single, axis-specific) | `--axis NAME` from {`llm-mutator-onoff`, `commutation-hint-onoff`, `pareto-seeding-onoff`, `cross-vendor`} (optional `--results-file PATH`) | `ablation_plan.md`, `ablation_results.json`, `interpretation.md` | Design or interpret the four standard ablations that distinguish "the LLM was load-bearing" from "random would have worked". |
-| **`literature_surfacer`** | (single) | `--topic STR` (optional `--n INT`, `--sources LIST`, `--hamiltonian-id`) | `synthesis.md`, `cards/`, `baseline_catalog.json` | Pull literature live from CrossRef + arXiv + Semantic Scholar (+ Serper Google Scholar if `SERPER_KEY`) and emit the Pareto-shaped baseline catalog `novelty_audit` consumes. |
+| **`literature_surfacer`** | (single) | `--topic STR` (optional `--n INT`, `--sources LIST`, `--hamiltonian-id`, `--require-term STR`) | `synthesis.md`, `cards/`, `baseline_catalog.json`, `candidates.json` (includes `n_filtered_offtopic`) | Pull literature live from CrossRef + arXiv + Semantic Scholar (+ Serper Google Scholar if `SERPER_KEY`) and emit the Pareto-shaped baseline catalog `novelty_audit` consumes. Pass `--require-term` to enforce a quantum-domain keyword filter; filtered card count logged and recorded in `candidates.json` as `n_filtered_offtopic`. |
 | **`book_acquirer`** | (single) | `--queries-file PATH` or `--queries "q1;q2"` `--target-dir DIR` | downloaded PDFs in `target-dir`, `acquire_report.json` | Download books/theses from Anna's Archive that aren't on arXiv (requires `ANNAS_ARCHIVE_KEY`). |
 | **`process_summary`** | (single, optional `--no-llm-narrative`) | `--run-dir PATH` | `cqe_scores.json` (per-dim + geometric-mean composite), `process_summary.md` | Stage 6 — mechanically score a completed run on the 6-dim Collaboration Quality Evaluation. |
 | **`chat`** | (single) | `--prompt STR` (optional `--paper`, `--journal`, `--quantum-lib`, `--execute`) | `dispatch_decision.json`, `dispatch.md`, plus the dispatched skill's output if `--execute` | Natural-language frontend. `"Review this paper"` → quantum_reviewer / `"Write a paper on X"` → quantum_paper / `"status"` → pipeline status. |
@@ -531,7 +531,8 @@ cat runs/<ts>/claude/<pipeline>/<stage>/_backend_used.json
 # { "backend_requested": "claude", "backend_actually_used": "claude",
 #   "model_id": "claude-opus-4-5-20251101", "elapsed_s": 24.3,
 #   "usage": { "input_tokens": 30097, "output_tokens": 3762,
-#              "total_cost_usd": 0.0184, "tokens_estimated": false } }
+#              "total_cost_usd": 0.0184, "tokens_estimated": false },
+#   "resilience": { "fallback_used": false, "attempts": 1 } }
 ```
 
 No API key. No HTTP. Every call goes through your Claude Code
@@ -774,6 +775,18 @@ modes characteristic of quantum-computing manuscripts:
 - **Re-runnable claim audit**: a `audit_claims.py` is emitted that derives
   every numerical claim from on-disk JSON; drop it into your `paper/` dir,
   run before every commit
+- **Retrieval pre-flight gate**: before issuing any novelty verdict,
+  `skills/literature_surfacer/preflight_probe.py` runs known-answer probes
+  from `probes_quantum_default.json` (barren plateaus → McClean 2018, VQE →
+  Peruzzo 2014, QCNN → Cong 2019). Recall < 0.67 downgrades all verdicts to
+  "(indicative)" and records the original in `verdict_ungated`; the gate
+  result is written to `retrieval_gate` in the verdict JSON. Skip with
+  `--skip-retrieval-preflight`.
+- **Assumption manifest**: baseline-catalog rows accept
+  `"provenance": "literature-verified" | "notional"`. The verdict JSON gains
+  an `assumptions` block (`baseline_rows`, `counts`) and a
+  `verdict_rests_on_unverified_baselines` flag. See
+  `skills/novelty_audit/seed_catalog.example.json`.
 
 This combination is the marquee contribution. ARC has a venue-agnostic gate
 stack; QN has a quantum-shaped one.
@@ -1055,12 +1068,36 @@ QN does not vendor those projects; the imported workflow pattern is
 progressive disclosure: start from a small case record, fetch only targeted
 documents when needed, and keep source provenance in the run directory.
 
+**Patent-panel calibration dataset** (`datasets/oa_calibration/`): 9 granted
+quantum patents, each with a `real_oa_summary.json` and a
+`CALIBRATION_20260703.md` summary. The fixed pipeline recovers the allowance
+decision in 5/9 granted patents, reduces mean rejected claims from 17.6 to
+1.8, produces zero §102/§103 rejections on granted claims, and catches 4
+silent allowance→rejection flips via the `parse_conflict` flag. PDFs are
+re-fetchable via the curls listed in `datasets/oa_calibration/README.md`.
+Run `skills/quantum_reviewer/calibrate.py` for the deterministic gold-set
+harness (confusion counts, FNR/FPR, threshold-sweep AUC, zero extra LLM
+calls).
+
+**Patent-panel fixes** shipped with the calibration:
+- "### Rejections of record" block is now canonical in prompts; when the
+  block is absent the parser treats SPE disposition as authoritative instead
+  of silently flipping allowance→rejection (root cause: 2-cell table regex
+  hiding the basis column), and sets `parse_conflict` in the output JSON.
+- `build_dataset.py` scrapes BACKWARD citations with a temporal guard that
+  drops any reference filed after the priority year.
+- `run_eval.py` feeds the full specification by default; pass `--no-spec` to
+  run claims-only.
+
 ### Verify it worked
 
 ```bash
 bash chain/run.sh --list-skills
 bash chain/run.sh --list-stages
-python -m pytest tests/test_smoke.py
+python -m pytest tests/
+# 282 collected zero-model tests (no LLM calls required)
+# New modules: test_novelty_audit_gates.py  test_patent_reviewer_defects.py
+#              test_cross_llm_vendor_guard.py  test_llm_resilience.py
 ```
 
 ### What can I actually do with this?
@@ -1571,11 +1608,16 @@ optionally `--journal SLUG` (so the panel applies the right rubric).
 #### `novelty_audit` — the audit-and-falsify framework
 - **Inputs:** `--pareto-archive PATH` (required), `--augmented-baselines PATH`
   (recommended), `--draft PATH` (required), `--hamiltonian-id STR`.
+  Baseline-catalog rows accept `"provenance": "literature-verified" | "notional"`.
 - **Outputs:** `novelty_verdict.json` (`strict-domination` /
   `interpolation` / `rediscovery` / `dominated`), `augmented_pareto.json`,
   `ratio_recompute.md`, `wilson_annotations.md`,
   `failure_modes_required.md` (only if honest negatives exist),
   `audit_claims.py` (re-runnable per-claim auditor).
+  The verdict JSON also carries: `retrieval_gate` (pre-flight result),
+  `verdict_ungated` (original verdict before any downgrade),
+  `assumptions` (`{baseline_rows, counts}`), and
+  `verdict_rests_on_unverified_baselines` (boolean).
 - **Defaults:**
   - `--strict-eps-abs 1e-12` — calibrated to `float64` accumulation noise
     (~1.7×10⁻¹¹ Ha empirical floor; ε one order below).
@@ -1584,6 +1626,8 @@ optionally `--journal SLUG` (so the panel applies the right rubric).
   - `--require-failure-modes true` — exit rc=2 if the draft has no
     "Failure Modes" section but the augmented baselines include rows the
     LLM-discovered set did not dominate.
+  - Retrieval pre-flight gate **ON** by default; `--skip-retrieval-preflight`
+    to disable.
 
 #### `logical_fallacies` — fallacy detection with quantum-CS additions
 - **Inputs:** `--draft PATH`.
@@ -1648,6 +1692,9 @@ A single table you can grep when picking flags.
 | novelty_audit | `ε_rel` (strict-domination) | `1e-9` | `--strict-eps-rel FLOAT` |
 | novelty_audit | Small-sample CI threshold | 30 (Wilson CIs added below this N) | `--small-sample-threshold N` |
 | novelty_audit | Require Failure Modes section | `true` | `--no-require-failure-modes` |
+| novelty_audit | Retrieval pre-flight gate | **ON** — recall < 0.67 downgrades verdicts to "(indicative)" | `--skip-retrieval-preflight` |
+| **literature_surfacer** | Quantum-domain term filter | **OFF** | `--require-term STR` (filters off-topic cards; count in `candidates.json` as `n_filtered_offtopic`) |
+| **call_llm** | Retry / fallback backends | 1 attempt, no fallbacks | `retries=N` / `fallback_backends=[…]` params; `_backend_used.json` gains `"resilience": {"fallback_used", "attempts"}` |
 | **logical_fallacies** | Severity threshold | `medium` | `--severity-threshold {low, medium, high, critical}` |
 | **process_summary** | LLM narrative | ON | `--no-llm-narrative` |
 | process_summary | Composite method | geometric_mean (not configurable) | n/a — by design |

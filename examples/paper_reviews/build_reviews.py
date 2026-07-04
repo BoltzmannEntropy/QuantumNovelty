@@ -59,6 +59,8 @@ def render(manifest: dict, papers: list[dict]) -> str:
     W(r"\documentclass[10pt,letterpaper]{article}")
     W(r"\usepackage[margin=0.9in]{geometry}")
     W(r"\usepackage{booktabs}")
+    W(r"\usepackage{amsmath,amssymb}")
+    W(r"\usepackage{braket}")
     W(r"\usepackage{xcolor}")
     W(r"\usepackage{titlesec}")
     W(r"\usepackage{hyperref}")
