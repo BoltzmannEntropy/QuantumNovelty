@@ -26,6 +26,12 @@ Runs on the <b>Claude Code CLI</b> by default; Codex and Kimi/Moonshot are avail
 
 Claude Code CLI · MIT licensed · Sister project: <a href="https://github.com/BoltzmannEntropy/osxQ">osxQ — Apple Silicon quantum simulation stack</a>
 
+<br/><br/>
+
+<a href="https://quantumnovelty.substack.com"><img src="assets/quantum_novelty_banner.png" alt="Quantum Novelty newsletter — Heisenberg spin chain banner" width="100%"/></a>
+
+📬 <b><a href="https://quantumnovelty.substack.com">Quantum Novelty on Substack</a></b> — everything new in quantum: fresh papers, tools, patents, and results that survive scrutiny.
+
 </div>
 
 > **Quantum Scout | Local Quantum KB | Paper Audit | 5-Voice Review Panel | Patent Prior Art | Patent Examination (USPTO Office Action) | Quantum Patent Drafting | Claim Compliance | Full Application Review | Quantum-CS Fallacies | Novelty Audit | Editorial Synthesis | Token + USD Ledger**
